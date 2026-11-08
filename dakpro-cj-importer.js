@@ -21,7 +21,8 @@ import {
 // ============================================================
 
 const CONFIG = {
-    API: "/api/cj",
+    // 🌐 URL absolue pointant vers ton backend CJ déployé sur Vercel
+    API: "https://cj.dakproelite.com/api/cj",
 
     CLOUDINARY: {
         cloudName: "iufene3y",
@@ -440,7 +441,8 @@ class DakproCJImporter {
 
     async api(action, params = {}, method = "GET") {
 
-        const url = new URL(CONFIG.API, window.location.origin);
+        // Utilisation directe de l'URL absolue configurée dans CONFIG.API
+        const url = new URL(CONFIG.API);
 
         url.searchParams.set("action", action);
 
