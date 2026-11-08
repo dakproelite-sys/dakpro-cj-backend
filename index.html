@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<meta name="theme-color" content="#d4af37">
+<meta name="application-name" content="DAKPROÉLITE">
+<meta name="apple-mobile-web-app-title" content="DAKPROÉLITE">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<title>DAKPROÉLITE | La Référence Marketplace Internationale</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png">
+<link rel="apple-touch-icon" href="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- SDK FIREBASE COMPATIBILITÉ UNIVERSELLE (Faible RAM & Anciens/Nouveaux navigateurs) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<style>
+:root{
+--gold:#d4af37;
+--gold-light:#f3e5ab;
+--black:#050505;
+--dark:#0b0e13;
+--soft-dark:#12161f;
+--card:#ffffff;
+--card-text:#1a1a1a;
+--blue:#0066cc;
+--green:#15803d;
+--red:#dc2626;
+--white:#fff;
+--gray:#555;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{min-height:100vh;background:var(--black);color:var(--white);font-family:Poppins,sans-serif;display:flex;flex-direction:column;overflow-x:hidden;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
+
+button,input,select,textarea{font-family:inherit;}
+button,a{-webkit-tap-highlight-color:transparent;}
+a{color:inherit;}
+
+/* HEADER HAUTE PERFORMANCE & LOGO INSTANTANÉ */
+.header{
+position:sticky;top:0;z-index:5000;width:100%;min-height:70px;
+display:flex;align-items:center;gap:10px;padding:10px 12px;
+background:linear-gradient(to bottom,#131921,#050505);
+border-bottom:2px solid var(--gold);
+}
+
+.logo-container{
+width:50px !important;height:50px !important;min-width:50px !important;min-height:50px !important;flex:0 0 50px !important;
+border-radius:50% !important;border:2px solid var(--gold) !important;overflow:hidden !important;
+display:flex !important;align-items:center !important;justify-content:center !important;background:#000 !important;
+transform:translateZ(0);will-change:transform;
+}
+.logo{display:block !important;width:100% !important;height:100% !important;object-fit:contain !important;background:#000 !important;}
+
+.search-container{flex:1;min-width:0;display:flex;align-items:center;}
+#searchBar{
+width:100%;height:40px;border:1px solid var(--gold);border-radius:20px;
+background:#000;color:#fff;padding:0 14px;outline:none;font-size:12px;
+}
+#searchBar::placeholder{color:#888;font-size:11px;}
+
+.nav-icons{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.nav-item{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-decoration:none;font-size:9px;cursor:pointer;}
+.nav-item>span:first-child{font-size:18px;line-height:20px;}
+.cart-badge{
+position:absolute;top:-4px;right:0px;background:var(--red);color:#fff;
+font-size:9px;font-weight:700;border-radius:8px;padding:1px 4px;
+min-width:14px;text-align:center;display:none;border:1px solid var(--black);
+}
+
+/* BANNIÈRE D'INSTALLATION DE L'APPLICATION (PRO & PUISSANTE) */
+.install-app-banner {
+display: none;
+width: 96%;
+max-width: 1400px;
+margin: 10px auto 0 auto;
+background: linear-gradient(135deg, #131921, #1a222d);
+border: 2px solid var(--gold);
+border-radius: 12px;
+padding: 12px 16px;
+align-items: center;
+justify-content: space-between;
+gap: 12px;
+box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+animation: pulseGlow 2s infinite;
+}
+@keyframes pulseGlow {
+0% { border-color: rgba(212, 175, 55, 0.6); }
+50% { border-color: rgba(212, 175, 55, 1); }
+100% { border-color: rgba(212, 175, 55, 0.6); }
+}
+.install-app-info { display: flex; align-items: center; gap: 10px; }
+.install-app-icon { font-size: 26px; }
+.install-app-text h4 { color: var(--gold); font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+.install-app-text p { color: #ccc; font-size: 10px; line-height: 1.2; }
+.btn-install-app {
+background: linear-gradient(135deg, var(--gold), #aa8c2c);
+color: #000;
+border: none;
+padding: 8px 16px;
+border-radius: 20px;
+font-weight: 800;
+font-size: 11px;
+cursor: pointer;
+white-space: nowrap;
+display: flex;
+align-items: center;
+gap: 6px;
+box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* BANNIÈRES */
+.banner-container{
+display:none;position:relative;width:94%;max-width:1400px;margin:12px auto;
+overflow:hidden;border:1px solid var(--gold);border-radius:12px;background:var(--soft-dark);min-height:180px;
+}
+.banner-track{display:flex;width:100%;transition:transform .4s ease;}
+.banner-slide{position:relative;min-width:100%;}
+.banner-slide img{width:100%;height:180px;display:block;object-fit:cover;}
+.banner-content{position:absolute;left:0;right:0;bottom:0;padding:12px;background:linear-gradient(to top, rgba(0,0,0,.9), transparent);}
+.banner-content h3{color:var(--gold);font-size:13px;margin-bottom:2px;}
+.banner-content p{color:#ddd;font-size:10px;}
+.banner-controls{position:absolute;top:8px;right:8px;z-index:20;display:flex;gap:4px;background:rgba(0,0,0,0.6);padding:3px 6px;border-radius:15px;border:1px solid var(--gold);}
+.banner-btn{background:transparent;border:none;color:var(--gold);font-size:12px;cursor:pointer;padding:2px 4px;}
+.banner-dots{position:absolute;bottom:6px;right:10px;display:flex;gap:4px;z-index:10;}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;}
+.dot.active{background:var(--gold);}
+
+/* BARRE DE NAVIGATION (MÉTIERS + CATÉGORIES) */
+.navigation-bar-container{
+width:100%;padding:8px 12px;display:flex;gap:10px;align-items:center;
+background:rgba(11,14,19,0.9);border-bottom:1px solid rgba(212,175,55,0.2);overflow-x:auto;
+-webkit-overflow-scrolling:touch;
+}
+.navigation-bar-container::-webkit-scrollbar{display:none;}
+.btn-metiers-special{
+flex:0 0 auto;padding:8px 14px;border:1px solid var(--gold);border-radius:20px;
+background:linear-gradient(135deg, #d4af37, #aa8c2c);color:#000;cursor:pointer;
+white-space:nowrap;font-size:11px;font-weight:800;text-decoration:none;
+display:inline-flex;align-items:center;gap:4px;
+}
+.cat-scroll{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;align-items:center;}
+.cat-scroll::-webkit-scrollbar{display:none;}
+.cat-btn{
+flex:0 0 auto;padding:7px 12px;border:1px solid var(--gold);border-radius:16px;
+background:transparent;color:#fff;cursor:pointer;white-space:nowrap;font-size:11px;
+display:inline-flex;align-items:center;gap:4px;
+}
+.cat-btn.active{background:var(--gold);color:#000;font-weight:800;}
+
+/* SECTIONS AMAZON */
+.amazon-section{
+width:96%;max-width:1800px;margin:12px auto;padding:12px;background:#ffffff;
+border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+.amazon-section-title{
+font-size:13px;font-weight:700;color:var(--black);margin-bottom:10px;
+display:flex;align-items:center;justify-content:space-between;gap:6px;border-bottom:2px solid var(--gold);padding-bottom:5px;
+}
+.amazon-carousel{
+display:flex;gap:10px;overflow-x:auto;-webkit-overflow-scrolling:touch;
+scroll-snap-type:x mandatory;padding-bottom:8px;min-height:240px;
+}
+.amazon-carousel::-webkit-scrollbar{height:6px;}
+.amazon-carousel::-webkit-scrollbar-thumb{background:var(--gold);border-radius:8px;}
+
+/* CATALOGUE GÉNÉRAL EN GRILLE OPTIMISÉ */
+.products{
+width:100%;margin:0 auto;padding:8px;background:#ffffff;
+display:grid;grid-template-columns:repeat(2, 1fr);gap:10px;align-items:stretch;
+}
+@media(min-width:600px){.products{grid-template-columns:repeat(3, 1fr);gap:12px;padding:12px;}}
+@media(min-width:900px){.products{grid-template-columns:repeat(4, 1fr);gap:16px;padding:16px;}}
+@media(min-width:1200px){.products{grid-template-columns:repeat(6, 1fr);gap:18px;}}
+
+/* CARTE PRODUIT LÉGÈRE */
+.card{
+position:relative;display:flex;flex-direction:column;justify-content:space-between;
+width:100%;background:#ffffff;border:1px solid #e2e8f0;border-radius:10px;
+padding:8px;box-shadow:0 2px 8px rgba(0,0,0,.04);overflow:hidden;height:100%;
+scroll-snap-align:start;
+}
+.amazon-carousel .card{flex:0 0 160px;min-width:160px;}
+@media(min-width:400px){.amazon-carousel .card{flex:0 0 180px;min-width:180px;}}
+
+.badge-discount{position:absolute;top:6px;right:6px;z-index:5;padding:2px 5px;background:var(--red);color:#fff;border-radius:3px;font-size:8px;font-weight:800;}
+.badge-boost{position:absolute;top:6px;left:6px;z-index:5;padding:2px 5px;background:#d97706;color:#fff;border-radius:3px;font-size:7px;font-weight:800;text-transform:uppercase;}
+
+.media-container{
+width:100%;height:140px;position:relative;border-radius:6px;overflow:hidden;
+background:#f8fafc;display:flex;align-items:center;justify-content:center;margin-bottom:8px;border:1px solid #f1f5f9;
+}
+.card img{width:100%;height:100%;object-fit:contain;display:block;}
+.card video{width:100%;height:100%;object-fit:contain;display:block;}
+
+.card h3{
+margin:2px 0 4px;font-size:11.5px;font-weight:600;line-height:1.3;
+color:var(--card-text);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:30px;
+}
+.card .description-complete{
+font-size:9.5px;color:var(--gray);line-height:1.3;margin-bottom:6px;
+display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:24px;
+}
+.market-tags{display:flex;gap:3px;margin-bottom:4px;flex-wrap:wrap;}
+.tag-express{background:rgba(22,163,74,0.1);color:#15803d;border:1px solid rgba(22,163,74,0.2);font-size:7.5px;padding:1px 4px;border-radius:3px;font-weight:600;}
+
+/* PRIX (PROMO/ACTUEL EN ROUGE, ANCIEN EN BLEU) */
+.price-container{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin:2px 0 6px;}
+.price{color:var(--red);font-size:12.5px;font-weight:800;}
+.price-old{text-decoration:line-through;color:var(--blue);font-size:9.5px;font-weight:600;}
+
+.card-actions-row{display:flex;gap:4px;margin-top:auto;width:100%;}
+.btn-action{
+flex:1;min-width:0;padding:6px 2px;border-radius:5px;font-size:9px;font-weight:700;
+text-align:center;text-decoration:none;cursor:pointer;display:flex;align-items:center;justify-content:center;white-space:nowrap;border:none;color:#fff;
+}
+.btn-view{background:var(--blue);}
+.btn-cart{background:var(--green);}
+
+/* MODAL & FOOTER */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);display:flex;justify-content:center;align-items:center;z-index:10000;padding:10px;}
+.modal-content{background:#0a0d14;border:1px solid var(--gold);border-radius:12px;padding:15px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;}
+.app-footer{margin-top:20px;background:#131921;border-top:2px solid var(--gold);color:#ddd;font-size:11px;}
+.footer-announcement{padding:12px 15px;text-align:center;background:var(--soft-dark);border-bottom:1px solid #333;}
+.footer-announcement h4{color:var(--gold);margin-bottom:4px;font-size:12px;}
+.footer-links-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:1000px;margin:auto;padding:15px;}
+.footer-column h5{color:var(--gold);font-size:11px;margin-bottom:8px;text-transform:uppercase;}
+.footer-column ul{list-style:none;}
+.footer-column li{margin-bottom:6px;}
+.footer-column a{color:#aaa;text-decoration:none;}
+
+/* SÉLECTEUR DE LANGUE */
+.footer-language-container{
+display:flex;justify-content:center;align-items:center;padding:12px;
+background:rgba(0,0,0,0.5);border-top:1px solid #222;border-bottom:1px solid #222;position:relative;
+}
+.lang-dropdown-wrapper{position:relative;display:inline-block;}
+.lang-main-btn{
+background:#1a222d;border:1px solid var(--gold);color:#fff;padding:6px 12px;
+border-radius:16px;font-size:11px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-weight:600;
+}
+.lang-menu{
+display:none;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:6px;
+background:#12161f;border:1px solid var(--gold);border-radius:8px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.5);z-index:100;
+min-width:150px;max-height:240px;overflow-y:auto;
+}
+.lang-menu.show{display:block;}
+.lang-option{
+width:100%;padding:8px 12px;background:transparent;border:none;color:#fff;
+text-align:left;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:6px;
+}
+.lang-option:hover{background:var(--gold);color:#000;font-weight:700;}
+
+.footer-bottom-bar{padding:12px;background:#000;text-align:center;color:#777;font-size:9px;}
+.loading-message,.empty-message{grid-column:1 / -1;padding:30px 10px;text-align:center;color:#64748b;font-size:12px;}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+<div class="logo-container">
+<img class="logo" src="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png" alt="Logo DAKPROÉLITE" loading="eager" fetchpriority="high" decoding="async">
+</div>
+<div class="search-container">
+<input type="search" id="searchBar" autocomplete="off" placeholder="Rechercher des produits...">
+</div>
+<div class="nav-icons">
+<a href="panier.html" class="nav-item" id="navCartLink">
+<span>🛒</span><span class="cart-badge" id="cartBadge">0</span><span data-i18n="navCart">Panier</span>
+</a>
+<a href="profil-acheteur.html" class="nav-item"><span>👤</span><span data-i18n="navAccount">Compte</span></a>
+</div>
+</header>
+
+<!-- BANNIÈRE / BOUTON D'INSTALLATION DE L'APPLICATION (PUISSANT & PROFESSIONNEL) -->
+<div class="install-app-banner" id="installAppBanner">
+<div class="install-app-info">
+<span class="install-app-icon">📥</span>
+<div class="install-app-text">
+<h4 data-i18n="installAppTitle">Installer DAKPROÉLITE</h4>
+<p data-i18n="installAppDesc">Accédez plus rapidement à la marketplace depuis votre écran d'accueil.</p>
+</div>
+</div>
+<button type="button" class="btn-install-app" id="btnInstallApp">
+<span>⚡</span> <span data-i18n="installAppBtn">Installer</span>
+</button>
+</div>
+
+<!-- BANNIÈRE DÉFILANTE -->
+<section class="banner-container" id="bannerContainer">
+<div class="banner-controls">
+<button type="button" class="banner-btn" id="btnBannerPrev">◄</button>
+<button type="button" class="banner-btn" id="btnBannerPause">⏸</button>
+<button type="button" class="banner-btn" id="btnBannerNext">►</button>
+</div>
+<div class="banner-track" id="bannerTrack"></div>
+<div class="banner-dots" id="bannerDots"></div>
+</section>
+
+<!-- BARRE DE NAVIGATION (MÉTIERS + CATÉGORIES) -->
+<div class="navigation-bar-container">
+<a href="metiers.html" class="btn-metiers-special"><span data-i18n="allTrades">🛠️ Métiers</span></a>
+<div class="cat-scroll" id="catMenu"></div>
+</div>
+
+<!-- 1. OFFRES FLASH & PROMOS -->
+<section class="amazon-section">
+  <div class="amazon-section-title">
+    <span data-i18n="flashOffers">🔥 Offres Flash &amp; Promos</span>
+    <small style="color:#666; font-weight:400; font-size:10px;" data-i18n="swipeHint">Glisser →</small>
+  </div>
+  <div class="amazon-carousel" id="carouselPromos"></div>
+</section>
+
+<!-- 2. CATALOGUE COMPLET & CATÉGORIES -->
+<section class="amazon-section" style="background:transparent; box-shadow:none; padding:0;">
+  <div class="amazon-section-title" style="background:#fff; padding:10px; border-radius:6px;">
+    <span data-i18n="fullCatalog">📦 Catalogue &amp; Catégories</span>
+  </div>
+  <main class="products" id="products">
+    <div class="loading-message" data-i18n="loadingArticles">Chargement des articles...</div>
+  </main>
+</section>
+
+<!-- 3. PRODUITS RECOMMANDÉS & SPONSORISÉS -->
+<section class="amazon-section">
+  <div class="amazon-section-title">
+    <span data-i18n="sponsoredTitle">⭐ Recommandés &amp; Sponsorisés</span>
+    <small style="color:#666; font-weight:400; font-size:10px;" data-i18n="swipeHint">Glisser →</small>
+  </div>
+  <div class="amazon-carousel" id="carouselRelated"></div>
+</section>
+
+<div id="productModalContainer"></div>
+
+<footer class="app-footer">
+<section class="footer-announcement">
+<h4 id="fayaBuzzTitle" data-i18n="officialAnnouncement">⚡ Annonce Officielle</h4>
+<p id="fayaBuzzText" data-i18n="welcomeText">Bienvenue sur DAKPROÉLITE !</p>
+</section>
+
+<div class="footer-links-grid">
+<div class="footer-column">
+<h5 data-i18n="navAndHelp">Aide</h5>
+<ul>
+<li><a href="support-rapide.html" data-i18n="quickSupport">Support</a></li>
+<li><a href="aide.html" data-i18n="helpCenter">Aide</a></li>
+<li><a href="profil-acheteur.html" data-i18n="myAccount">Compte</a></li>
+</ul>
+</div>
+<div class="footer-column">
+<h5 data-i18n="rulesAndLegal">Légal</h5>
+<ul>
+<li><a href="reglement-interieur.html" data-i18n="internalRules">Règlement</a></li>
+<li><a href="politique-confidentialite.html" data-i18n="privacyPolicy">Confidentialité</a></li>
+</ul>
+</div>
+<div class="footer-column">
+<h5 data-i18n="earnMoney">Gagner</h5>
+<ul>
+<li><a href="programme-ambassadeur.html" data-i18n="ambassadorProgram">Ambassadeur</a></li>
+<li><a href="https://vendeur.dakproelite.com" target="_self" class="seller-link" data-i18n="becomeSeller">🛍️ Vendeur</a></li>
+</ul>
+</div>
+</div>
+
+<div class="footer-language-container">
+<div class="lang-dropdown-wrapper">
+<button type="button" class="lang-main-btn" id="langMainBtn">
+🌐 <span id="currentLangLabel">Français</span> ▾
+</button>
+<div class="lang-menu" id="langMenu">
+<button type="button" class="lang-option" data-lang="fr">🇫🇷 Français</button>
+<button type="button" class="lang-option" data-lang="en">🇬🇧 English</button>
+<button type="button" class="lang-option" data-lang="es">🇪🇸 Español</button>
+<button type="button" class="lang-option" data-lang="zh">🇨🇳 中文</button>
+<button type="button" class="lang-option" data-lang="bn">🇧🇩 বাংলা</button>
+<button type="button" class="lang-option" data-lang="yo">🇳🇬 Yorùbá</button>
+<button type="button" class="lang-option" data-lang="fon">🇧🇯 Fɔ̀ngbè</button>
+</div>
+</div>
+</div>
+
+<div class="footer-bottom-bar">© 2026 DAKPROÉLITE. Tous droits réservés.</div>
+</footer>
+
+<script src="support-rapide.js"></script>
+
+<script>
+// CONFIGURATION FIREBASE COMPATIBILITÉ UNIVERSELLE
+const firebaseConfig = {
+apiKey: "AIzaSyDR7INHKaazaqZt-xIcjk10JFiy58uXKO8",
+authDomain: "dakproelite.firebaseapp.com",
+databaseURL: "https://dakproelite-default-rtdb.firebaseio.com",
+projectId: "dakproelite",
+storageBucket: "dakproelite.firebasestorage.app",
+messagingSenderId: "580591769206",
+appId: "1:580591769206:web:4f67f8aadbf3d051087157"
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+const db = firebase.database();
+const auth = firebase.auth();
+
+window.dakproFirebase = { db, auth };
+
+// GESTION DE L'INSTALLATION PWA (BOUTON TÉLÉCHARGER / INSTALLER)
+let deferredPrompt = null;
+const installBanner = document.getElementById("installAppBanner");
+const btnInstallApp = document.getElementById("btnInstallApp");
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if(installBanner) installBanner.style.display = "flex";
+});
+
+btnInstallApp?.addEventListener("click", async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      if(installBanner) installBanner.style.display = "none";
+    }
+    deferredPrompt = null;
+  } else {
+    // Fallback pour les navigateurs où beforeinstallprompt ne se déclenche pas directement (iOS / navigateurs légers)
+    alert(currentLang === 'en' ? "To install, use your browser menu and select 'Add to Home Screen'." : "Pour installer l'application, ouvrez le menu de votre navigateur et sélectionnez 'Ajouter à l'écran d'accueil'.");
+  }
+});
+
+// Afficher par défaut si non installé et non en mode standalone
+if (!window.matchMedia('(display-mode: standalone)').matches && !navigator.standalone) {
+  setTimeout(() => {
+    if(installBanner && installBanner.style.display !== "flex") {
+      installBanner.style.display = "flex";
+    }
+  }, 1000);
+}
+
+// CHARGEMENT INSTANTANÉ EN CACHE LOCAL
+let cachedProducts = localStorage.getItem("dakpro_cached_products");
+window.allProductsData = cachedProducts ? JSON.parse(cachedProducts) : [];
+
+const siteContext = { currentUser: null };
+let currentCat = ""; 
+let currentIndex = 0;
+let totalSlides = 0;
+let autoPlay = null;
+let announcementDataCache = null;
+
+const categoryIconsMap = {
+"Voitures": "🚗", "Smartphones": "📱", "Vêtements": "👕", "Chaussures": "👟",
+"Montres": "⌚", "Bijoux": "💍", "Parfums": "🌸", "Meubles": "🛋️",
+"Cuisine": "🍳", "Jouets": "🧸", "Sport": "⚽", "Santé": "🩺",
+"Livres": "📚", "Outils": "🔨", "Agriculture": "🌱", "Alimentation": "🍚"
+};
+
+function getCategoryIcon(catName){
+if(!catName) return "📦";
+for(let key in categoryIconsMap){
+if(catName.toLowerCase().includes(key.toLowerCase())) return categoryIconsMap[key];
+}
+return "📦";
+}
+
+/* DICTIONNAIRE DE TRADUCTION COMPLET */
+const translations = {
+fr: {
+name: "Français", currency: "FCFA", rate: 1,
+searchPlaceholder: "Rechercher des produits...",
+navCart: "Panier", navAccount: "Compte", allTrades: "🛠️ Métiers",
+loadingArticles: "Chargement des articles...",
+emptyCategory: "Aucun article trouvé.",
+officialAnnouncement: "⚡ Annonce Officielle",
+welcomeText: "Bienvenue sur DAKPROÉLITE, votre plateforme internationale de référence !",
+sponsoredTitle: "⭐ Recommandés & Sponsorisés",
+flashOffers: "🔥 Offres Flash & Promos",
+fullCatalog: "📦 Catalogue & Catégories",
+swipeHint: "Glisser →",
+viewBtn: "👁️ Voir", cartBtn: "🛒 Panier",
+addedMsg: "✅ Ajouté !", imageUnavailable: "Indisponible",
+selectedArticle: "Article sélectionné sur DAKPROÉLITE.", modalBuy: "💳 Acheter", modalClose: "Fermer",
+navAndHelp: "Aide", quickSupport: "Support", helpCenter: "Centre d'aide", myAccount: "Mon Compte",
+rulesAndLegal: "Légal", internalRules: "Règlement", privacyPolicy: "Confidentialité",
+earnMoney: "Gagner", ambassadorProgram: "Ambassadeur", becomeSeller: "🛍️ Vendeur",
+installAppTitle: "Installer DAKPROÉLITE",
+installAppDesc: "Accédez plus rapidement à la marketplace depuis votre écran d'accueil.",
+installAppBtn: "Installer"
+},
+en: {
+name: "English", currency: "USD", rate: 1 / 600,
+searchPlaceholder: "Search products...",
+navCart: "Cart", navAccount: "Account", allTrades: "🛠️ Trades",
+loadingArticles: "Loading items...",
+emptyCategory: "No items found.",
+officialAnnouncement: "⚡ Official Announcement",
+welcomeText: "Welcome to DAKPROÉLITE, your international benchmark marketplace!",
+sponsoredTitle: "⭐ Recommended & Sponsored",
+flashOffers: "🔥 Flash Offers",
+fullCatalog: "📦 Catalog & Categories",
+swipeHint: "Swipe →",
+viewBtn: "👁️ View", cartBtn: "🛒 Cart",
+addedMsg: "✅ Added!", imageUnavailable: "Unavailable",
+selectedArticle: "Selected item on DAKPROÉLITE.", modalBuy: "💳 Buy Now", modalClose: "Close",
+navAndHelp: "Help & Nav", quickSupport: "Quick Support", helpCenter: "Help Center", myAccount: "My Account",
+rulesAndLegal: "Rules & Legal", internalRules: "Internal Rules", privacyPolicy: "Privacy Policy",
+earnMoney: "Earn Money", ambassadorProgram: "Ambassador Program", becomeSeller: "🛍️ Become Seller",
+installAppTitle: "Install DAKPROÉLITE",
+installAppDesc: "Get quick access to the marketplace directly from your home screen.",
+installAppBtn: "Install"
+},
+es: {
+name: "Español", currency: "EUR", rate: 1 / 655.957,
+searchPlaceholder: "Buscar productos...",
+navCart: "Carrito", navAccount: "Cuenta", allTrades: "🛠️ Oficios",
+loadingArticles: "Cargando artículos...",
+emptyCategory: "No se encontraron artículos.",
+officialAnnouncement: "⚡ Anuncio Oficial",
+welcomeText: "¡Bienvenido a DAKPROÉLITE, su plataforma internacional de referencia!",
+sponsoredTitle: "⭐ Recomendados y patrocinados",
+flashOffers: "🔥 Ofertas flash",
+fullCatalog: "📦 Catálogo y categorías",
+swipeHint: "Deslizar →",
+viewBtn: "👁️ Ver", cartBtn: "🛒 Carrito",
+addedMsg: "✅ ¡Añadido!", imageUnavailable: "No disponible",
+selectedArticle: "Artículo seleccionado en DAKPROÉLITE.", modalBuy: "💳 Comprar", modalClose: "Cerrar",
+navAndHelp: "Ayuda", quickSupport: "Soporte Rápido", helpCenter: "Centro de Ayuda", myAccount: "Mi Cuenta",
+rulesAndLegal: "Normas y Legal", internalRules: "Reglamento", privacyPolicy: "Política de Privacidad",
+earnMoney: "Ganar Dinero", ambassadorProgram: "Programa Embajador", becomeSeller: "🛍️ Ser Vendedor",
+installAppTitle: "Instalar DAKPROÉLITE",
+installAppDesc: "Accede más rápido a la tienda desde tu pantalla de inicio.",
+installAppBtn: "Instalar"
+},
+zh: {
+name: "中文", currency: "CNY", rate: 1 / 85,
+searchPlaceholder: "搜索产品...",
+navCart: "购物车", navAccount: "账户", allTrades: "🛠️ 行业",
+loadingArticles: "正在加载商品...",
+emptyCategory: "暂无商品。",
+officialAnnouncement: "⚡ 官方公告",
+welcomeText: "欢迎来到 DAKPROÉLITE，您的国际基准市场！",
+sponsoredTitle: "⭐ 推荐与赞助",
+flashOffers: "🔥 限时特惠",
+fullCatalog: "📦 目录与分类",
+swipeHint: "滑动 →",
+viewBtn: "👁️ 查看", cartBtn: "🛒 购物车",
+addedMsg: "✅ 已添加！", imageUnavailable: "不可用",
+selectedArticle: "在 DAKPROÉLITE 上选定的商品。", modalBuy: "💳 购买", modalClose: "关闭",
+navAndHelp: "导航与帮助", quickSupport: "快速支持", helpCenter: "帮助中心", myAccount: "我的账户",
+rulesAndLegal: "规则与法律", internalRules: "内部规则", privacyPolicy: "隐私政策",
+earnMoney: "赚钱", ambassadorProgram: "大使计划", becomeSeller: "🛍️ 成为卖家",
+installAppTitle: "安装 DAKPROÉLITE",
+installAppDesc: "从主屏幕快速访问市场。",
+installAppBtn: "安装"
+},
+bn: {
+name: "বাংলা", currency: "BDT", rate: 1 / 5,
+searchPlaceholder: "অনুসন্ধান...",
+navCart: "কার্ট", navAccount: "অ্যাকাউন্ট", allTrades: "🛠️ পেশা",
+loadingArticles: "লোড হচ্ছে...",
+emptyCategory: "কোনো আইটেম পাওয়া যায়নি।",
+officialAnnouncement: "⚡ অফিসিয়াল ঘোষণা",
+welcomeText: "DAKPROÉLITE-এ স্বাগতম, আপনার আন্তর্জাতিক বেঞ্চমার্ক মার্কেটপ্লেস!",
+sponsoredTitle: "⭐ প্রস্তাবিত",
+flashOffers: "🔥 ফ্ল্যাশ অফার",
+fullCatalog: "📦 ক্যাটালগ",
+swipeHint: "সোয়াইপ →",
+viewBtn: "👁️ দেখুন", cartBtn: "🛒 কার্ট",
+addedMsg: "✅ যোগ!", imageUnavailable: "নেই",
+selectedArticle: "DAKPROÉLITE এ নির্বাচিত আইটেম।", modalBuy: "💳 কিনুন", modalClose: "বন্ধ",
+navAndHelp: "সহায়তা", quickSupport: "দ্রুত সহায়তা", helpCenter: "সহায়তা কেন্দ্র", myAccount: "অ্যাকাউন্ট",
+rulesAndLegal: "নিয়মাবলী", internalRules: "অভ্যন্তরীণ নিয়ম", privacyPolicy: "গোপনীয়তা নীতি",
+earnMoney: "আয় করুন", ambassadorProgram: "অ্যাম্বাসেডর প্রোগ্রাম", becomeSeller: "🛍️ বিক্রেতা হন",
+installAppTitle: "DAKPROÉLITE ইনস্টল করুন",
+installAppDesc: "আপনার হোম স্ক্রিন থেকে দ্রুত মার্কেটপ্লেসে প্রবেশ করুন।",
+installAppBtn: "ইনস্টল"
+},
+yo: {
+name: "Yorùbá", currency: "NGN", rate: 1.2,
+searchPlaceholder: "Wa awọn ọja...",
+navCart: "Kẹkẹ", navAccount: "Àsántì", allTrades: "🛠️ Iṣẹ",
+loadingArticles: "N ṣe agbega...",
+emptyCategory: "Ko si ọja.",
+officialAnnouncement: "⚡ Ikede Oṣiṣẹ",
+welcomeText: "Kaabọ si DAKPROÉLITE, ọja agbaye ti o dara julọ!",
+sponsoredTitle: "⭐ A ṣeduro",
+flashOffers: "🔥 Awọn ipese",
+fullCatalog: "📦 Awọn Ọja",
+swipeHint: "Ra →",
+viewBtn: "👁️ Wo", cartBtn: "🛒 Kẹkẹ",
+addedMsg: "✅ A fi kun!", imageUnavailable: "Ko si",
+selectedArticle: "Ọja ti a yan lori DAKPROÉLITE.", modalBuy: "💳 Ra", modalClose: "Pade",
+navAndHelp: "Iranlọwọ", quickSupport: "Atilẹyin", helpCenter: "Ile-iṣẹ Iranlọwọ", myAccount: "Akọntẹ mi",
+rulesAndLegal: "Ofin", internalRules: "Awọn Ofin", privacyPolicy: "Asiri",
+earnMoney: "Gba Owo", ambassadorProgram: "Eto Aṣoju", becomeSeller: "🛍️ Di Olutaja",
+installAppTitle: "Fi DAKPROÉLITE sori ẹrọ",
+installAppDesc: "Wọle si ọja ni iyara lati iboju ile rẹ.",
+installAppBtn: "Fi sori ẹrọ"
+},
+fon: {
+name: "Fɔ̀ngbè", currency: "FCFA", rate: 1,
+searchPlaceholder: "Ba nǔ...",
+navCart: "Tɛnmɛ", navAccount: "Akɔntá", allTrades: "🛠️ Azɔ̌",
+loadingArticles: "E ɖò nǔ lɛ ɖè wɛ...",
+emptyCategory: "Nǔ ɖebǔ mɛ ǎ.",
+officialAnnouncement: "⚡ Gbeɖéɖé",
+welcomeText: "Wɛkɛ ɖò DAKPROÉLITE, akɔ̀ tɔn mɛ!",
+sponsoredTitle: "⭐ Nǔ e sɔ́",
+flashOffers: "🔥 Hwenu ɖagbe",
+fullCatalog: "📦 Nǔ bǐ",
+swipeHint: "Sɔ́ →",
+viewBtn: "👁️ Kpé", cartBtn: "🛒 Tɛnmɛ",
+addedMsg: "✅ E ɖó!", imageUnavailable: "Ǎ",
+selectedArticle: "Nǔ e ɖò DAKPROÉLITE.", modalBuy: "💳 Hò", modalClose: "Sɔ́",
+navAndHelp: "Alɔgɔ", quickSupport: "Alɔgɔ K館", helpCenter: "Alɔgɔ Tɛnmɛ", myAccount: "Akɔntá",
+rulesAndLegal: "Sɛ́n", internalRules: "Sɛ́n Xó", privacyPolicy: "Nǔ Gudo",
+earnMoney: "Ba Akuɛ", ambassadorProgram: "Ambassadeur", becomeSeller: "🛍️ Zɔ̌watɔ́",
+installAppTitle: "Tɛ́n DAKPROÉLITE ɖó",
+installAppDesc: "Kpɔ́n nǔ lɛ wě wě ɖò kɔ̀ tɔn mɛ.",
+installAppBtn: "Tɛ́n ɖó"
+}
+};
+
+let currentLang = localStorage.getItem("dakpro_lang") || "fr";
+
+function formatPrice(val) {
+const t = translations[currentLang];
+let converted = val * t.rate;
+if(["USD", "EUR", "BDT", "NGN"].includes(t.currency)) {
+converted = converted.toFixed(2);
+} else {
+converted = Math.round(converted);
+}
+return `${converted} ${t.currency}`;
+}
+
+function getLocalizedText(obj, fieldBase, lang) {
+if(!obj) return "";
+if(fieldBase === 'description') {
+if(lang !== 'fr' && obj['description_' + lang]) return obj['description_' + lang];
+return obj.description || obj.texte || obj.text || "";
+}
+return obj[fieldBase] || obj.nom || obj.title || obj.name || "";
+}
+
+function setLanguage(lang) {
+if(!translations[lang]) return;
+currentLang = lang;
+localStorage.setItem("dakpro_lang", lang);
+
+document.querySelectorAll("[data-i18n]").forEach(el => {
+const key = el.getAttribute("data-i18n");
+if(translations[lang][key]) el.textContent = translations[lang][key];
+});
+
+const searchInput = document.getElementById("searchBar");
+if(searchInput) searchInput.placeholder = translations[lang].searchPlaceholder;
+
+const langLabel = document.getElementById("currentLangLabel");
+if(langLabel) langLabel.textContent = translations[lang].name;
+
+if(announcementDataCache) applyAnnouncement(announcementDataCache);
+
+filterProducts();
+renderCarousels(window.allProductsData);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+const mainBtn = document.getElementById("langMainBtn");
+const menu = document.getElementById("langMenu");
+
+mainBtn?.addEventListener("click", (e) => {
+e.stopPropagation();
+menu.classList.toggle("show");
+});
+
+document.addEventListener("click", () => {
+menu?.classList.remove("show");
+});
+
+document.querySelectorAll(".lang-option").forEach(btn => {
+btn.addEventListener("click", () => {
+setLanguage(btn.dataset.lang);
+menu?.classList.remove("show");
+});
+});
+
+setLanguage(currentLang);
+
+if(window.allProductsData.length > 0){
+buildCategories();
+filterProducts();
+renderCarousels(window.allProductsData);
+}
+});
+
+auth.onAuthStateChanged(user => {
+siteContext.currentUser = user || null;
+if(user){ listenToCartBadge(user.uid); } else { updateCartBadgeDisplay(0); }
+});
+
+function updateCartBadgeDisplay(count){
+const badge = document.getElementById("cartBadge");
+if(!badge) return;
+if(count > 0){ badge.textContent = count; badge.style.display = "inline-block"; }
+else{ badge.style.display = "none"; }
+}
+
+function listenToCartBadge(uid){
+const cartRef = db.ref(`users/${uid}/panier`);
+cartRef.on("value", snapshot => {
+const data = snapshot.val();
+if(!data || typeof data !== "object"){ updateCartBadgeDisplay(0); return; }
+let totalItems = 0;
+Object.values(data).forEach(item => { totalItems += parseInt(item.quantite || 1, 10); });
+updateCartBadgeDisplay(totalItems);
+});
+}
+
+function escapeHTML(value){
+return String(value ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+}
+function escapeAttribute(value){ return escapeHTML(value); }
+
+function loadProducts() {
+  const localData = localStorage.getItem("dakpro_cached_products");
+  if (localData) {
+    try {
+      window.allProductsData = JSON.parse(localData);
+      renderProducts(window.allProductsData);
+      renderCarousels(window.allProductsData);
+    } catch(e) {}
+  }
+
+  db.ref("publications").once("value").then(snapshot => {
+    const data = snapshot.val();
+    if (!data) return;
+
+    window.allProductsData = Object.entries(data)
+      .map(([id, product]) => ({ id, ...product }))
+      .filter(product => product && product.actif !== false);
+
+    localStorage.setItem("dakpro_cached_products", JSON.stringify(window.allProductsData));
+
+    buildCategories();
+    filterProducts();
+    renderCarousels(window.allProductsData);
+    checkUrlForSharedProduct();
+  }).catch(err => {
+    console.error("Erreur Firebase:", err);
+  });
+}
+
+function buildCategories(){
+const categories = [...new Set(window.allProductsData.map(p => p.categorie || p.category).filter(Boolean))];
+const menu = document.getElementById("catMenu");
+if(!menu) return;
+
+if(!currentCat && categories.length > 0){
+currentCat = categories[0];
+}
+
+menu.innerHTML = categories.map(category => {
+const safe = escapeHTML(category);
+const icon = getCategoryIcon(category);
+return `<button type="button" class="cat-btn ${category === currentCat ? "active" : ""}" data-category="${safe}"><span class="cat-ico">${icon}</span> <span>${escapeHTML(category)}</span></button>`;
+}).join("");
+
+menu.querySelectorAll(".cat-btn").forEach(button => {
+button.addEventListener("click", () => {
+currentCat = button.dataset.category;
+menu.querySelectorAll(".cat-btn").forEach(item => item.classList.remove("active"));
+button.classList.add("active");
+filterProducts();
+});
+});
+}
+
+document.getElementById("searchBar")?.addEventListener("input", filterProducts);
+
+function getFilteredProducts(){
+const search = (document.getElementById("searchBar")?.value || "").toLowerCase().trim();
+
+return window.allProductsData.filter(product => {
+const name = String(product.nom || product.title || product.name || "").toLowerCase();
+const description = String(product.description || "").toLowerCase();
+const category = String(product.categorie || product.category || "").toLowerCase();
+const productCategory = product.categorie || product.category || "";
+
+if(search.length > 0){
+return name.includes(search) || description.includes(search) || category.includes(search);
+}
+
+return productCategory === currentCat;
+});
+}
+
+function filterProducts(){
+renderProducts(getFilteredProducts());
+}
+
+function generateCardHTML(product){
+const image = product.image || product.imageUrl || product.photo || product.img || "";
+const video = product.video || product.videoUrl || "";
+const documentUrl = product.document || product.documentUrl || "";
+
+const productName = product.nom || product.title || product.name || "Article";
+const safeName = escapeHTML(productName);
+
+const rawDesc = String(getLocalizedText(product, 'description', currentLang));
+const shortDesc = rawDesc.length > 70 ? rawDesc.substring(0, 70) + "..." : rawDesc;
+const safeShortDesc = escapeHTML(shortDesc);
+
+const priceVal = parseFloat(product.prix !== undefined ? product.prix : (product.price !== undefined ? product.price : 0));
+const promoVal = product.prixPromo !== undefined ? parseFloat(product.prixPromo) : (product.promoPrice !== undefined ? parseFloat(product.promoPrice) : null);
+
+const hasPromo = promoVal !== null && !isNaN(promoVal) && promoVal > 0 && promoVal < priceVal;
+let discountBadgeHTML = "";
+
+if(hasPromo && priceVal > 0){
+const discountPercent = Math.round(((priceVal - promoVal) / priceVal) * 100);
+discountBadgeHTML = `<span class="badge-discount">-${discountPercent}%</span>`;
+}
+
+// PRIX PROMO EN ROUGE, PRIX NORMAL/BARRÉ EN BLEU
+const displayPrice = formatPrice(hasPromo ? promoVal : priceVal);
+const oldPriceHTML = hasPromo ? `<span class="price-old">${formatPrice(priceVal)}</span>` : "";
+
+const isVideo = Boolean(video) || /\.(mp4|webm|ogg)(\?|$)/i.test(image);
+const mediaSrc = video || image;
+let mediaHTML = "";
+const t = translations[currentLang];
+
+if(isVideo && mediaSrc){
+mediaHTML = `<video src="${escapeAttribute(mediaSrc)}" controls preload="metadata"></video>`;
+}else if(documentUrl){
+mediaHTML = `<a href="${escapeAttribute(documentUrl)}" target="_blank" rel="noopener noreferrer" class="doc-box"><span>📄</span><p>Document</p></a>`;
+}else if(image){
+mediaHTML = `<img src="${escapeAttribute(image)}" alt="${safeName}" loading="lazy" decoding="async">`;
+}else{
+mediaHTML = `<div class="product-no-image"><strong>📦</strong><span>${t.imageUnavailable}</span></div>`;
+}
+
+return `
+<article class="card" data-product-id="${escapeAttribute(product.id || "")}">
+${product.isRecommande || product.boost ? `<span class="badge-boost">HOT</span>` : ""}
+${discountBadgeHTML}
+<div class="media-container">${mediaHTML}</div>
+<div>
+<div class="market-tags"><span class="tag-express">DAKPROÉLITE</span></div>
+<h3>${safeName}</h3>
+${safeShortDesc ? `<div class="description-complete">${safeShortDesc}</div>` : `<div class="description-complete">${t.selectedArticle}</div>`}
+</div>
+<div>
+<div class="price-container">
+<span class="price">${displayPrice}</span>
+${oldPriceHTML}
+</div>
+<div class="card-actions-row">
+<a href="produit.html?id=${escapeAttribute(product.id || "")}" class="btn-action btn-view">${t.viewBtn}</a>
+<button type="button" class="btn-action btn-cart" data-id="${escapeAttribute(product.id || "")}">${t.cartBtn}</button>
+</div>
+</div>
+</article>
+`;
+}
+
+function renderCarousels(allProducts){
+const containerRelated = document.getElementById("carouselRelated");
+const containerPromos = document.getElementById("carouselPromos");
+
+if(!allProducts || allProducts.length === 0) return;
+
+const promoProducts = allProducts.filter(p => p.isFlash || p.prixPromo || p.boost);
+const promoIds = new Set(promoProducts.map(p => p.id));
+const nonPromoProducts = allProducts.filter(p => !promoIds.has(p.id));
+
+if(containerPromos){
+if(promoProducts.length > 0){
+containerPromos.innerHTML = promoProducts.map(product => generateCardHTML(product)).join("");
+attachCardEvents(containerPromos);
+} else {
+containerPromos.innerHTML = `<div class="empty-message" style="padding:10px;">${translations[currentLang].emptyCategory}</div>`;
+}
+}
+
+if(containerRelated){
+const listToDisplay = nonPromoProducts.length > 0 ? nonPromoProducts : allProducts;
+containerRelated.innerHTML = listToDisplay.slice(0, 50).map(product => generateCardHTML(product)).join("");
+attachCardEvents(containerRelated);
+}
+}
+
+function attachCardEvents(container){
+container.querySelectorAll(".btn-cart").forEach(button => {
+button.addEventListener("click", async event => {
+event.stopPropagation();
+ajouterAuPanierDirect(button.dataset.id, button);
+});
+});
+}
+
+function renderProducts(list){
+const container = document.getElementById("products");
+if(!container) return;
+const t = translations[currentLang];
+
+if(!Array.isArray(list) || list.length === 0){
+container.innerHTML = `<div class="empty-message">${t.emptyCategory}</div>`;
+return;
+}
+
+container.innerHTML = list.map(product => generateCardHTML(product)).join("");
+attachCardEvents(container);
+}
+
+async function ajouterAuPanierDirect(productId, buttonEl){
+const user = auth.currentUser;
+const t = translations[currentLang];
+if(!user){
+alert(currentLang === 'en' ? "Please log in." : "Veuillez vous connecter.");
+window.location.href = "profil-acheteur.html";
+return;
+}
+
+const product = window.allProductsData.find(p => String(p.id) === String(productId));
+if(product){
+try{
+const itemRef = db.ref(`users/${user.uid}/panier/${product.id}`);
+const snapshot = await itemRef.once("value");
+
+let currentQty = 1;
+if(snapshot.exists()){ currentQty = parseInt(snapshot.val().quantite || 0, 10) + 1; }
+
+const unitPrice = parseFloat(product.prixPromo || product.prix || product.price || 0);
+const nameVal = product.nom || product.title || product.name || "Produit";
+const imgVal = product.image || product.imageUrl || product.photo || "";
+const totalPrice = parseFloat((currentQty * unitPrice).toFixed(2));
+
+const payload = {
+id: product.id, nom: nameVal, prixUnitaire: unitPrice, devise: product.devise || "FCFA",
+image: imgVal, quantite: currentQty, total: totalPrice, updatedAt: Date.now()
+};
+
+const updates = {};
+updates[`users/${user.uid}/panier/${product.id}`] = payload;
+updates[`users/${user.uid}/gs/cart/${product.id}`] = payload;
+await db.ref().update(updates);
+
+if(buttonEl){
+const oldText = buttonEl.textContent;
+buttonEl.textContent = t.addedMsg;
+setTimeout(() => { buttonEl.textContent = oldText; }, 1500);
+}
+}catch(error){
+console.error("Erreur panier:", error);
+}
+}
+}
+
+function checkUrlForSharedProduct(){
+const urlParams = new URLSearchParams(window.location.search);
+const productId = urlParams.get("produit") || urlParams.get("pid") || urlParams.get("id");
+if(!productId) return;
+const product = window.allProductsData.find(p => String(p.id) === String(productId));
+if(!product) return;
+
+const modalContainer = document.getElementById("productModalContainer");
+if(!modalContainer) return;
+
+const t = translations[currentLang];
+const priceVal = parseFloat(product.prix || product.price || 0);
+const promoVal = product.prixPromo !== undefined ? parseFloat(product.prixPromo) : null;
+const hasPromo = promoVal !== null && !isNaN(promoVal) && promoVal > 0 && promoVal < priceVal;
+const effectivePrice = hasPromo ? promoVal : priceVal;
+const productName = product.nom || product.title || "Article";
+const productDesc = getLocalizedText(product, 'description', currentLang);
+
+modalContainer.innerHTML = `
+<div class="modal-overlay">
+<div class="modal-content">
+<img src="${escapeAttribute(product.image || product.imageUrl || "")}" alt="Produit" style="width:100%;height:auto;max-height:180px;object-fit:contain;background:#080b10;border-radius:8px;margin-bottom:10px;">
+<h2 style="color:var(--gold);margin-bottom:6px;font-size:16px;">${escapeHTML(productName)}</h2>
+<div class="price-container" style="margin-bottom:10px;">
+<span class="price" style="font-size:16px;">${formatPrice(effectivePrice)}</span>
+${hasPromo ? `<span class="price-old">${formatPrice(priceVal)}</span>` : ""}
+</div>
+<p style="color:#ccc;font-size:12px;line-height:1.4;margin-bottom:12px;">${escapeHTML(productDesc)}</p>
+<div style="display:flex;gap:8px;">
+<button class="btn-action btn-cart" id="btnModalAddToCart" style="padding:8px;">${t.modalBuy}</button>
+<button class="btn-action" id="btnModalClose" style="background:#222;color:#fff;">${t.modalClose}</button>
+</div>
+</div>
+</div>
+`;
+
+document.getElementById("btnModalAddToCart")?.addEventListener("click", () => ajouterAuPanierDirect(productId, document.getElementById("btnModalAddToCart")));
+document.getElementById("btnModalClose")?.addEventListener("click", () => modalContainer.innerHTML = "");
+}
+
+function loadBanners(){
+db.ref("bannieres").on("value", snapshot => {
+const data = snapshot.val();
+const container = document.getElementById("bannerContainer");
+const track = document.getElementById("bannerTrack");
+const dots = document.getElementById("bannerDots");
+if(!container || !track || !dots) return;
+
+if(!data || typeof data !== "object"){ container.style.display = "none"; return; }
+
+const banners = Object.entries(data).map(([id,banner]) => ({ id, ...banner })).filter(banner => banner && banner.actif !== false);
+if(!banners.length){ container.style.display = "none"; return; }
+
+totalSlides = banners.length;
+track.innerHTML = banners.map(banner => `
+<div class="banner-slide">
+<img src="${escapeAttribute(banner.image || "")}" alt="Publicité" loading="lazy" decoding="async">
+<div class="banner-content">
+${banner.titre ? `<h3>${escapeHTML(getLocalizedText(banner, 'titre', currentLang))}</h3>` : ""}
+${banner.description ? `<p>${escapeHTML(getLocalizedText(banner, 'description', currentLang))}</p>` : ""}
+</div>
+</div>
+`).join("");
+
+dots.innerHTML = banners.map((_, index) => `<span class="dot ${index === 0 ? "active" : ""}" data-slide="${index}"></span>`).join("");
+dots.querySelectorAll(".dot").forEach(dot => {
+dot.addEventListener("click", (e) => { e.stopPropagation(); currentIndex = Number(dot.dataset.slide); updateSlide(); });
+});
+
+currentIndex = 0; updateSlide();
+container.style.display = "block";
+if(autoPlay) clearInterval(autoPlay);
+autoPlay = setInterval(() => { currentIndex = (currentIndex + 1) % totalSlides; updateSlide(); }, 4000);
+});
+}
+
+function updateSlide(){
+const track = document.getElementById("bannerTrack");
+const dots = document.querySelectorAll(".dot");
+if(!track) return;
+track.style.transform = `translateX(-${currentIndex * 100}%)`;
+dots.forEach((dot, index) => dot.classList.toggle("active", index === currentIndex));
+}
+
+document.getElementById("btnBannerPrev")?.addEventListener("click", (e) => { e.stopPropagation(); if(totalSlides <= 0) return; currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; updateSlide(); });
+document.getElementById("btnBannerNext")?.addEventListener("click", (e) => { e.stopPropagation(); if(totalSlides <= 0) return; currentIndex = (currentIndex + 1) % totalSlides; updateSlide(); });
+document.getElementById("btnBannerPause")?.addEventListener("click", (e) => {
+e.stopPropagation();
+if(autoPlay){ clearInterval(autoPlay); autoPlay = null; e.target.textContent = "▶"; }
+else{ autoPlay = setInterval(() => { currentIndex = (currentIndex + 1) % totalSlides; updateSlide(); }, 4000); e.target.textContent = "⏸"; }
+});
+
+function applyAnnouncement(data) {
+const title = document.getElementById("fayaBuzzTitle");
+const text = document.getElementById("fayaBuzzText");
+if(!title || !text) return;
+if(!data || data.actif === false) return;
+
+const localizedTitle = getLocalizedText(data, 'titre', currentLang) || data.titre || translations[currentLang].officialAnnouncement;
+const localizedText = getLocalizedText(data, 'texte', currentLang) || data.texte || "";
+
+title.textContent = localizedTitle;
+text.textContent = localizedText;
+}
+
+function loadAnnouncement(){
+db.ref("annonces/faya_buzz").on("value", snapshot => {
+const data = snapshot.val();
+announcementDataCache = data;
+applyAnnouncement(data);
+});
+}
+
+if(window.allProductsData.length > 0){
+  renderProducts(window.allProductsData);
+  renderCarousels(window.allProductsData);
+}
+
+loadProducts();
+loadBanners();
+loadAnnouncement();
+</script>
+
+</body>
+</html>
