@@ -7,6 +7,9 @@
   "engines": {
     "node": ">=20"
   },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
   "scripts": {
     "dev": "vercel dev",
     "start": "vercel dev",
