@@ -2,10 +2,6 @@
   "version": 2,
   "routes": [
     {
-      "src": "/api/cj",
-      "dest": "/api/cj.js"
-    },
-    {
       "src": "/api/(.*)",
       "dest": "/api/cj.js"
     },
