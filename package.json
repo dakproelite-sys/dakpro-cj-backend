@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "express": "^4.19.2",
-    "axios": "^1.6.8"
+    "axios": "^1.6.8",
+    "cors": "^2.8.5"
   },
   "scripts": {
     "dev": "vercel dev",
