@@ -2,22 +2,8 @@
   "name": "dakpro-elite-cj-importer",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
-  "description": "DAKPRO ÉLITE - Importateur international CJ Dropshipping",
-  "engines": {
-    "node": ">=20"
-  },
   "dependencies": {
-    "express": "^4.19.2",
     "axios": "^1.6.8",
-    "cors": "^2.8.5"
-  },
-  "scripts": {
-    "dev": "vercel dev",
-    "start": "vercel dev",
-    "deploy": "vercel --prod"
-  },
-  "devDependencies": {
-    "vercel": "^48.0.0"
+    "firebase-admin": "^12.0.0"
   }
 }
