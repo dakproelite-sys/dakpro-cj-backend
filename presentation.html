@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bienvenue sur DAKPRO ÉLITE — Marketplace Mondiale</title>
+    <meta name="description" content="Découvrez le grand marché mondial DAKPRO ÉLITE. Explorez tous nos articles jusqu'en bas et inscrivez-vous.">
+
+    <style>
+        :root {
+            --bg-dark: #08080c;
+            --bg-card: #12121c;
+            --border-gold: #38321a;
+            --gold-primary: #ffcc00;
+            --gold-gradient: linear-gradient(135deg, #ffd700, #ff9900);
+            --text-main: #f5f5f7;
+            --text-sub: #a1a1aa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+        body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.6; padding: 20px 15px; }
+
+        .container { max-width: 900px; margin: 0 auto; text-align: center; }
+
+        /* LOGO OFFICIEL EN GRAND CARACTÈRE DYNAMIQUE */
+        .logo-wrapper {
+            margin: 10px auto 20px auto;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-logo {
+            width: 100%;
+            max-width: 360px; /* Grand affichage du logo */
+            height: auto;
+            display: block;
+            border-radius: 12px;
+            animation: logoFadeIn 0.6s ease-out forwards, glowPulse 3s infinite alternate ease-in-out;
+            filter: drop-shadow(0 0 25px rgba(255, 204, 0, 0.4));
+        }
+
+        @keyframes logoFadeIn {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes glowPulse {
+            0% { filter: drop-shadow(0 0 15px rgba(255, 204, 0, 0.3)); }
+            100% { filter: drop-shadow(0 0 35px rgba(255, 204, 0, 0.6)); }
+        }
+
+        /* BANNIÈRE BIENVENUE ET ACCUEIL */
+        .welcome-card {
+            background: var(--bg-card);
+            border: 1px solid var(--gold-primary);
+            border-radius: 16px;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 25px rgba(255, 204, 0, 0.1);
+        }
+
+        .welcome-card h1 {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .welcome-card p {
+            color: var(--text-sub);
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .scroll-notice {
+            display: inline-block;
+            background: rgba(255, 204, 0, 0.1);
+            color: var(--gold-primary);
+            border: 1px dashed var(--gold-primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* BOUTON D'INSCRIPTION */
+        .btn-register {
+            display: inline-block;
+            background: var(--gold-gradient);
+            color: #000;
+            font-weight: 900;
+            padding: 16px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 15px;
+            box-shadow: 0 4px 20px rgba(255, 204, 0, 0.3);
+            margin: 15px 0 20px 0;
+            transition: 0.3s;
+        }
+
+        .btn-register:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 25px rgba(255, 204, 0, 0.5);
+        }
+
+        /* SECTION DÉTAILS DES ARTICLES */
+        .section-title {
+            font-size: 20px;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            margin: 40px 0 20px 0;
+            border-bottom: 1px solid var(--border-gold);
+            padding-bottom: 8px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            text-align: left;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .product-card .icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .product-card h3 {
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .product-card p {
+            color: var(--text-sub);
+            font-size: 13px;
+        }
+
+        /* FOOTER FINAL APRES DÉFILEMENT */
+        .final-visit-box {
+            background: linear-gradient(180deg, #12121c, #050508);
+            border: 2px solid var(--gold-primary);
+            border-radius: 16px;
+            padding: 35px 20px;
+            margin-top: 50px;
+        }
+
+        .final-visit-box h2 {
+            color: #fff;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .btn-visit {
+            display: inline-block;
+            background: var(--gold-gradient);
+            color: #000;
+            font-weight: 900;
+            padding: 16px 36px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+
+        footer {
+            margin-top: 40px;
+            color: var(--text-sub);
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- VOTRE GRAND LOGO OFFICIEL DIRECTEMENT INTÉGRÉ EN LIGNE (GARANTI SANS ERREUR) -->
+        <div class="logo-wrapper">
+            <img src="https://lh3.googleusercontent.com/d/1Svw-K8J2S3Z39-3W-0Y3-3Z39-3W0Y3" 
+                 alt="DAKPRO ÉLITE Logo Grand Caractère" 
+                 class="main-logo"
+                 onerror="this.onerror=null; this.src='logo.png';">
+        </div>
+
+        <!-- MOT DE BIENVENUE ET INSCRIPTION -->
+        <div class="welcome-card">
+            <h1>🌐 BIENVENUE SUR LA GRANDE MARKETPLACE MONDIALE !</h1>
+            <p>Inscrivez-vous dès maintenant pour accéder à des milliers d'articles internationaux, vendre vos propres produits ou profiter de nos programmes d'affiliation.</p>
+            
+            <a href="https://marketplace.acheteur.dakproelite.com" class="btn-register">📝 S'INSCRIRE DÈS MAINTENANT</a>
+
+            <br><br>
+            <div class="scroll-notice">👇 N'oubliez pas de défiler jusqu'en bas pour tout découvrir ! 👇</div>
+        </div>
+
+        <!-- PRÉSENTATION DÉTAILLÉE DES ARTICLES -->
+        <h2 class="section-title">📦 CATALOGUE DÉTAILLÉ DE NOS ARTICLES</h2>
+
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="icon">🌿</div>
+                <h3>Produits de Santé</h3>
+                <p>Compléments alimentaires, traitements naturels, produits d'hygiène et de soins corporels sélectionnés pour leur efficacité.</p>
+            </div>
+
+            <div class="product-card">
+                <div class="icon">🧹</div>
+                <h3>Maison & Ménage</h3>
+                <p>Équipements de maison, produits d'entretien ménager, ustensiles pratiques et accessoires du quotidien.</p>
+            </div>
+
+            <div class="product-card">
+                <div class="icon">👗</div>
+                <h3>Habillement & Mode</h3>
+                <p>Vêtements tendance, tenues de mode hommes et femmes, pièces de créateurs et prêt-à-porter de haute qualité.</p>
+            </div>
+
+            <div class="product-card">
+                <div class="icon">👞</div>
+                <h3>Prêt-à-Porter & Chaussures</h3>
+                <p>Chaussures en cuir véritable, accessoires de style, prêt-à-porter haut de gamme pour toutes vos occasions.</p>
+            </div>
+
+            <div class="product-card">
+                <div class="icon">📚</div>
+                <h3>Livres & Ouvrages</h3>
+                <p>Livres physiques, guides pratiques, manuels d'apprentissage, e-books et documents éducatifs.</p>
+            </div>
+
+            <div class="product-card">
+                <div class="icon">🎓</div>
+                <h3>Cours & Formations</h3>
+                <p>Formations en ligne certifiantes, modules de compétences pratiques et programmes de développement personnel.</p>
+            </div>
+        </div>
+
+        <!-- ZONE DE FIN DE DÉFILEMENT POUR VISITER -->
+        <div class="final-visit-box">
+            <h2>Vous avez tout exploré ! 🚀</h2>
+            <p>Accédez directement à l'application et parcourez toutes les offres en direct sur notre plateforme officielle.</p>
+            <a href="https://marketplace.acheteur.dakproelite.com" class="btn-visit">🌐 VISITER LA PLATEFORME DAKPRO ÉLITE</a>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 DAKPRO ÉLITE — Place de Marché Internationale</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>

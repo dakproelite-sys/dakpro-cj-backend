@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Admin - Publication Métiers & Professionnels | DAKPROÉLITE</title>
+
+<link rel="icon" type="image/png" href="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+:root{
+  --gold:#d4af37;
+  --gold-light:#f3e5ab;
+  --black:#050505;
+  --dark:#0b0e13;
+  --soft-dark:#12161f;
+  --white:#ffffff;
+  --gray:#888888;
+  --red:#dc2626;
+  --green:#15803d;
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ min-height:100vh; background:var(--black); color:var(--white); font-family:'Poppins',sans-serif; padding:15px; }
+
+.admin-card{
+  max-width:680px;
+  margin:20px auto;
+  background:var(--soft-dark);
+  border:1px solid var(--gold);
+  border-radius:14px;
+  padding:22px;
+  box-shadow:0 8px 24px rgba(212,175,55,0.15);
+}
+
+.admin-header{
+  text-align:center;
+  margin-bottom:20px;
+  border-bottom:1px solid rgba(212,175,55,0.3);
+  padding-bottom:12px;
+}
+
+.admin-header h2{
+  color:var(--gold);
+  font-size:18px;
+  font-weight:800;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.full-width{
+  grid-column:1 / -1;
+}
+
+.form-group{
+  margin-bottom:10px;
+}
+
+label{
+  display:block;
+  font-size:11px;
+  color:var(--gold-light);
+  margin-bottom:4px;
+  font-weight:600;
+}
+
+input, select, textarea{
+  width:100%;
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid rgba(212,175,55,0.3);
+  background:#000;
+  color:#fff;
+  font-size:12px;
+  outline:none;
+}
+
+input:focus, select:focus, textarea:focus{
+  border-color:var(--gold);
+}
+
+/* SÉLECTEUR DE MÉTIERS AVEC RECHERCHE INSTANTANÉE */
+.search-select { position: relative; width: 100%; }
+.display {
+  background: #000;
+  border: 1px solid rgba(212,175,55,0.3);
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #fff;
+}
+.display:hover { border-color: var(--gold); }
+.display .arrow { font-size: 0.9rem; opacity: 0.7; color: var(--gold); }
+.dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0; right: 0;
+  background: #12161f;
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  max-height: 320px;
+  overflow: hidden;
+  z-index: 100;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.8);
+}
+.dropdown.open { display: block; }
+.search-box { padding: 10px; border-bottom: 1px solid rgba(212,175,55,0.2); background: #000; }
+.search-box input {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(212,175,55,0.4);
+  background: #000;
+  color: #fff;
+  font-size: 12px;
+  outline: none;
+}
+.search-box input:focus { border-color: var(--gold); }
+.options { max-height: 220px; overflow-y: auto; }
+.option {
+  padding: 10px 14px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: background 0.12s;
+  font-size: 11.5px;
+  color: #e2e8f0;
+}
+.option:hover, .option.selected { background: #222b3d; color: var(--gold-light); }
+.option.hidden { display: none; }
+.no-result {
+  padding: 15px;
+  text-align: center;
+  color: #94a3b8;
+  display: none;
+  font-size: 11px;
+}
+.count-text { font-size: 9.5px; color: var(--gray); margin-top: 3px; }
+
+.preview-box {
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #0d0d11;
+  border: 1px dashed rgba(212,175,55,0.4);
+  border-radius: 8px;
+  padding: 10px;
+  gap: 10px;
+  margin-top: 6px;
+}
+.preview-canvas { width: 100%; max-width: 280px; height: 160px; object-fit: cover; border-radius: 7px; background: #080b10; border: 1px solid var(--gold); display: none; }
+.preview-video { width: 100%; max-width: 280px; height: 160px; object-fit: cover; border-radius: 7px; background: #000; border: 1px solid var(--gold); display: none; }
+
+.btn-submit{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:24px;
+  background:linear-gradient(135deg, var(--gold), #aa8c2c);
+  color:#000;
+  font-weight:800;
+  font-size:14px;
+  cursor:pointer;
+  margin-top:15px;
+  transition:transform 0.2s;
+}
+
+.btn-submit:active{ transform:scale(0.98); }
+.btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.status-msg{
+  margin-top:12px;
+  text-align:center;
+  font-size:12px;
+  font-weight:600;
+}
+
+@media(max-width:600px){
+  .form-grid{ grid-template-columns:1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="admin-card">
+  <div class="admin-header">
+    <h2>🛠️ Publication Administrateur — Profil Métier</h2>
+    <p style="font-size:11px; color:#aaa;">Enregistrement des professionnels certifiés sur DAKPROÉLITE via Cloudinary</p>
+  </div>
+
+  <form id="publicationForm">
+    <div class="form-grid">
+      
+      <div class="form-group full-width">
+        <label>Nom du Professionnel / Raison Sociale *</label>
+        <input type="text" id="nom" required placeholder="Ex: Garage Automobile Excellence">
+      </div>
+
+      <!-- SÉLECTEUR DE MÉTIERS AVEC RECHERCHE INSTANTANÉE -->
+      <div class="form-group full-width">
+        <label>Corps de Métier / Production *</label>
+        <div class="search-select" id="metierSelect">
+          <div class="display" id="display">
+            <span id="displayText">Sélectionner un métier ou une production...</span>
+            <span class="arrow">▼</span>
+          </div>
+          <div class="dropdown" id="dropdown">
+            <div class="search-box">
+              <input type="text" id="searchInput" placeholder="Rechercher (ex: anacarde, maçon, mécanicien...)" autocomplete="off">
+            </div>
+            <div class="options" id="optionsList"></div>
+            <div class="no-result" id="noResult">Aucun résultat trouvé</div>
+          </div>
+        </div>
+        <div class="count-text" id="countText"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Pays *</label>
+        <input type="text" id="pays" required value="Bénin">
+      </div>
+
+      <div class="form-group">
+        <label>Département / Région *</label>
+        <input type="text" id="departement" required placeholder="Ex: Littoral, Ouémé, Borgou...">
+      </div>
+
+      <div class="form-group">
+        <label>Ville / Adresse Complète *</label>
+        <input type="text" id="ville" required placeholder="Ex: Cotonou, Akpakpa Rue 12">
+      </div>
+
+      <div class="form-group">
+        <label>Numéro d'Appel Direct *</label>
+        <input type="tel" id="telephone" required placeholder="+2290100000000">
+      </div>
+
+      <div class="form-group">
+        <label>Numéro WhatsApp *</label>
+        <input type="tel" id="whatsapp" required placeholder="+2290100000000">
+      </div>
+
+      <div class="form-group full-width">
+        <label>Description Complète du Service / Prestation *</label>
+        <textarea id="description" rows="4" required placeholder="Détaillez les compétences, l'expérience, la garantie des services..."></textarea>
+      </div>
+
+      <!-- SÉLECTEUR UNIVERSEL DE MÉDIAS AVEC APERÇU ET PROGRESSION -->
+      <div class="form-group full-width">
+        <label><i class="fa-solid fa-folder-open"></i> Fichier Multimédia (Image, Vidéo ou Document) *</label>
+        <input type="file" id="adminUniversalFile" accept="image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.txt" required>
+        <small id="fileInfoLabel" style="color: var(--gold-light); font-size: 10px; margin-top: 4px; display:block;"></small>
+        
+        <div class="preview-box">
+            <canvas id="imageCanvas" class="preview-canvas"></canvas>
+            <video id="videoPreview" class="preview-video" controls playsinline></video>
+            <div id="documentPreview" style="display:none; text-align:center;">
+                <i class="fa-solid fa-file-lines" style="font-size:36px; color:var(--gold); margin-bottom:6px;"></i><br>
+                <a id="documentLinkBtn" href="#" target="_blank" style="color:var(--gold); font-size:11px; text-decoration:underline;">📄 Document prêt</a>
+            </div>
+            <span id="previewText" style="color:var(--gray); font-size:11px; text-align:center;">Aperçu du média sélectionné...</span>
+        </div>
+      </div>
+
+    </div>
+
+    <button type="submit" class="btn-submit" id="btnSubmit">🚀 Publier le Profil Métier</button>
+    <div class="status-msg" id="statusMessage"></div>
+  </form>
+</div>
+
+<!-- SDK FIREBASE & LOGIQUE CLOUDINARY -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDR7INHKaazaqZt-xIcjk10JFiy58uXKO8",
+  authDomain: "dakproelite.firebaseapp.com",
+  databaseURL: "https://dakproelite-default-rtdb.firebaseio.com",
+  projectId: "dakproelite",
+  storageBucket: "dakproelite.firebasestorage.app",
+  messagingSenderId: "580591769206",
+  appId: "1:580591769206:web:4f67f8aadbf3d051087157"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const CLOUDINARY_CLOUD_NAME = "iufene3y";
+const CLOUDINARY_UPLOAD_PRESET = "dakproelite_preset";
+
+const metiers = [
+  "Producteur de coton","Producteur d'anacarde","Producteur de noix de cajou","Producteur de maïs","Producteur de sorgho","Producteur de manioc","Producteur d'igname","Producteur de riz","Producteur d'ananas","Producteur d'arachide","Producteur de soja","Producteur de cacao","Producteur de palmier à huile","Producteur d'huile de palme","Producteur de tomate","Producteur de piment","Producteur d'oignon","Producteur de gombo","Producteur de pastèque","Producteur de melon","Producteur de banane plantain","Producteur de banane douce","Producteur de karité","Producteur de noix de karité","Producteur de café","Producteur de canne à sucre","Producteur de mil","Producteur de petit mil","Producteur de fonio","Producteur de haricot","Producteur de niébé","Producteur de voandzou","Producteur de sésame","Producteur de gingembre","Producteur de curcuma","Producteur de papaye","Producteur de mangue","Producteur d'orange","Producteur de citron","Producteur d'avocat","Producteur de noix de coco","Producteur de tabac","Producteur de légumes feuilles","Producteur de chou","Producteur de carotte","Producteur de laitue","Producteur de concombre","Producteur d'aubergine","Producteur de patate douce","Producteur de taro","Producteur de plantain","Producteur de noix de kola","Producteur de baobab","Producteur de moringa","Producteur de neem","Producteur de jatropha","Producteur de sésame blanc","Producteur de sésame noir","Producteur de pois d'angole","Producteur de lentille","Producteur de pois chiche","Producteur de quinoa","Producteur de blé","Producteur d'orge","Producteur de seigle","Producteur de tournesol","Producteur de colza","Producteur de lin","Producteur de chanvre","Producteur de kenaf","Producteur de jute","Producteur de sisal","Producteur de raphia","Producteur de bambou","Producteur de rotin","Producteur de caoutchouc","Producteur de thé","Producteur de cacao fin","Producteur de cacao robusta","Producteur de vanille","Producteur de poivre","Producteur de cannelle","Producteur de clou de girofle","Producteur de muscade","Producteur de cardamome","Producteur de coriandre","Producteur de cumin","Producteur de fenouil","Producteur de menthe","Producteur de basilic","Producteur de persil","Producteur de coriandre fraîche","Producteur d'ail","Producteur d'échalote","Producteur de poireau","Producteur de céleri","Producteur de betterave","Producteur de radis","Producteur de navet","Producteur de potiron","Producteur de courge","Producteur de courgette","Producteur de concombre africain","Producteur de gombo rouge","Producteur de piment fort","Producteur de piment doux","Producteur de poivron","Producteur de tomate cerise","Producteur de tomate industrielle","Producteur de fraise","Producteur de pastèque naine","Producteur de melon d'eau","Producteur de goyave","Producteur de corossol","Producteur de pomme cannelle","Producteur de safou","Producteur de rônier","Producteur de néré","Producteur de karité sauvage","Producteur de tamarin","Producteur de jujube","Producteur de dattes","Producteur de figue de barbarie","Producteur de cactus","Producteur de spiruline","Producteur de champignons","Producteur de pleurotes","Producteur de shiitake","Producteur de truffes","Producteur de miel de forêt","Producteur de miel d'acacia","Producteur de pollen","Producteur de propolis","Producteur de gelée royale",
+  "Transformateur d'anacarde","Transformateur de noix de cajou","Transformateur de coton","Transformateur de manioc","Transformateur d'igname","Transformateur de maïs","Transformateur de sorgho","Transformateur de riz","Transformateur d'ananas","Transformateur de soja","Transformateur de cacao","Transformateur d'huile de palme","Transformateur de karité","Sécheur de manioc","Sécheur de fruits","Sécheur de légumes","Fabricant de gari","Fabricant de farine de manioc","Fabricant de farine de maïs","Fabricant d'attiéké","Fabricant de tapioca","Fabricant de cossettes de manioc","Égreneur de coton","Égreneur d'anacarde","Décortiqueur d'anacarde","Huilier (huile de palme)","Huilier (huile d'arachide)","Huilier (huile de soja)","Savonner (savon de karité)","Fabricant de beurre de karité","Fabricant de savon artisanal","Fabricant de savon liquide","Fabricant de lessive","Fabricant de cosmétique au karité","Fabricant de crème au beurre de karité","Fabricant de baume à lèvres","Fabricant de savon noir","Fabricant de savon de Marseille artisanal","Fabricant de confiture d'ananas","Fabricant de confiture de mangue","Fabricant de confiture de papaye","Fabricant de jus d'ananas","Fabricant de jus de mangue","Fabricant de jus de bissap","Fabricant de jus de gingembre","Fabricant de sirop de bissap","Fabricant de sirop de gingembre","Fabricant de sirop de tamarin","Fabricant de farine de banane","Fabricant de chips de banane","Fabricant de chips de manioc","Fabricant de chips d'igname","Fabricant de farine d'igname","Fabricant de foufou","Fabricant de pâte d'arachide","Fabricant de beurre d'arachide","Fabricant de sauce arachide","Fabricant de moutarde artisanale","Fabricant de vinaigre artisanal","Fabricant de vin de palme","Fabricant de sodabi","Fabricant de tchapalo","Fabricant de dolo","Fabricant de bière artisanale","Fabricant de vin de raisin local","Fabricant de liqueur de cacao","Fabricant de chocolat artisanal","Fabricant de tablette de cacao","Fabricant de poudre de cacao","Fabricant de beurre de cacao","Fabricant de pain de singe","Fabricant de farine de baobab","Fabricant de jus de baobab","Fabricant de sirop de baobab","Fabricant de poudre de moringa","Fabricant de thé de moringa","Fabricant de capsules de moringa","Fabricant de savon au neem","Fabricant d'huile de neem","Fabricant de pesticide bio","Fabricant d'engrais organique","Fabricant de compost","Fabricant de biochar","Fabricant de biocarburant","Fabricant de biodiesel","Fabricant de bioéthanol",
+  "Agriculteur","Éleveur","Maraîcher","Viticulteur","Arboriculteur","Pisciculteur","Sylviculteur","Horticulteur","Pépiniériste","Floriculteur","Éleveur de bovins","Éleveur de porcs","Éleveur de volailles","Éleveur de caprins","Éleveur d'ovins","Éleveur de lapins","Éleveur de poissons","Éleveur d'escargots","Éleveur d'abeilles","Éleveur de vers de farine","Éleveur de criquets","Éleveur de canards","Éleveur d'oies","Éleveur de dindes","Éleveur de pintades","Éleveur de cailles","Éleveur de pigeons","Éleveur de cobayes","Éleveur de moutons","Éleveur de chèvres laitières","Éleveur de vaches laitières","Éleveur de bœufs de trait","Éleveur de chevaux","Éleveur d'ânes","Éleveur de chameaux","Éleveur de dromadaires","Éleveur de buffles","Éleveur de sangliers","Éleveur de cerfs","Éleveur d'autruches","Éleveur d'émeus","Éleveur de crocodiles","Éleveur de serpents","Éleveur de grenouilles","Éleveur de crevettes","Éleveur de crabes","Éleveur d'huîtres","Éleveur de moules","Éleveur de tilapias","Éleveur de silures","Éleveur de carpes","Éleveur de poissons-chats","Conducteur d'engins agricoles","Mécanicien agricole","Technicien de maintenance agricole","Vendeur de matériel agricole","Conseiller en agroéquipement","Technicien en irrigation","Installateur d'irrigation","Installateur de forage","Ingénieur agronome","Technicien agricole","Conseiller agricole","Agronome","Phytotechnicien","Zootechnicien","Vétérinaire","Auxiliaire vétérinaire","Insémínateur","Apiculteur","Producteur de miel",
+  "Fabricant de groupes électrogènes","Assembleur de groupes électrogènes","Réparateur de groupes électrogènes","Vendeur de groupes électrogènes","Fabricant de machines agricoles","Fabricant de tracteurs","Fabricant de motoculteurs","Fabricant de pulvérisateurs","Fabricant de semoirs","Fabricant de moissonneuses","Fabricant de batteuses","Fabricant de décortiqueuses","Fabricant d'égreneuses","Fabricant de moulins","Fabricant de moulins à farine","Fabricant de moulins à huile","Fabricant de presses à huile","Fabricant de presses à karité","Fabricant de photocopieurs","Réparateur de photocopieurs","Technicien photocopieurs","Fabricant d'imprimantes","Réparateur d'imprimantes","Technicien imprimantes","Fabricant de jouets","Fabricant de jouets en bois","Fabricant de jouets en plastique","Fabricant de jouets éducatifs","Assembleur de jouets","Fabricant de machines-outils","Fabricant de tours","Fabricant de fraiseuses","Fabricant de scies","Fabricant de raboteuses","Fabricant de perceuses","Fabricant de compresseurs","Fabricant de pompes","Fabricant de motopompes","Fabricant de générateurs solaires","Fabricant de panneaux solaires","Fabricant de onduleurs","Fabricant de batteries","Fabricant de chargeurs","Fabricant de machines à coudre","Réparateur de machines à coudre","Fabricant de machines à laver","Réparateur de machines à laver","Fabricant de réfrigérateurs","Réparateur de réfrigérateurs","Fabricant de climatiseurs","Réparateur de climatiseurs","Fabricant de ventilateurs","Fabricant de cuisinières","Fabricant de foyers améliorés","Fabricant de fours","Fabricant de séchoirs","Fabricant de fumoirs","Fabricant de presses à imprimer","Fabricant de machines d'imprimerie","Fabricant de photocopieurs industriels","Fabricant de scanners","Fabricant de machines de conditionnement","Fabricant de machines d'emballage","Fabricant de convoyeurs","Fabricant de mélangeurs","Fabricant de broyeurs","Fabricant de cribleuses","Fabricant de trieurs","Fabricant de calibrateurs","Fabricant de machines à pain","Fabricant de pétrins","Fabricant de fours à pain","Fabricant de machines à glace","Fabricant de machines à jus","Fabricant de machines à café","Fabricant de machines à popcorn","Fabricant de machines à coudre industrielles","Fabricant de métiers à tisser","Fabricant de machines de tricot","Fabricant de machines de broderie","Fabricant de machines de teinture","Fabricant de machines de finition textile","Fabricant de machines de menuiserie","Fabricant de machines à bois","Fabricant de scies à ruban","Fabricant de raboteuses-dégauchisseuses","Fabricant de toupies","Fabricant de mortaiseuses","Fabricant de machines de soudure","Fabricant de postes à souder","Fabricant de découpeuses plasma","Fabricant de cintreuses","Fabricant de presses hydrauliques","Fabricant de cisailleuses","Fabricant de machines de construction","Fabricant de bétonnières","Fabricant de vibro-finisseurs","Fabricant de compacteurs","Fabricant de niveleuses","Fabricant de chargeuses","Fabricant de pelles","Fabricant de grues","Fabricant de chariots élévateurs","Fabricant de groupes électrogènes diesel","Fabricant de groupes électrogènes essence","Fabricant de groupes électrogènes solaires","Fabricant de groupes hybrides","Assembleur de moteurs","Réparateur de moteurs","Rebobineur de moteurs","Fabricant d'alternateurs","Fabricant de démarreurs","Fabricant de dynamo","Fabricant de moteurs électriques","Fabricant de moteurs diesel","Fabricant de moteurs essence","Fabricant de moteurs hors-bord","Fabricant de moteurs de bateaux","Fabricant de moteurs de motos","Fabricant de moteurs de vélos électriques","Fabricant de batteries lithium","Fabricant de batteries au plomb","Fabricant de panneaux photovoltaïques","Fabricant d'onduleurs solaires","Fabricant de régulateurs solaires","Fabricant de pompes solaires","Fabricant de lampes solaires","Fabricant de lanternes solaires","Fabricant de chargeurs solaires","Fabricant de kits solaires","Fabricant de transformateurs","Fabricant de transformateurs électriques","Fabricant de disjoncteurs","Fabricant de tableaux électriques","Fabricant de câbles électriques","Fabricant de fils électriques","Fabricant de prises électriques","Fabricant d'interrupteurs","Fabricant de lampes LED","Fabricant de néons","Fabricant de projecteurs","Fabricant de projecteurs LED","Fabricant de caméras de surveillance","Fabricant d'alarmes","Fabricant de détecteurs de mouvement","Fabricant de serrures électroniques","Fabricant de digicodes","Fabricant de portails automatiques","Fabricant de barrières automatiques","Fabricant de bornes de recharge","Fabricant de bornes de recharge électrique","Fabricant de stations de recharge","Fabricant de bornes de paiement","Fabricant de distributeurs automatiques","Fabricant de distributeurs de billets","Fabricant de caisses enregistreuses","Fabricant de terminaux de paiement","Fabricant de lecteurs de cartes","Fabricant de scanners de codes-barres","Fabricant de balances électroniques","Fabricant de balances de précision","Fabricant de balances industrielles","Fabricant de balances de commerce","Fabricant de balances de cuisine","Fabricant de balances de salle de bain",
+  "Maçon","Coffreur","Ferrailleur","Plaquiste","Plâtrier","Carreleur","Faïencier","Peintre en bâtiment","Enduiseur","Couvreur","Charpentier","Charpentier métallique","Serrurier","Métallier","Soudeur","Chaudronnier","Tuyauteur","Monteur en structure métallique","Électricien","Électricien bâtiment","Électricien industriel","Installateur solaire","Technicien frigoriste","Plombier","Chauffagiste","Installateur sanitaire","Déboucheur","Zingueur","Menuisier","Ébéniste","Agenceur","Poseur de parquet","Poseur de cuisines","Poseur de portes et fenêtres","Poseur de stores","Poseur de volets","Vitrier","Miroitier","Isolation thermique","Isolation phonique","Étancheur","Démolisseur","Curiste","Désamianteur","Conducteur de travaux","Chef de chantier","Métreur","Économiste de la construction","Architecte","Architecte d'intérieur","Dessinateur projeteur","Géomètre","Urbaniste","Paysagiste","Poseur de plaques de plâtre","Plaquiste-enduiseur","Carreleur-mosaïste","Poseur de sols souples","Poseur de moquette","Poseur de parquet flottant","Menuisier poseur","Serrurier-métallier","Fabricant de portails","Fabricant de grilles","Ferronnier","Zingueur-couvreur","Couvreur-zingueur","Couvreur ardoisier","Couvreur tuilier","Étancheur-couvreur","Bardage","Charpentier traditionnel","Charpentier lamellé-collé","Monteur de structures bois","Constructeur de maisons à ossature bois","Éco-constructeur","Installateur de pompes à chaleur","Installateur de chaudières","Installateur de panneaux solaires thermiques","Installateur de panneaux photovoltaïques","Technicien en énergies renouvelables","Électricien solaire","Installateur de bornes de recharge","Technicien en domotique","Installateur domotique","Technicien en alarmes","Installateur d'alarmes","Installateur de vidéosurveillance","Électricien d'ascenseurs","Ascensoriste","Technicien de maintenance ascenseurs","Réparateur d'électroménager","Technicien SAV électroménager","Réparateur de machines à laver","Réparateur de réfrigérateurs","Réparateur de climatisation","Technicien clim","Frigoriste","Technicien froid et climatisation","Installateur de cuisines","Poseur de salles de bain","Agenceur de magasins","Agenceur de bureaux","Menuisier d'agencement","Ébéniste d'agencement","Tapissier d'ameublement","Tapissier-décorateur","Ouvrier polyvalent du bâtiment","Manœuvre","Aide de chantier","Terrassier","Canalisateur","Poseur de canalisations","Asphalteur","Ouvrier de voirie","Paveur","Poseur de bordures","Enduiseur façade","Ravalement de façade","Isolation par l'extérieur","ITE","Grutier","Pelleteux","Chauffeur d'engins","Conducteur d'engins de chantier","Échafaudeur","Cordiste","Travailleur en hauteur","Grutier mobile","Grutier à tour","Pontier","Manutentionnaire","Briqueteur","Parpailleur","Poseur de parpaings","Poseur de briques","Poseur de blocs","Coffreur-bancheur","Coffreur de plancher","Coffreur de poteaux","Ferrailleur de plancher","Ferrailleur de poteaux","Ferrailleur de poutres","Poseur de treillis soudé","Poseur de chainage","Poseur de linteaux","Poseur de seuils","Poseur de marches","Poseur d'escaliers","Poseur de garde-corps","Poseur de rambardes","Poseur de balustrades","Poseur de clôtures","Poseur de grilles de sécurité","Poseur de portes de garage","Poseur de portails coulissants","Poseur de portails battants","Poseur de portillons","Poseur de clôtures électriques","Poseur de clôtures en grillage","Poseur de clôtures en béton","Poseur de clôtures en bois","Poseur de clôtures en fer forgé",
+  "Mécanicien auto","Mécanicien moto","Mécanicien poids lourds","Carrossier","Peintre automobile","Électricien auto","Garagiste","Débosseleur","Contrôleur technique","Vendeur automobile","Mécanicien cycles","Réparateur de vélos","Vendeur cycles","Réparateur de pneus","Vulcanisateur","Réparateur de batteries","Rechargeur de batteries","Mécanicien de maintenance","Technicien de maintenance industrielle","Mécanicien industriel","Automaticien","Roboticien","Technicien automatismes","Programmeur automate","Technicien SCADA","Soudeur TIG","Soudeur MIG","Soudeur à l'arc","Chaudronnier tuyauteur","Traceur chaudronnier","Monteur de structures métalliques","Monteur d'échafaudages","Tourneur","Fraiseur","Ajusteur","Mouleur","Injecteur plastique","Opérateur de production","Opérateur de machines","Opérateur de centrale","Électricien de centrale","Rebobineur","Électronicien","Technicien électronique","Réparateur smartphones","Réparateur électroménager","Technicien fibre optique","Installateur antennes","Technicien télécom","Installateur box internet","Technicien radio","Mécanicien de motos","Mécanicien de scooters","Mécanicien de quads","Mécanicien de karts","Mécanicien de tracteurs","Mécanicien de moissonneuses","Mécanicien de camions","Mécanicien de bus","Mécanicien de engins de chantier","Mécanicien de grues","Mécanicien de chariots élévateurs","Mécanicien de groupes électrogènes","Mécanicien de compresseurs","Mécanicien de pompes","Mécanicien de moteurs hors-bord","Mécanicien de bateaux","Mécanicien de moteurs diesel","Mécanicien de moteurs essence","Mécanicien de moteurs électriques","Mécanicien de vélos électriques","Mécanicien de trottinettes électriques","Mécanicien de monoroues","Mécanicien de gyropodes","Mécanicien de drones","Réparateur de drones","Technicien de drones","Pilote de drones professionnels","Opérateur de drones agricoles","Opérateur de drones de surveillance","Opérateur de drones de cartographie",
+  "Coiffeur","Coiffeuse","Barbier","Esthéticienne","Manucure","Prothésiste ongulaire","Maquilleuse","Masseur","Spa manager","Tatoueur","Piercing","Couturier","Styliste","Modéliste","Tailleur","Retoucheur","Brodeuse","Maroquinier","Cordonnier","Sellier","Tapissier d'ameublement","Designer de mode","Styliste de mode","Modéliste de mode","Créateur de bijoux","Créateur d'accessoires","Tisseur","Fileur","Teinturier textile","Retoucheuse","Cordonnier-bottier","Réparateur de chaussures","Coiffeur homme","Coiffeur femme","Coiffeur enfant","Coiffeur afro","Coiffeur tresses","Coiffeur locks","Coiffeur tissage","Coiffeur perruques","Barbier traditionnel","Barbier moderne","Barbier de luxe","Esthéticienne visage","Esthéticienne corps","Esthéticienne épilation","Esthéticienne soins","Manucure classique","Manucure semi-permanente","Manucure gel","Manucure acrylique","Pédicure","Prothésiste ongulaire gel","Prothésiste ongulaire acrylique","Maquilleuse professionnelle","Maquilleuse mariée","Maquilleuse spectacle","Maquilleuse cinéma","Maquilleuse mode","Masseur sportif","Masseur bien-être","Masseur thaï","Masseur californien","Masseur balinais","Masseur shiatsu","Masseur réflexologue","Spa thérapeute","Spa manager","Tatoueur artistique","Tatoueur réaliste","Tatoueur tribal","Tatoueur blackwork","Tatoueur coloré","Piercing professionnel","Piercing oreille","Piercing nez","Piercing langue","Piercing corps","Couturier homme","Couturier femme","Couturier enfant","Couturier sur mesure","Couturier prêt-à-porter","Styliste mode","Styliste image","Styliste photo","Styliste cinéma","Modéliste industriel","Modéliste artisan","Tailleur homme","Tailleur femme","Tailleur sur mesure","Retoucheur professionnel","Brodeuse machine","Brodeuse main","Brodeuse perles","Maroquinier cuir","Maroquinier sacs","Maroquinier ceintures","Cordonnier traditionnel","Cordonnier moderne","Cordonnier orthopédique","Sellier harnais","Sellier sellerie","Tapissier meubles","Tapissier sièges","Tapissier rideaux",
+  "Informaticien","Développeur web","Développeur mobile","Développeur full-stack","Administrateur réseau","Administrateur systèmes","Technicien support informatique","Technicien maintenance informatique","Data analyst","Data scientist","Cybersecurity specialist","UX/UI designer","Graphiste","Infographiste","Photographe","Vidéaste","Monteur vidéo","Community manager","Référencement SEO","Technicien de laboratoire","Chimiste","Biologiste","Technicien de recherche","Développeur frontend","Développeur backend","Développeur React","Développeur Vue","Développeur Angular","Développeur Node.js","Développeur Python","Développeur Java","Développeur PHP","Développeur C#","Développeur C++","Développeur Flutter","Développeur React Native","Développeur Android","Développeur iOS","Développeur jeux vidéo","Développeur Unity","Développeur Unreal","Administrateur Windows","Administrateur Linux","Administrateur Cloud","Administrateur AWS","Administrateur Azure","Administrateur Google Cloud","Technicien helpdesk","Technicien support N1","Technicien support N2","Technicien support N3","Technicien hardware","Technicien software","Technicien réseau","Technicien câblage","Technicien fibre","Technicien WiFi","Data engineer","Data architect","Machine learning engineer","AI engineer","Prompt engineer","Cybersecurity analyst","Pentester","Ethical hacker","Security engineer","SOC analyst","UX designer","UI designer","Product designer","Graphic designer","Motion designer","3D designer","Illustrator","Infographiste 2D","Infographiste 3D","Photographe studio","Photographe mariage","Photographe mode","Photographe produit","Photographe reportage","Vidéaste mariage","Vidéaste corporate","Vidéaste événementiel","Monteur vidéo professionnel","Monteur After Effects","Monteur Premiere","Monteur DaVinci","Community manager Facebook","Community manager Instagram","Community manager TikTok","Community manager LinkedIn","SEO specialist","SEA specialist","Growth hacker","Content manager","Copywriter","Rédacteur web","Rédacteur SEO",
+  "Médecin généraliste","Médecin spécialiste","Chirurgien","Dentiste","Orthodontiste","Infirmier","Aide-soignant","Auxiliaire de puériculture","Sage-femme","Kinésithérapeute","Ostéopathe","Psychologue","Psychiatre","Pharmacien","Préparateur en pharmacie","Opticien","Audioprothésiste","Ambulancier","Secouriste","Diététicien","Nutritionniste","Ergothérapeute","Orthophoniste","Psychomotricien","Prothésiste dentaire","Orthoprothésiste","Podo-orthésiste","Médecin du travail","Infirmier du travail","Ergonome","Préventeur","Responsable HSE",
+  "Professeur des écoles","Enseignant collège","Enseignant lycée","Formateur","Éducateur spécialisé","Animateur socioculturel","Moniteur sportif","Coach sportif","Éducateur sportif","Éducateur de jeunes enfants","Assistant maternel","Formateur pour adultes","Formateur en entreprise","Coach scolaire","Soutien scolaire","Directeur d'école","Proviseur","Principal de collège","Inspecteur de l'éducation nationale",
+  "Avocat","Notaire","Huissier de justice","Juge","Greffier","Juriste","Comptable","Expert-comptable","Auditeur","Conseiller fiscal","Gestionnaire de paie","Banquier","Conseiller bancaire","Assureur","Courtier en assurance","Agent d'assurance","Courtier en crédit","Conseiller en investissement","Agent immobilier","Négociateur immobilier","Gestionnaire de patrimoine","Secrétaire médicale","Secrétaire de direction","Assistant administratif","Gestionnaire administratif","Chargé de communication","Chargé de marketing","Responsable marketing","Chef de produit","Acheteur","Approvisionneur","Responsable achats","Recruteur","Responsable ressources humaines","Coach de vie","Coach professionnel","Conseiller d'orientation","Consultant RH",
+  "Chauffeur de taxi","Chauffeur VTC","Chauffeur poids lourds","Chauffeur livraisons","Conducteur de bus","Conducteur de train","Pilote d'avion","Hôtesse de l'air","Steward","Marin","Capitaine de navire","Livreur","Coursier","Déménageur","Magasinier","Cariste","Agent de quai","Transitaire","Logisticien","Responsable logistique","Préparateur de commandes","Gestionnaire de stock","Affréteur","Commissionnaire de transport","Chauffeur de maître","Chauffeur privé","Garde du corps","Agent de protection rapprochée",
+  "Agent de sécurité","Agent de surveillance","Gardien d'immeuble","Agent d'accueil","Réceptionniste","Policier","Gendarme","Pompier","Militaire","Agent de police municipale","Surveillant de nuit","Veilleur de nuit","Agent de sûreté aéroportuaire","Contrôleur de sûreté","Douanier","Agent des douanes","Inspecteur du travail","Contrôleur des impôts","Détective privé","Enquêteur privé",
+  "Vendeur","Commercial","Conseiller de vente","Responsable magasin","Merchandiser","Caissier","Épicier","Caviste","Boucher","Charcutier","Boulanger","Pâtissier","Poissonnier","Fromager","Fleuriste","Décorateur floral","Libraire","Éditeur","Imprimeur","Imprimeur numérique","Opérateur de presse","Photograveur","Sérigraphe","Relieur",
+  "Cuisinier","Chef cuisinier","Commis de cuisine","Pizzaiolo","Traiteur","Serveur","Barman","Sommelier","Hôtelier","Réceptionniste","Femme de chambre","Concierge","Gouvernante","Chocolatier","Glacier","Confiseur","Meunier","Brasseur","Distillateur","Fromager affineur",
+  "Bijoutier","Horloger","Joailier","Orfèvre","Graveur","Artisan d'art","Céramiste","Potier","Verrier","Forgeron","Ferronnier d'art","Tapissier décorateur","Ébéniste d'art","Sculpteur sur bois","Sculpteur sur pierre","Graveur sur métal","Graveur sur verre","Calligraphe","Enlumineur","Restaurateur de meubles","Restaurateur de tableaux","Restaurateur de livres","Restaurateur de papier","Conservateur-restaurateur","Expert en antiquités","Antiquaire","Broccanteur","Commissaire-priseur","Expert judiciaire","Vitrailliste",
+  "Journaliste","Rédacteur","Correcteur","Traducteur","Interprète","Écrivain","Scénariste","Acteur","Comédien","Chanteur","Musicien","DJ","Danseur","Metteur en scène","Réalisateur","Technicien son","Éclairagiste","Machiniste","Cascadeur","Cascadeuse","Figurant","Agent artistique","Manager d'artiste","Producteur de spectacle","Organisateur d'événements","Wedding planner","Organisateur de mariages","Décorateur d'événements","Traiteur événementiel","Photographe de mariage","Vidéaste de mariage","Fleuriste événementiel",
+  "Aide à domicile","Auxiliaire de vie","Aide-ménagère","Garde d'enfants","Nounou","Baby-sitter","Jardinier","Paysagiste d'entretien","Élagueur","Agent d'entretien","Agent de propreté","Laveur de vitres","Nettoyeur","Désinsectiseur","Technicien de surface","Agent de nettoyage","Femme de ménage","Concierge d'immeuble","Gardien de parking","Agent de nettoyage industriel","Agent de stérilisation","Agent de voirie","Balayeur","Éboueur","Agent de propreté urbaine","Agent de collecte","Technicien de station d'épuration","Agent d'assainissement","Fontainier","Agent des eaux",
+  "Pilote de drone","Technicien drones","Garde forestier","Agent de l'ONF","Garde-chasse","Pêcheur professionnel","Marin-pêcheur","Ostréiculteur","Mytiliculteur","Géologue","Hydrologue","Météorologue","Agent funéraire","Thanatopracteur","Croque-mort","Huissier audiencier","Clerc de notaire","Secrétaire juridique","Clerc d'huissier","Greffier de tribunal","Assistant de justice","Médiateur familial","Conseiller conjugal","Travailleur social","Assistant social","Éducateur de rue","Animateur jeunesse","Responsable de structure d'accueil","Guide touristique","Accompagnateur de voyage","Animateur de séjour","Moniteur de ski","Moniteur d'équitation","Maître-nageur","Sauveteur","Guide naturaliste","Animateur nature","Éducateur à l'environnement","Technicien forestier","Agent patrimonial ONF","Bûcheron","Débardeur","Conducteur d'engins forestiers","Scieur","Opérateur de scierie","Menuisier de production","Ébéniste de production","Charpentier de production","Expert en assurance","Expert automobile","Expert bâtiment","Diagnostiqueur immobilier","Diagnostiqueur amiante","Contrôleur technique automobile","Contrôleur technique bâtiment","Géomètre-expert","Topographe","Cartographe","Dessinateur cartographe","Archéologue","Conservateur du patrimoine","Restaurateur d'œuvres d'art","Restaurateur de tableaux","Ébéniste restaurateur","Horloger restaurateur","Bijoutier créateur","Joailier créateur","Bibliothécaire","Documentaliste","Archiviste","Conservateur de musée","Guide de musée","Médiateur culturel","Économiste","Statisticien","Actuaire","Compliance officer","Responsable conformité","Data protection officer","DPO","Auditeur interne","Contrôleur de gestion","Directeur financier","DAF","CFO","Directeur des ressources humaines","DRH","Directeur commercial","Directeur marketing","Directeur général","PDG","CEO","Entrepreneur","Créateur d'entreprise","Auto-entrepreneur","Freelance","Consultant indépendant","Coach entrepreneurial","Mentor business","Investisseur","Business angel","Capital-risqueur","Trader","Analyste financier","Gestionnaire de portefeuille","Conseiller en gestion de patrimoine","CGP","Courtier en assurance-vie","Courtier en crédits","Agent général d'assurance","Courtier d'assurance","Expert en sinistres","Régleur de sinistres","Responsable qualité","Auditeur qualité","Responsable environnement","Écologue","Technicien environnement","Agent de protection de la nature","Garde nature","Éco-garde"
+];
+
+// --- LOGIQUE DE RECHERCHE ET SÉLECTION INSTANTANÉE ---
+const optionsList = document.getElementById('optionsList');
+const display = document.getElementById('display');
+const displayText = document.getElementById('displayText');
+const dropdown = document.getElementById('dropdown');
+const searchInput = document.getElementById('searchInput');
+const noResult = document.getElementById('noResult');
+const countText = document.getElementById('countText');
+
+let selectedMetierValue = "";
+
+countText.textContent = `${metiers.length} métiers & productions disponibles`;
+
+// Génération de la liste initiale
+metiers.forEach(metier => {
+  const div = document.createElement('div');
+  div.className = 'option';
+  div.textContent = metier;
+  div.dataset.value = metier;
+  optionsList.appendChild(div);
+});
+
+// Ouvrir/Fermer le menu déroulant au clic
+display.addEventListener('click', (e) => {
+  e.stopPropagation();
+  dropdown.classList.toggle('open');
+  if (dropdown.classList.contains('open')) {
+    searchInput.focus();
+    searchInput.value = '';
+    filterOptions('');
+  }
+});
+
+// Fermer le menu si on clique en dehors
+document.addEventListener('click', (e) => {
+  if (!document.getElementById('metierSelect').contains(e.target)) {
+    dropdown.classList.remove('open');
+  }
+});
+
+// Filtrage en temps réel dès la saisie (ex: "mécanicien")
+searchInput.addEventListener('input', (e) => {
+  filterOptions(e.target.value.trim().toLowerCase());
+});
+
+function filterOptions(query) {
+  const options = optionsList.querySelectorAll('.option');
+  let visibleCount = 0;
+  options.forEach(opt => {
+    const text = opt.textContent.toLowerCase();
+    if (text.includes(query)) {
+      opt.classList.remove('hidden');
+      visibleCount++;
+    } else {
+      opt.classList.add('hidden');
+    }
+  });
+  noResult.style.display = visibleCount === 0 ? 'block' : 'none';
+}
+
+// Sélection d'un métier dans la liste
+optionsList.addEventListener('click', (e) => {
+  if (e.target.classList.contains('option')) {
+    selectedMetierValue = e.target.dataset.value;
+    displayText.textContent = selectedMetierValue;
+    dropdown.classList.remove('open');
+
+    optionsList.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    e.target.classList.add('selected');
+  }
+});
+
+
+// --- CONFIGURATION CLOUDINARY & PROGRESSION ---
+function uploadToCloudinaryWithProgress(file, onProgress) {
+  return new Promise((resolve, reject) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+    formData.append("folder", "dakproelite_metiers");
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`, true);
+
+    xhr.upload.onprogress = function(event) {
+      if (event.lengthComputable) {
+        const percentComplete = Math.round((event.loaded / event.total) * 100);
+        if (onProgress) onProgress(percentComplete);
+      }
+    };
+
+    xhr.onload = function() {
+      try {
+        const data = JSON.parse(xhr.responseText);
+        if (xhr.status >= 200 && xhr.status < 300 && data.secure_url) {
+          resolve(data.secure_url);
+        } else {
+          reject(new Error(data.error?.message || "Erreur lors de l'upload sur Cloudinary"));
+        }
+      } catch (e) {
+        reject(new Error("Erreur de traitement de la réponse Cloudinary."));
+      }
+    };
+
+    xhr.onerror = function() {
+      reject(new Error("Erreur réseau lors du téléchargement vers Cloudinary."));
+    };
+
+    xhr.send(formData);
+  });
+}
+
+// Gestion de l'aperçu du fichier sélectionné
+const universalFileInput = document.getElementById("adminUniversalFile");
+const fileInfoLabel = document.getElementById("fileInfoLabel");
+const canvas = document.getElementById("imageCanvas");
+const videoPreview = document.getElementById("videoPreview");
+const documentPreview = document.getElementById("documentPreview");
+const documentLinkBtn = document.getElementById("documentLinkBtn");
+const previewText = document.getElementById("previewText");
+
+let selectedFileObject = null;
+
+universalFileInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    selectedFileObject = file;
+    const fileType = file.type;
+
+    canvas.style.display = "none";
+    videoPreview.style.display = "none";
+    documentPreview.style.display = "none";
+    previewText.style.display = "block";
+
+    const tempLocalUrl = URL.createObjectURL(file);
+
+    if (fileType.startsWith("image/")) {
+        fileInfoLabel.textContent = `🖼️ Image sélectionnée : ${file.name}`;
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const img = new Image();
+            img.onload = function() {
+                const ctx = canvas.getContext("2d");
+                canvas.width = 600;
+                canvas.height = 400;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = "#080b10";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                let hRatio = canvas.width / img.width;
+                let vRatio = canvas.height / img.height;
+                let ratio = Math.max(hRatio, vRatio);
+                let centerShiftX = (canvas.width - img.width * ratio) / 2;
+                let centerShiftY = (canvas.height - img.height * ratio) / 2;
+                
+                ctx.drawImage(img, 0, 0, img.width, img.height, centerShiftX, centerShiftY, img.width * ratio, img.height * ratio);
+                canvas.style.display = "block";
+                previewText.style.display = "none";
+            };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+
+    } else if (fileType.startsWith("video/")) {
+        fileInfoLabel.textContent = `🎥 Vidéo sélectionnée : ${file.name}`;
+        videoPreview.src = tempLocalUrl;
+        videoPreview.style.display = "block";
+        previewText.style.display = "none";
+
+    } else {
+        fileInfoLabel.textContent = `📄 Document sélectionné : ${file.name}`;
+        documentLinkBtn.href = tempLocalUrl;
+        documentPreview.style.display = "block";
+        previewText.style.display = "none";
+    }
+});
+
+// Soumission du formulaire (Envoi Cloudinary d'abord, puis enregistrement Firebase)
+document.getElementById("publicationForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById("btnSubmit");
+  const status = document.getElementById("statusMessage");
+
+  if (!selectedMetierValue) {
+    alert("Veuillez sélectionner un corps de métier ou une production.");
+    return;
+  }
+
+  if (!selectedFileObject) {
+    alert("Veuillez sélectionner un fichier multimédia.");
+    return;
+  }
+
+  btn.disabled = true;
+  status.style.color = "var(--gold)";
+  status.textContent = "⏳ Initialisation de l'envoi sur Cloudinary (0%)...";
+
+  try {
+    const finalFileUrl = await uploadToCloudinaryWithProgress(selectedFileObject, (percent) => {
+      status.textContent = `⏳ Téléchargement vers Cloudinary en cours : ${percent}%`;
+      btn.textContent = `⏳ Envoi ${percent}%`;
+    });
+
+    let uploadedImageUrl = "";
+    let uploadedVideoUrl = "";
+    let uploadedDocumentUrl = "";
+
+    const fileType = selectedFileObject.type;
+    if (fileType.startsWith("image/")) {
+        uploadedImageUrl = finalFileUrl;
+    } else if (fileType.startsWith("video/")) {
+        uploadedVideoUrl = finalFileUrl;
+    } else {
+        uploadedDocumentUrl = finalFileUrl;
+    }
+
+    status.textContent = "⏳ Enregistrement des données dans Realtime Database...";
+    btn.textContent = "⏳ Enregistrement...";
+
+    const newRef = push(ref(db, "metiers_publications"));
+    const idMetier = newRef.key;
+
+    const payload = {
+      id: idMetier,
+      nom: document.getElementById("nom").value.trim(),
+      categorie: selectedMetierValue,
+      pays: document.getElementById("pays").value.trim(),
+      departement: document.getElementById("departement").value.trim(),
+      ville: document.getElementById("ville").value.trim(),
+      telephone: document.getElementById("telephone").value.trim(),
+      whatsapp: document.getElementById("whatsapp").value.trim(),
+      description: document.getElementById("description").value.trim(),
+      image: uploadedImageUrl || "https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png",
+      images: uploadedImageUrl ? [uploadedImageUrl] : [],
+      video: uploadedVideoUrl || "",
+      document: uploadedDocumentUrl || "",
+      actif: true,
+      createdAt: Date.now()
+    };
+
+    await set(newRef, payload);
+
+    status.style.color = "var(--green)";
+    status.textContent = "✅ Fichier envoyé sur Cloudinary et données enregistrées avec succès !";
+    alert("🎉 Profil métier publié avec succès !");
+
+    document.getElementById("publicationForm").reset();
+    displayText.textContent = "Sélectionner un métier ou une production...";
+    selectedMetierValue = "";
+    document.getElementById("fileInfoLabel").textContent = "";
+    canvas.style.display = "none";
+    videoPreview.style.display = "none";
+    documentPreview.style.display = "none";
+    previewText.style.display = "block";
+    previewText.textContent = "Aperçu du média sélectionné...";
+    selectedFileObject = null;
+
+  } catch (error) {
+    console.error("Erreur de publication:", error);
+    status.style.color = "var(--red)";
+    status.textContent = "❌ Erreur : " + error.message;
+    alert("❌ Une erreur est survenue : " + error.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "🚀 Publier le Profil Métier";
+  }
+});
+</script>
+
+</body>
+</html>

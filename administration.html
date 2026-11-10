@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAKPRO ÉLITE — Administration Centrale</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: #0d0d11;
+            color: #f5f5f7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* En-tête */
+        .topbar {
+            height: 70px;
+            background: #13131a;
+            border-bottom: 1px solid #23232e;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .topbar-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: #ffcc00;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .admin-user-info {
+            font-size: 12px;
+            color: #a1a1aa;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .btn-logout {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-logout:hover {
+            background: #ef4444;
+            color: #ffffff;
+        }
+
+        /* Conteneur principal */
+        .dashboard-container {
+            padding: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .header-banner {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .header-banner h1 {
+            color: #ffcc00;
+            font-size: 22px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Grille adaptative multi-écrans */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Default Android / Mobile */
+            gap: 12px;
+        }
+
+        @media (min-width: 600px) {
+            .menu-grid {
+                grid-template-columns: repeat(4, 1fr); /* Tablette */
+                gap: 15px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .menu-grid {
+                grid-template-columns: repeat(8, 1fr); /* Ordinateur */
+                gap: 15px;
+            }
+        }
+
+        @media (min-width: 1400px) {
+            .menu-grid {
+                grid-template-columns: repeat(10, 1fr); /* Grand Écran */
+                gap: 15px;
+            }
+        }
+
+        /* Cartes d'action style Visuel Captures */
+        .menu-card {
+            background: #181820;
+            border: 1px solid #282836;
+            border-radius: 12px;
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-decoration: none;
+            color: #ffffff;
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+            min-height: 120px;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-3px);
+            border-color: #ffcc00;
+            background: #20202c;
+        }
+
+        .menu-card .icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .menu-card .label {
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #e4e4e7;
+        }
+
+        /* Vue contenu dynamique */
+        .content-display {
+            margin-top: 25px;
+            background: #181820;
+            border: 1px solid #282836;
+            border-radius: 12px;
+            padding: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+        <div class="topbar-title">DAKPRO ÉLITE ADMIN</div>
+        <div class="admin-user-info">
+            <span id="admin-email-affiche">Vérification...</span>
+            <button class="btn-logout" onclick="deconnecterAdmin()">Déconnexion</button>
+        </div>
+    </header>
+
+    <main class="dashboard-container">
+        <div class="header-banner">
+            <h1>DAKPRO ÉLITE — Administration</h1>
+        </div>
+
+        <!-- GRILLE DE CARTE ADMINISTRATIVE -->
+        <div class="menu-grid" id="admin-menu-grid">
+            <div class="menu-card" onclick="chargerModule('admin-dashboard.js', 'Tableau de bord')">
+                <div class="icon">📊</div>
+                <div class="label">Tableau de bord</div>
+            </div>
+            <div class="menu-card" onclick="chargerModule('admin-utilisateurs.js', 'Utilisateurs')">
+                <div class="icon">👥</div>
+                <div class="label">Utilisateurs</div>
+            </div>
+
+            <!-- CARTE 1 : ACCÈS PAGE FOURNISSEURS HTML -->
+            <a href="admin-fournisseurs.html" class="menu-card">
+                <div class="icon">🏭</div>
+                <div class="label">Fournisseurs & CJ</div>
+            </a>
+
+            <!-- CARTE 2 : CHARGEMENT MODULE IMPORTATEUR GLOBAL JS -->
+            <div class="menu-card" onclick="chargerModule('dakpro-global-importer.js', 'Importateur Global')">
+                <div class="icon">📥</div>
+                <div class="label">Import Global CJ</div>
+            </div>
+
+            <div class="menu-card" onclick="chargerModule('admin-vendeurs.js', 'Vendeurs')">
+                <div class="icon">🏪</div>
+                <div class="label">Ma Boutique</div>
+            </div>
+            <div class="menu-card" onclick="chargerModule('admin-produits.js', 'Produits')">
+                <div class="icon">📦</div>
+                <div class="label">Mes Produits</div>
+            </div>
+            <div class="menu-card" onclick="chargerModule('admin-commandes.js', 'Commandes')">
+                <div class="icon">🛒</div>
+                <div class="label">Commandes Panier</div>
+            </div>
+            <div class="menu-card" onclick="chargerModule('admin-commissions.js', 'Affiliation')">
+                <div class="icon">🤝</div>
+                <div class="label">Affiliation</div>
+            </div>
+            <div class="menu-card" onclick="chargerModule('admin-paiements.js', 'Paiements')">
+                <div class="icon">💳</div>
+                <div class="label">Paiements</div>
+            </div>
+            <div class="menu-card" onclick="chargerModule('admin-retraits.js', 'Retraits')">
+                <div class="icon">💸</div>
+                <div class="label">Retraits</div>
+            </div>
+            <div class="menu-card" onclick="chargerModule('admin-profile.js', 'Mon Profil')">
+                <div class="icon">👤</div>
+                <div class="label">Mon Profil</div>
+            </div>
+            <div class="menu-card" onclick="chargerModule('admin-publications.js', 'Publication')">
+                <div class="icon">☁️</div>
+                <div class="label">Publication</div>
+            </div>
+
+            <!-- NOUVELLE CARTE : METIERS PUBLICATION -->
+            <a href="admin-metiers-publication.html" class="menu-card">
+                <div class="icon">🛠️</div>
+                <div class="label">Abonnement Métiers</div>
+            </a>
+
+            <!-- NOUVELLE CARTE : BANNIERES & ANNONCES -->
+            <a href="admin-bannieres-annonces.html" class="menu-card">
+                <div class="icon">🖼️</div>
+                <div class="label">Bannières & Annonces</div>
+            </a>
+
+            <div class="menu-card" onclick="chargerModule('admin-abonnements.js', 'Abonnement')">
+                <div class="icon">⭐</div>
+                <div class="label">Abonnement</div>
+            </div>
+            <div class="menu-card" onclick="chargerModule('admin-boost.js', 'Boost')">
+                <div class="icon">🚀</div>
+                <div class="label">Boost</div>
+            </div>
+            <div class="menu-card" onclick="chargerModule('admin-documents.js', 'Documents')">
+                <div class="icon">📁</div>
+                <div class="label">Documents</div>
+            </div>
+            <div class="menu-card" onclick="chargerModule('admin-livreurs.js', 'Livreurs')">
+                <div class="icon">🛵</div>
+                <div class="label">Livreurs</div>
+            </div>
+            <div class="menu-card" onclick="chargerModule('admin-configure.js', 'Configuration')">
+                <div class="icon">⚙️</div>
+                <div class="label">Configuration</div>
+            </div>
+            <div class="menu-card" onclick="chargerModule('admin-messages.js', 'Messages')">
+                <div class="icon">💬</div>
+                <div class="label">Messages</div>
+            </div>
+        </div>
+
+        <!-- ZONE D'AFFICHAGE DYNAMIQUE DU MODULE -->
+        <div class="content-display" id="module-container"></div>
+    </main>
+
+    <!-- FIREBASE AUTH & REALTIME DATABASE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDR7INHKaazaqZt-xIcjk10JFiy58uXKO8",
+            authDomain: "dakproelite.firebaseapp.com",
+            databaseURL: "https://dakproelite-default-rtdb.firebaseio.com",
+            projectId: "dakproelite",
+            storageBucket: "dakproelite.firebasestorage.app",
+            messagingSenderId: "580591769206",
+            appId: "1:580591769206:web:4f67f8aadbf3d051087157"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // CONTRÔLE D'ACCÈS DEPUIS REALTIME DATABASE ("users/{uid}")
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.replace("connexion.html");
+                return;
+            }
+
+            try {
+                const userRef = ref(db, "users/" + user.uid);
+                const snapshot = await get(userRef);
+
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    const role = (userData.role || "").toLowerCase().trim();
+
+                    if (role === "administration" || role === "admin") {
+                        document.getElementById('admin-email-affiche').innerText = `Admin (${user.email})`;
+                    } else if (role === "vendeur") {
+                        window.location.replace("vendeur.html");
+                    } else if (role === "livreur") {
+                        window.location.replace("livreur.html");
+                    } else {
+                        window.location.replace("acheteur.html");
+                    }
+                } else {
+                    window.location.replace("acheteur.html");
+                }
+            } catch (error) {
+                console.error("Erreur de vérification des droits admin :", error);
+                window.location.replace("connexion.html");
+            }
+        });
+
+        window.deconnecterAdmin = function() {
+            signOut(auth).then(() => {
+                window.location.replace("connexion.html");
+            }).catch((error) => {
+                console.error("Erreur de déconnexion :", error);
+            });
+        };
+    </script>
+
+    <script>
+        async function chargerModule(nomFichier, titre) {
+            const container = document.getElementById('module-container');
+            container.style.display = "block";
+            container.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #ffcc00;">
+                    <h3>Chargement de : ${titre}...</h3>
+                </div>
+            `;
+
+            try {
+                const module = await import(`./${nomFichier}`);
+                if (module && typeof module.init === 'function') {
+                    await module.init();
+                } else {
+                    container.innerHTML = `<div style="color: #ef4444; text-align:center;">Erreur : Le module ${nomFichier} est introuvable ou mal configuré.</div>`;
+                }
+            } catch (error) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #ffcc00;">
+                        <h3>⚠️ Module : ${titre}</h3>
+                        <p style="color: #a1a1aa; font-size: 13px; margin-top: 8px;">Connexion au fichier <strong>${nomFichier}</strong> en cours de synchronisation avec la Realtime Database.</p>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

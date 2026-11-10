@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garantie & Sécurité des Paiements — DAKPRO ÉLITE PAY</title>
+    <meta name="description" content="Découvrez l'engagement de sécurité absolue de DAKPRO ÉLITE PAY. Une protection financière et informatique de pointe pour toutes vos opérations.">
+
+    <style>
+        :root {
+            --bg-dark: #07070a;
+            --bg-card: #0f0f17;
+            --bg-accent: #161622;
+            --border-gold: #3d3518;
+            --gold-primary: #ffcc00;
+            --gold-gradient: linear-gradient(135deg, #ffd700, #ff9900);
+            --green-secure: #00e676;
+            --text-main: #ffffff;
+            --text-sub: #a1a1aa;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+        }
+
+        body { 
+            background-color: var(--bg-dark); 
+            color: var(--text-main); 
+            line-height: 1.8; 
+            padding: 40px 20px; 
+        }
+
+        .container { 
+            max-width: 950px; 
+            margin: 0 auto; 
+        }
+
+        /* BADGE ET EN-TÊTE PRINCIPAL */
+        .security-badge-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(0, 230, 118, 0.12);
+            border: 1px solid var(--green-secure);
+            color: var(--green-secure);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 800;
+            margin: 0 auto 30px auto;
+            width: fit-content;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .main-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .main-header h1 {
+            font-size: 36px;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+        }
+
+        .main-header p {
+            color: var(--text-sub);
+            font-size: 19px;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        /* BANNIÈRE DE GARANTIE DU HAUT */
+        .guarantee-box {
+            background: linear-gradient(180deg, #12121c, #09090e);
+            border: 2px solid var(--gold-primary);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            margin-bottom: 50px;
+            box-shadow: 0 0 40px rgba(255, 204, 0, 0.15);
+        }
+
+        .guarantee-box h2 {
+            font-size: 28px;
+            color: #ffffff;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .guarantee-box p {
+            font-size: 17px;
+            color: var(--text-sub);
+            line-height: 1.8;
+            max-width: 850px;
+            margin: 0 auto 25px auto;
+        }
+
+        .protection-highlights {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .tag-pill {
+            background: var(--bg-accent);
+            border: 1px solid var(--border-gold);
+            color: var(--gold-primary);
+            padding: 12px 22px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        /* TITRES DE SECTIONS */
+        .section-title {
+            text-align: center;
+            font-size: 26px;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            margin: 60px 0 35px 0;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border-gold);
+            padding-bottom: 15px;
+        }
+
+        /* GRILLE DES AVANTAGES DU PAIEMENT EN LIGNE */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .benefit-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: 16px;
+            padding: 30px 25px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold-primary);
+        }
+
+        .benefit-card .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .benefit-card h3 {
+            font-size: 20px;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .benefit-card p {
+            font-size: 15px;
+            color: var(--text-sub);
+            line-height: 1.7;
+        }
+
+        /* GRANDE SECTION DÉTAILLÉE DU NIVEAU DE SÉCURITÉ DES DONNÉES */
+        .data-protection-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: 20px;
+            padding: 45px 35px;
+            margin-bottom: 50px;
+        }
+
+        .data-protection-section h3 {
+            font-size: 24px;
+            color: #ffffff;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .protection-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .protection-item {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            background: var(--bg-accent);
+            padding: 22px;
+            border-radius: 14px;
+            border-left: 4px solid var(--gold-primary);
+        }
+
+        .protection-item .item-icon {
+            font-size: 32px;
+            line-height: 1;
+        }
+
+        .protection-item h4 {
+            font-size: 18px;
+            color: var(--gold-primary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .protection-item p {
+            font-size: 15px;
+            color: var(--text-sub);
+            line-height: 1.7;
+        }
+
+        /* SECTION ENGAGEMENT DU HAUT JUSQU'EN BAS */
+        .end-to-end-box {
+            background: linear-gradient(180deg, #12121c, #050508);
+            border: 2px solid var(--green-secure);
+            border-radius: 20px;
+            padding: 45px 30px;
+            text-align: center;
+            margin-top: 60px;
+            box-shadow: 0 0 35px rgba(0, 230, 118, 0.1);
+        }
+
+        .end-to-end-box h3 {
+            font-size: 26px;
+            color: #ffffff;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .end-to-end-box p {
+            font-size: 17px;
+            color: var(--text-sub);
+            line-height: 1.8;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        /* FOOTER DE CONFIANCE */
+        .trust-footer {
+            text-align: center;
+            border-top: 1px solid var(--border-gold);
+            padding-top: 40px;
+            margin-top: 60px;
+            color: var(--text-sub);
+            font-size: 14px;
+        }
+
+        .trust-icons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- BADGE HAUTE SÉCURITÉ -->
+        <div class="security-badge-top">
+            🔒 Protocole Sécurisé SSL / TLS 256-Bit Activé
+        </div>
+
+        <!-- EN-TÊTE PRINCIPAL -->
+        <header class="main-header">
+            <h1>DAKPRO ÉLITE PAY — CONFIANCE, PUISSANCE ET SÉCURITÉ TOTALE</h1>
+            <p>Découvrez pourquoi vous pouvez effectuer toutes vos opérations en toute sérénité sur notre infrastructure globale. Nous appliquons les normes de protection financière et informatique les plus avancées au monde.</p>
+        </header>
+
+        <!-- GARANTIE ET ENGAGEMENT DE PROTECTION -->
+        <section class="guarantee-box">
+            <h2>🛡️ GARANTIE DE CONFIDENTIALITÉ ABSOLUE</h2>
+            <p>
+                Du haut jusqu'en bas de cette plateforme, chaque échange d'informations est placé sous un niveau de protection maximale. 
+                Votre Nom, votre Adresse E-mail, votre Numéro de Téléphone ainsi que vos Coordonnées Bancaires ou Mobile Money bénéficient d'une sécurité totale. 
+                Aucune donnée n'est cédée, vendue ou exposée. Vous naviguez et interagissez au sein d'un environnement hermétique et hautement certifié.
+            </p>
+
+            <div class="protection-highlights">
+                <span class="tag-pill">🔐 Identité & Nom Intégralement Protégés</span>
+                <span class="tag-pill">📧 E-mail & Correspondances Chiffrés</span>
+                <span class="tag-pill">📱 Numéro Téléphone / MoMo / Om Sécurisés</span>
+                <span class="tag-pill">💳 Compte Bancaire Anonymisé & Isolés</span>
+            </div>
+        </section>
+
+        <!-- LES AVANTAGES ET BIENFAITS DU PAIEMENT EN LIGNE -->
+        <h2 class="section-title">💎 LES BIENFAITS ET AVANTAGES DE VOTRE TRANSACTION EN LIGNE</h2>
+
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="icon">⚡</div>
+                <h3>Traitement Instantané</h3>
+                <p>Vos opérations sont validées immédiatement par nos passerelles de paiement automatisées, vous évitant toute attente inutile et accélérant l'accès à vos services.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="icon">🔰</div>
+                <h3>Protection Acheteur Intégrale</h3>
+                <p>Chaque paiement effectué est suivi et garanti. En cas de préoccupation ou de question, notre service d'assistance prend immédiatement en charge votre dossier.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="icon">🔒</div>
+                <h3>Cryptage Bancaire de Niveau Militaire</h3>
+                <p>Toutes les liaisons financières s'effectuent via des tuyaux chiffrés AES-256 bits. Vos identifiants de paiement ne transitent jamais sans protection.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="icon">📱</div>
+                <h3>Compatibilité Multi-Réseaux</h3>
+                <p>Une prise en charge fluide et directe des plus grands réseaux de paiement : MTN Mobile Money, Moov Money, Orange Money, Wave ainsi que Visa et Mastercard.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="icon">📜</div>
+                <h3>Traçabilité & Reçu Officiel</h3>
+                <p>Chaque transaction génère automatiquement une preuve d'opération certifiée et horodatée envoyée à votre boîte de réception.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="icon">🤝</div>
+                <h3>Transparence Financière</h3>
+                <p>Aucun frais dissimulé ni retenue inattendue. La plateforme garantit une clarté totale sur toutes les opérations engagées.</p>
+            </div>
+        </div>
+
+        <!-- PRÉSENTATION DÉTAILLÉE DE LA PROTECTION DE CHAQUE DONNÉE -->
+        <section class="data-protection-section">
+            <h3>🛡️ DÉTAIL DE LA PROTECTION DE TOUTES VOS DONNÉES</h3>
+
+            <ul class="protection-list">
+                <li class="protection-item">
+                    <div class="item-icon">👤</div>
+                    <div>
+                        <h4>Nom, Prénom & Identité</h4>
+                        <p>Vos informations d'identité sont préservées sous des identifiants cryptographiques. Elles servent uniquement à valider la conformité légale de votre compte et à garantir que personne d'autre ne puisse usurper votre identité.</p>
+                    </div>
+                </li>
+
+                <li class="protection-item">
+                    <div class="item-icon">📧</div>
+                    <div>
+                        <h4>Adresse E-mail Officielle</h4>
+                        <p>Votre e-mail est utilisé exclusivement pour la réception de vos reçus de confirmation, factures et notifications de sécurité. Il est stocké dans une base de données isolée et protégée contre tout accès externe.</p>
+                    </div>
+                </li>
+
+                <li class="protection-item">
+                    <div class="item-icon">📱</div>
+                    <div>
+                        <h4>Numéro de Téléphone & Mobile Money</h4>
+                        <p>Que vous utilisiez MTN MoMo, Moov Money, Orange Money ou Wave, votre numéro de téléphone reste strictly confidentiel. Les requêtes de paiement sont chiffrées de bout en bout avec les opérateurs télécoms.</p>
+                    </div>
+                </li>
+
+                <li class="protection-item">
+                    <div class="item-icon">💳</div>
+                    <div>
+                        <h4>Coordonnées Bancaires (Cartes & Comptes)</h4>
+                        <p>Aucun numéro de carte ou identifiant de compte n'est conservé en clair sur nos serveurs. Tout passe par un système de tokenisation hautement sécurisé qui remplace vos données sensibles par des clés à usage unique.</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- ENGAGEMENT SÉCURITÉ DU HAUT JUSQU'EN BAS -->
+        <section class="end-to-end-box">
+            <h3>🌐 PROTECTION INFINIE : DU HAUT JUSQU'EN BAS</h3>
+            <p>
+                Vous pouvez accorder une **confiance totale** à cette plateforme. 
+                De la première ligne de code en haut de cette page jusqu'au dernier élément du pied de page, 
+                tout a été spécialement conçu pour garantir une sécurité hermétique. 
+                Vos transactions sont protégées, vos données personnelles sont à l'abri et vos paiements sont gérés en toute souveraineté.
+            </p>
+        </section>
+
+        <!-- PIED DE PAGE ET CONFIRMATION DE CONFIANCE -->
+        <footer class="trust-footer">
+            <div class="trust-icons">
+                <span>💳</span> <span>📱</span> <span>🔐</span> <span>🛡️</span>
+            </div>
+            <p><strong>DAKPRO ÉLITE PAY</strong> — Plateforme Internationale de Règlement & Protection Sécurisée.</p>
+            <p>Confidentialité absolue • Sécurité SSL/TLS • Traçabilité garantie • Protection infinie des données.</p>
+            <p style="margin-top: 15px;">&copy; 2026 DAKPRO ÉLITE — Tous droits réservés.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>

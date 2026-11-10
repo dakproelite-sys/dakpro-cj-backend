@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#d4af37">
+<meta name="application-name" content="DAKPRO ÉLITE">
+<title>DAKPRO ÉLITE | Connexion</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#050505;color:#fff;font-family:Arial,sans-serif;padding:20px;}
+.box{width:100%;max-width:480px;padding:30px 25px;background:#12161f;border:2px solid #d4af37;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.5);}
+.logo{display:block;width:75px;height:75px;margin:0 auto 15px;border-radius:50%;border:2px solid #d4af37;object-fit:cover;}
+h1{text-align:center;font-size:22px;color:#d4af37;margin-bottom:6px;}
+.subtitle{text-align:center;color:#e0e0e0;font-size:13px;line-height:1.5;margin-bottom:20px;}
+label{display:block;font-size:12px;color:#ddd;margin-bottom:6px;}
+input{width:100%;padding:13px;border:1px solid #444;border-radius:9px;background:#000;color:#fff;outline:none;font-size:14px;}
+input:focus{border-color:#d4af37;}
+.field{margin-bottom:14px;}
+.password-box{position:relative;}
+.password-box input{padding-right:50px;}
+.toggle-password{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:none;background:transparent;color:#d4af37;font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+button.submit{width:100%;padding:13px;border:none;border-radius:9px;background:#d4af37;color:#000;font-weight:bold;cursor:pointer;font-size:14px;margin-top:10px;}
+button.submit:disabled{opacity:.6;cursor:not-allowed;}
+.message{margin-top:15px;padding:10px;border-radius:8px;font-size:12px;display:none;text-align:center;line-height:1.5;}
+.error{background:#351313;color:#ff8585;}
+.success{background:#12351d;color:#70e090;}
+.links{margin-top:20px;text-align:center;font-size:12px;}
+.links a{color:#d4af37;text-decoration:none;}
+.links div{margin-top:10px;}
+</style>
+</head>
+<body>
+<div class="box">
+<img class="logo" src="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png" alt="DAKPRO ÉLITE">
+<h1>DAKPRO ÉLITE</h1>
+<p class="subtitle">Espace de Connexion — Identifiez-vous pour accéder à votre espace</p>
+
+<form id="loginForm">
+<div class="field">
+<label for="email">Adresse e-mail</label>
+<input id="email" type="email" autocomplete="email" required maxlength="150" placeholder="votre.email@exemple.com">
+</div>
+
+<div class="field">
+<label for="password">Mot de passe</label>
+<div class="password-box">
+<input id="password" type="password" autocomplete="current-password" required minlength="6" maxlength="128" placeholder="Votre mot de passe">
+<button type="button" class="toggle-password" data-target="password" aria-label="Afficher le mot de passe">👁️</button>
+</div>
+</div>
+
+<button id="loginButton" class="submit" type="submit">Se connecter</button>
+</form>
+
+<div id="message" class="message"></div>
+
+<div class="links">
+<div>Vous n'avez pas encore de compte ? <a href="inscription.html">S'inscrire</a></div>
+<div><a href="index.html">← Retour à l'accueil</a></div>
+</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDR7INHKaazaqZt-xIcjk10JFiy58uXKO8",
+  authDomain: "dakproelite.firebaseapp.com",
+  databaseURL: "https://dakproelite-default-rtdb.firebaseio.com",
+  projectId: "dakproelite",
+  storageBucket: "dakproelite.firebasestorage.app",
+  messagingSenderId: "580591769206",
+  appId: "1:580591769206:web:4f67f8aadbf3d051087157"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+const form = document.getElementById("loginForm");
+const button = document.getElementById("loginButton");
+const message = document.getElementById("message");
+
+function showMessage(text, type = "error") {
+  message.textContent = text;
+  message.className = "message " + type;
+  message.style.display = "block";
+}
+
+// Alterner l'affichage du mot de passe
+document.querySelectorAll(".toggle-password").forEach(buttonToggle => {
+  buttonToggle.addEventListener("click", () => {
+    const input = document.getElementById(buttonToggle.dataset.target);
+    input.type = input.type === "password" ? "text" : "password";
+    buttonToggle.textContent = input.type === "password" ? "👁️" : "🙈";
+  });
+});
+
+// Redirection conditionnelle selon le rôle de l'utilisateur dans Realtime Database
+async function redirectByUserRole(user) {
+  try {
+    const userSnapshot = await get(ref(db, "users/" + user.uid));
+    
+    if (userSnapshot.exists()) {
+      const userData = userSnapshot.val();
+
+      // Vérifier si le compte est actif
+      if (userData.actif === false) {
+        showMessage("Votre compte a été désactivé par un administrateur.");
+        await signOut(auth);
+        return;
+      }
+
+      // Redirection selon le rôle
+      if (userData.role === "admin") {
+        window.location.replace("administration.html");
+      } else {
+        window.location.replace("index.html");
+      }
+    } else {
+      // Redirection par défaut si l'entrée n'existe pas en base
+      window.location.replace("index.html");
+    }
+  } catch (err) {
+    console.error("Erreur lors de la vérification du rôle :", err);
+    window.location.replace("index.html");
+  }
+}
+
+// Redirection automatique pour un utilisateur déjà connecté
+let sessionCheckDone = false;
+onAuthStateChanged(auth, user => {
+  if (sessionCheckDone) return;
+  sessionCheckDone = true;
+  if (user) {
+    redirectByUserRole(user);
+  }
+});
+
+// Soumission du formulaire
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  const password = document.getElementById("password").value;
+
+  if (!email || !password) {
+    showMessage("Veuillez remplir tous les champs.");
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Vérification...";
+  message.style.display = "none";
+
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    showMessage("Connexion réussie ! Redirection...", "success");
+
+    await redirectByUserRole(userCredential.user);
+
+  } catch (error) {
+    console.error("Erreur de connexion :", error);
+    let errorText = "Identifiants incorrects. Veuillez réessayer.";
+    
+    if (error.code === "auth/invalid-credential" || error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
+      errorText = "Adresse e-mail ou mot de passe incorrect.";
+    } else if (error.code === "auth/too-many-requests") {
+      errorText = "Trop de tentatives. Veuillez patienter un moment.";
+    }
+
+    showMessage(errorText);
+    button.disabled = false;
+    button.textContent = "Se connecter";
+  }
+});
+</script>
+</body>
+</html>

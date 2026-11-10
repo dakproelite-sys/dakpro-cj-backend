@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>DAKPRO ÉLITE | Redirection</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    #18202e 0%,
+                    #080a0f 45%,
+                    #000 100%
+                );
+
+            color: white;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+        }
+
+        .redirect-box {
+
+            width: 90%;
+            max-width: 420px;
+
+            padding: 35px 25px;
+
+            text-align: center;
+
+            background: #12161f;
+
+            border: 2px solid #d4af37;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 0 30px
+                rgba(212,175,55,.20);
+        }
+
+        .logo {
+
+            width: 90px;
+            height: 90px;
+
+            object-fit: cover;
+
+            border-radius: 50%;
+
+            border: 3px solid #d4af37;
+
+            margin-bottom: 20px;
+        }
+
+        h1 {
+
+            margin: 0 0 10px;
+
+            color: #d4af37;
+
+            font-size: 22px;
+        }
+
+        p {
+
+            color: #bbb;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+        .loader {
+
+            width: 45px;
+            height: 45px;
+
+            margin: 25px auto;
+
+            border-radius: 50%;
+
+            border: 4px solid #333;
+
+            border-top-color: #d4af37;
+
+            animation:
+                tourner
+                1s linear infinite;
+        }
+
+        #message {
+
+            color: #d4af37;
+
+            font-weight: bold;
+        }
+
+        .btn {
+
+            display: none;
+
+            width: 100%;
+
+            padding: 12px;
+
+            margin-top: 15px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #d4af37;
+
+            color: #000;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            text-decoration: none;
+        }
+
+        .btn:hover {
+
+            background: #f3e5ab;
+        }
+
+        @keyframes tourner {
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="redirect-box">
+
+        <img
+            class="logo"
+            src="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png"
+            alt="DAKPRO ÉLITE"
+        >
+
+        <h1>
+            DAKPRO ÉLITE
+        </h1>
+
+        <p id="message">
+            Vérification de votre compte...
+        </p>
+
+        <div
+            class="loader"
+            id="loader"
+        ></div>
+
+        <a
+            href="connexion.html"
+            id="connexionBtn"
+            class="btn"
+        >
+            🔐 Se connecter
+        </a>
+
+        <a
+            href="inscription.html"
+            id="inscriptionBtn"
+            class="btn"
+        >
+            📝 Créer un compte
+        </a>
+
+    </div>
+
+
+    <!-- ============================================================
+         FIREBASE
+         AUTHENTICATION + REALTIME DATABASE UNIQUEMENT
+    ============================================================ -->
+
+    <script type="module">
+
+        import {
+            initializeApp
+        } from
+        "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+
+        import {
+            getAuth,
+            onAuthStateChanged
+        } from
+        "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+
+        import {
+            getDatabase,
+            ref,
+            get
+        } from
+        "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+
+        /* ============================================================
+           CONFIGURATION FIREBASE
+        ============================================================ */
+
+        const firebaseConfig = {
+
+            apiKey:
+                "TON_API_KEY",
+
+            authDomain:
+                "dakpro-elite.firebaseapp.com",
+
+            databaseURL:
+                "https://dakpro-elite-default-rtdb.firebaseio.com",
+
+            projectId:
+                "dakpro-elite",
+
+            storageBucket:
+                "dakpro-elite.firebasestorage.app",
+
+            messagingSenderId:
+                "TON_MESSAGING_SENDER_ID",
+
+            appId:
+                "TON_APP_ID"
+        };
+
+
+        /* ============================================================
+           INITIALISATION
+        ============================================================ */
+
+        const app =
+            initializeApp(firebaseConfig);
+
+        const auth =
+            getAuth(app);
+
+        const db =
+            getDatabase(app);
+
+
+        /* ============================================================
+           ELEMENTS
+        ============================================================ */
+
+        const message =
+            document.getElementById(
+                "message"
+            );
+
+        const loader =
+            document.getElementById(
+                "loader"
+            );
+
+        const connexionBtn =
+            document.getElementById(
+                "connexionBtn"
+            );
+
+        const inscriptionBtn =
+            document.getElementById(
+                "inscriptionBtn"
+            );
+
+
+        /* ============================================================
+           AFFICHER ERREUR
+        ============================================================ */
+
+        function afficherErreur(
+            texte
+        ) {
+
+            message.textContent =
+                texte;
+
+            loader.style.display =
+                "none";
+
+            connexionBtn.style.display =
+                "block";
+
+            inscriptionBtn.style.display =
+                "block";
+        }
+
+
+        /* ============================================================
+           REDIRECTION SELON LE ROLE
+        ============================================================ */
+
+        onAuthStateChanged(
+            auth,
+            async (user) => {
+
+                /* ====================================================
+                   PERSONNE NON CONNECTEE
+                ==================================================== */
+
+                if (!user) {
+
+                    message.textContent =
+                        "Vous n'êtes pas connecté.";
+
+                    loader.style.display =
+                        "none";
+
+                    connexionBtn.style.display =
+                        "block";
+
+                    inscriptionBtn.style.display =
+                        "block";
+
+                    return;
+                }
+
+
+                /* ====================================================
+                   UTILISATEUR CONNECTE
+                ==================================================== */
+
+                message.textContent =
+                    "Chargement de votre espace...";
+
+
+                try {
+
+                    /* ================================================
+                       IMPORTANT :
+                       PROFIL DANS REALTIME DATABASE
+
+                       users/{UID}
+                    ================================================ */
+
+                    const userRef =
+                        ref(
+                            db,
+                            "users/" + user.uid
+                        );
+
+
+                    const snapshot =
+                        await get(userRef);
+
+
+                    if (!snapshot.exists()) {
+
+                        afficherErreur(
+                            "Votre profil DAKPRO ÉLITE est introuvable."
+                        );
+
+                        return;
+                    }
+
+
+                    const userData =
+                        snapshot.val();
+
+
+                    /* ================================================
+                       RECUPERATION DU ROLE
+                    ================================================ */
+
+                    const role =
+                        String(
+                            userData.role || ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+
+                    /* ================================================
+                       ADMINISTRATEUR
+                    ================================================ */
+
+                    if (
+                        role === "admin" ||
+                        userData.isAdmin === true
+                    ) {
+
+                        message.textContent =
+                            "Ouverture de votre espace administrateur...";
+
+                        window.location.replace(
+                            "administration.html"
+                        );
+
+                        return;
+                    }
+
+
+                    /* ================================================
+                       VENDEUR
+                    ================================================ */
+
+                    if (
+                        role === "vendeur"
+                    ) {
+
+                        message.textContent =
+                            "Ouverture de votre espace vendeur...";
+
+                        window.location.replace(
+                            "vendeur.html"
+                        );
+
+                        return;
+                    }
+
+
+                    /* ================================================
+                       ACHETEUR
+                    ================================================ */
+
+                    if (
+                        role === "acheteur"
+                    ) {
+
+                        message.textContent =
+                            "Ouverture de votre espace acheteur...";
+
+                        window.location.replace(
+                            "acheteur.html"
+                        );
+
+                        return;
+                    }
+
+
+                    /* ================================================
+                       LIVREUR
+                    ================================================ */
+
+                    if (
+                        role === "livreur"
+                    ) {
+
+                        message.textContent =
+                            "Ouverture de votre espace livreur...";
+
+                        window.location.replace(
+                            "livreur.html"
+                        );
+
+                        return;
+                    }
+
+
+                    /* ================================================
+                       ROLE INCONNU
+                    ================================================ */
+
+                    afficherErreur(
+                        "Votre rôle n'est pas encore défini dans votre profil."
+                    );
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Erreur redirection :",
+                        error
+                    );
+
+                    afficherErreur(
+                        "Impossible de charger votre profil."
+                    );
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

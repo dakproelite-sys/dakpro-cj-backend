@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#d4af37">
+<meta name="application-name" content="DAKPRO ÉLITE">
+<title>DAKPRO ÉLITE | Inscription Administrateur</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#050505;color:#fff;font-family:Arial,sans-serif;padding:20px;}
+.box{width:100%;max-width:480px;padding:30px 25px;background:#12161f;border:2px solid #d4af37;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.5);}
+.logo{display:block;width:75px;height:75px;margin:0 auto 15px;border-radius:50%;border:2px solid #d4af37;object-fit:cover;}
+h1{text-align:center;font-size:22px;color:#d4af37;margin-bottom:6px;}
+.subtitle{text-align:center;color:#e0e0e0;font-size:13px;line-height:1.5;margin-bottom:20px;}
+.admin-notice{background:#2a2107;border:1px solid #d4af37;color:#f0e68c;padding:12px 14px;border-radius:8px;font-size:12px;margin-bottom:20px;text-align:center;line-height:1.4;}
+label{display:block;font-size:12px;color:#ddd;margin-bottom:6px;}
+input,select{width:100%;padding:13px;border:1px solid #444;border-radius:9px;background:#000;color:#fff;outline:none;font-size:14px;}
+input:focus,select:focus{border-color:#d4af37;}
+select option{background:#000;color:#fff;}
+.field{margin-bottom:14px;}
+.phone-row{display:grid;grid-template-columns:160px 1fr;gap:8px;}
+.password-box{position:relative;}
+.password-box input{padding-right:50px;}
+.toggle-password{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:none;background:transparent;color:#d4af37;font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.privacy-box{display:flex;align-items:flex-start;gap:10px;margin:15px 0;padding:12px;background:#080808;border:1px solid #333;border-radius:10px;}
+.privacy-box input{width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:#d4af37;cursor:pointer;}
+.privacy-label{font-size:11px;line-height:1.5;color:#ccc;cursor:pointer;margin:0;}
+.privacy-label a{color:#d4af37;text-decoration:none;font-weight:bold;}
+button.submit{width:100%;padding:13px;border:none;border-radius:9px;background:#d4af37;color:#000;font-weight:bold;cursor:pointer;font-size:14px;}
+button.submit:disabled{opacity:.6;cursor:not-allowed;}
+.message{margin-top:15px;padding:10px;border-radius:8px;font-size:12px;display:none;text-align:center;line-height:1.5;}
+.error{background:#351313;color:#ff8585;}
+.success{background:#12351d;color:#70e090;}
+.links{margin-top:20px;text-align:center;font-size:12px;}
+.links a{color:#d4af37;text-decoration:none;}
+.links div{margin-top:10px;}
+</style>
+</head>
+<body>
+<div class="box">
+<img class="logo" src="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png" alt="DAKPRO ÉLITE">
+<h1>DAKPRO ÉLITE</h1>
+<p class="subtitle">Portail d'Inscription Administrateur. Créez votre compte privilège pour accéder au panneau de gestion centrale.</p>
+
+<div class="admin-notice">
+  👑 Espace réservé aux administrateurs. Une fois inscrit, vous serez redirigé vers le tableau de bord administration.
+</div>
+
+<form id="registerForm">
+<div class="field">
+<label for="name">Nom complet de l'administrateur</label>
+<input id="name" type="text" autocomplete="name" required maxlength="100" placeholder="Votre nom complet">
+</div>
+
+<div class="field">
+<label for="phone">Numéro de téléphone</label>
+<div class="phone-row">
+<select id="countryCode" required>
+  <option value="+93">🇦🇫 +93 Afghanistan</option>
+  <option value="+355">🇦🇱 +355 Albanie</option>
+  <option value="+213">🇩🇿 +213 Algérie</option>
+  <option value="+49">🇩🇪 +49 Allemagne</option>
+  <option value="+376">🇦🇩 +376 Andorre</option>
+  <option value="+244">🇦🇴 +244 Angola</option>
+  <option value="+1264">🇦🇮 +1 264 Anguilla</option>
+  <option value="+1268">🇦🇬 +1 268 Antigua-et-Barbuda</option>
+  <option value="+966">🇸🇦 +966 Arabie saoudite</option>
+
+  <option value="+54">🇦🇷 +54 Argentine</option>
+  <option value="+374">🇦🇲 +374 Arménie</option>
+  <option value="+297">🇦🇼 +297 Aruba</option>
+  <option value="+61">🇦🇺 +61 Australie</option>
+  <option value="+43">🇦🇹 +43 Autriche</option>
+  <option value="+994">🇦🇿 +994 Azerbaïdjan</option>
+  <option value="+1242">🇧🇸 +1 242 Bahamas</option>
+  <option value="+973">🇧🇭 +973 Bahreïn</option>
+  <option value="+880">🇧🇩 +880 Bangladesh</option>
+  <option value="+1246">🇧🇧 +1 246 Barbade</option>
+  <option value="+32">🇧🇪 +32 Belgique</option>
+  <option value="+501">🇧🇿 +501 Belize</option>
+  <option value="+229" selected>🇧🇯 +229 Bénin</option>
+  <option value="+1441">🇧🇲 +1 441 Bermudes</option>
+  <option value="+975">🇧🇹 +975 Bhoutan</option>
+  <option value="+375">🇧🇾 +375 Biélorussie</option>
+  <option value="+95">🇲🇲 +95 Birmanie (Myanmar)</option>
+  <option value="+591">🇧🇴 +591 Bolivie</option>
+  <option value="+599">🇧🇶 +599 Bonaire, Saint-Eustache et Saba</option>
+  <option value="+387">🇧🇦 +387 Bosnie-Herzégovine</option>
+  <option value="+267">🇧🇼 +267 Botswana</option>
+  <option value="+55">🇧🇷 +55 Brésil</option>
+  <option value="+673">🇧🇳 +673 Brunei</option>
+  <option value="+359">🇧🇬 +359 Bulgarie</option>
+  <option value="+226">🇧🇫 +226 Burkina Faso</option>
+  <option value="+257">🇧🇮 +257 Burundi</option>
+  <option value="+855">🇰🇭 +855 Cambodge</option>
+  <option value="+237">🇨🇲 +237 Cameroun</option>
+  <option value="+1">🇨🇦 +1 Canada</option>
+  <option value="+238">🇨🇻 +238 Cap-Vert</option>
+  <option value="+1345">🇰🇾 +1 345 Îles Caïmans</option>
+  <option value="+236">🇨🇫 +236 Centrafrique</option>
+  <option value="+56">🇨🇱 +56 Chili</option>
+  <option value="+86">🇨🇳 +86 Chine</option>
+  <option value="+357">🇨🇾 +357 Chypre</option>
+  <option value="+61">🇨🇽 +61 Île Christmas</option>
+  <option value="+61">🇨🇨 +61 Îles Cocos (Keeling)</option>
+  <option value="+57">🇨🇴 +57 Colombie</option>
+  <option value="+269">🇰🇲 +269 Comores</option>
+  <option value="+242">🇨🇬 +242 Congo-Brazzaville</option>
+  <option value="+243">🇨🇩 +243 Congo-Kinshasa (RDC)</option>
+  <option value="+682">🇨CK +682 Îles Cook</option>
+  <option value="+850">🇰🇵 +850 Corée du Nord</option>
+  <option value="+82">🇰🇷 +82 Corée du Sud</option>
+  <option value="+506">🇨🇷 +506 Costa Rica</option>
+  <option value="+225">🇨🇮 +225 Côte d'Ivoire</option>
+  <option value="+385">🇭🇷 +385 Croatie</option>
+  <option value="+53">🇨🇺 +53 Cuba</option>
+  <option value="+599">🇨🇼 +599 Curaçao</option>
+  <option value="+45">🇩🇰 +45 Danemark</option>
+  <option value="+253">🇩🇯 +253 Djibouti</option>
+  <option value="+1767">🇩🇲 +1 767 Dominique</option>
+  <option value="+20">🇪🇬 +20 Égypte</option>
+  <option value="+971">🇦🇪 +971 Émirats arabes unis</option>
+  <option value="+593">🇪🇨 +593 Équateur</option>
+  <option value="+291">🇪🇷 +291 Érythrée</option>
+  <option value="+34">🇪🇸 +34 Espagne</option>
+  <option value="+372">🇪🇪 +372 Estonie</option>
+  <option value="+268">🇸🇿 +268 Eswatini (Swaziland)</option>
+  <option value="+1">🇺🇸 +1 États-Unis</option>
+  <option value="+251">🇪🇹 +251 Éthiopie</option>
+  <option value="+500">🇫🇰 +500 Îles Malouines (Falkland)</option>
+  <option value="+298">🇫🇴 +298 Îles Féroé</option>
+  <option value="+679">🇫🇯 +679 Fidji</option>
+  <option value="+358">🇫🇮 +358 Finlande</option>
+  <option value="+33">🇫🇷 +33 France</option>
+  <option value="+241">🇬🇦 +241 Gabon</option>
+  <option value="+220">🇬🇲 +220 Gambie</option>
+  <option value="+995">🇬🇪 +995 Géorgie</option>
+  <option value="+500">🇬🇸 +500 Géorgie du Sud-et-les Îles Sandwich du Sud</option>
+  <option value="+233">🇬🇭 +233 Ghana</option>
+  <option value="+350">🇬🇮 +350 Gibraltar</option>
+  <option value="+30">🇬🇷 +30 Grèce</option>
+  <option value="+1473">🇬🇩 +1 473 Grenade</option>
+  <option value="+299">🇬🇱 +299 Groenland</option>
+  <option value="+590">🇬🇵 +590 Guadeloupe</option>
+  <option value="+1671">🇬🇺 +1 671 Guam</option>
+  <option value="+502">🇬🇹 +502 Guatemala</option>
+  <option value="+44">🇬🇬 +44 Guernesey</option>
+  <option value="+224">🇬🇳 +224 Guinée</option>
+  <option value="+245">🇬🇼 +245 Guinée-Bissau</option>
+  <option value="+240">🇬🇶 +240 Guinée équatoriale</option>
+  <option value="+592">🇬🇾 +592 Guyana</option>
+  <option value="+594">🇬🇫 +594 Guyane française</option>
+  <option value="+509">🇭🇹 +509 Haïti</option>
+  <option value="+504">🇭🇳 +504 Honduras</option>
+  <option value="+852">🇭🇰 +852 Hong Kong</option>
+  <option value="+36">🇭🇺 +36 Hongrie</option>
+  <option value="+44">🇮🇲 +44 Île de Man</option>
+  <option value="+91">🇮🇳 +91 Inde</option>
+  <option value="+62">🇮🇩 +62 Indonésie</option>
+  <option value="+964">🇮🇶 +964 Irak</option>
+  <option value="+98">🇮🇷 +98 Iran</option>
+  <option value="+353">🇮🇪 +353 Irlande</option>
+  <option value="+354">🇮🇸 +354 Islande</option>
+  <option value="+972">🇮🇱 +972 Israël</option>
+  <option value="+39">🇮🇹 +39 Italie</option>
+  <option value="+1876">🇯🇲 +1 876 Jamaïque</option>
+  <option value="+81">🇯🇵 +81 Japon</option>
+  <option value="+44">🇯🇪 +44 Jersey</option>
+  <option value="+962">🇯🇴 +962 Jordanie</option>
+  <option value="+7">🇰🇿 +7 Kazakhstan</option>
+  <option value="+254">🇰🇪 +254 Kenya</option>
+  <option value="+996">🇰🇬 +996 Kirghizistan</option>
+  <option value="+686">🇰🇮 +686 Kiribati</option>
+  <option value="+965">🇰🇼 +965 Koweït</option>
+  <option value="+856">🇱🇦 +856 Laos</option>
+  <option value="+266">🇱🇸 +266 Lesotho</option>
+  <option value="+371">🇱🇻 +371 Lettonie</option>
+  <option value="+961">🇱🇧 +961 Liban</option>
+  <option value="+231">🇱🇷 +231 Liberia</option>
+  <option value="+218">🇱🇾 +218 Libye</option>
+  <option value="+423">🇱🇮 +423 Liechtenstein</option>
+  <option value="+370">🇱🇹 +370 Lituanie</option>
+  <option value="+352">🇱🇺 +352 Luxembourg</option>
+  <option value="+853">🇲🇴 +853 Macao</option>
+  <option value="+389">🇲🇰 +389 Macédoine du Nord</option>
+  <option value="+261">🇲🇬 +261 Madagascar</option>
+  <option value="+60">🇲🇾 +60 Malaisie</option>
+  <option value="+265">🇲🇼 +265 Malawi</option>
+  <option value="+960">🇲🇻 +960 Maldives</option>
+  <option value="+223">🇲🇱 +223 Mali</option>
+  <option value="+356">🇲🇹 +356 Malte</option>
+  <option value="+1670">🇲🇵 +1 670 Îles Mariannes du Nord</option>
+  <option value="+212">🇲🇦 +212 Maroc</option>
+  <option value="+692">🇲🇭 +692 Îles Marshall</option>
+  <option value="+596">🇲🇶 +596 Martinique</option>
+  <option value="+230">🇲🇺 +230 Maurice</option>
+  <option value="+222">🇲🇷 +222 Mauritanie</option>
+  <option value="+262">🇾🇹 +262 Mayotte</option>
+  <option value="+52">🇲🇽 +52 Mexique</option>
+  <option value="+691">🇫🇲 +691 Micronésie</option>
+  <option value="+373">🇲🇩 +373 Moldavie</option>
+  <option value="+377">🇲🇨 +377 Monaco</option>
+  <option value="+976">🇲🇳 +976 Mongolie</option>
+  <option value="+382">🇲🇪 +382 Monténégro</option>
+  <option value="+1664">🇲🇸 +1 664 Montserrat</option>
+  <option value="+258">🇲🇿 +258 Mozambique</option>
+  <option value="+264">🇳🇦 +264 Namibie</option>
+  <option value="+674">🇳🇷 +674 Nauru</option>
+  <option value="+977">🇳🇵 +977 Népal</option>
+  <option value="+505">🇳🇮 +505 Nicaragua</option>
+  <option value="+227">🇳🇪 +227 Niger</option>
+  <option value="+234">🇳🇬 +234 Nigeria</option>
+  <option value="+683">🇳🇺 +683 Niue</option>
+  <option value="+672">🇳🇫 +672 Île Norfolk</option>
+  <option value="+47">🇳🇴 +47 Norvège</option>
+  <option value="+687">🇳🇨 +687 Nouvelle-Calédonie</option>
+  <option value="+64">🇳🇿 +64 Nouvelle-Zélande</option>
+  <option value="+246">🇮🇴 +246 Territoire britannique de l'océan Indien</option>
+  <option value="+968">🇴🇲 +968 Oman</option>
+  <option value="+256">🇺🇬 +256 Ouganda</option>
+  <option value="+998">🇺🇿 +998 Ouzbékistan</option>
+  <option value="+92">🇵🇰 +92 Pakistan</option>
+  <option value="+680">🇵🇼 +680 Palaos</option>
+  <option value="+970">🇵🇸 +970 Palestine</option>
+  <option value="+507">🇵🇦 +507 Panama</option>
+  <option value="+675">🇵🇬 +675 Papouasie-Nouvelle-Guinée</option>
+  <option value="+595">🇵🇾 +595 Paraguay</option>
+  <option value="+31">🇳🇱 +31 Pays-Bas</option>
+  <option value="+51">🇵🇪 +51 Pérou</option>
+  <option value="+63">🇵🇭 +63 Philippines</option>
+  <option value="+64">🇵🇳 +64 Pitcairn</option>
+  <option value="+48">🇵🇱 +48 Pologne</option>
+  <option value="+689">🇵🇫 +689 Polynésie française</option>
+  <option value="+1787">🇵🇷 +1 787 Porto Rico</option>
+  <option value="+351">🇵🇹 +351 Portugal</option>
+  <option value="+974">🇶🇦 +974 Qatar</option>
+  <option value="+262">🇷🇪 +262 La Réunion</option>
+  <option value="+40">🇷🇴 +40 Roumanie</option>
+  <option value="+44">🇬🇧 +44 Royaume-Uni</option>
+  <option value="+7">🇷🇺 +7 Russie</option>
+  <option value="+250">🇷🇼 +250 Rwanda</option>
+  <option value="+212">🇪🇭 +212 Sahara occidental</option>
+  <option value="+590">🇧🇱 +590 Saint-Barthélemy</option>
+  <option value="+1869">🇰🇳 +1 869 Saint-Christophe-et-Niévès</option>
+  <option value="+290">🇸🇭 +290 Sainte-Hélène, Ascension et Tristan da Cunha</option>
+  <option value="+1758">🇱🇨 +1 758 Sainte-Lucie</option>
+  <option value="+378">🇸🇲 +378 Saint-Marin</option>
+  <option value="+590">🇲🇫 +590 Saint-Martin (partie française)</option>
+  <option value="+1721">🇸🇽 +1 721 Saint-Martin (partie néerlandaise)</option>
+  <option value="+508">🇵🇲 +508 Saint-Pierre-et-Miquelon</option>
+  <option value="+1784">🇻🇨 +1 784 Saint-Vincent-et-les-Grenadines</option>
+  <option value="+677">🇸🇧 +677 Îles Salomon</option>
+  <option value="+503">🇸🇻 +503 Salvador</option>
+  <option value="+685">🇼🇸 +685 Samoa</option>
+  <option value="+1684">🇦🇸 +1 684 Samoa américaines</option>
+  <option value="+239">🇸🇹 +239 Sao Tomé-et-Principe</option>
+  <option value="+221">🇸🇳 +221 Sénégal</option>
+  <option value="+381">🇷🇸 +381 Serbie</option>
+  <option value="+248">🇸🇨 +248 Seychelles</option>
+  <option value="+232">🇸🇱 +232 Sierra Leone</option>
+  <option value="+65">🇸🇬 +65 Singapour</option>
+  <option value="+421">🇸🇰 +421 Slovaquie</option>
+  <option value="+386">🇸🇮 +386 Slovénie</option>
+  <option value="+252">🇸🇴 +252 Somalie</option>
+  <option value="+249">🇸🇩 +249 Soudan</option>
+  <option value="+211">🇸🇸 +211 Soudan du Sud</option>
+  <option value="+94">🇱🇰 +94 Sri Lanka</option>
+  <option value="+46">🇸🇪 +46 Suède</option>
+  <option value="+41">🇨🇭 +41 Suisse</option>
+  <option value="+597">🇸🇷 +597 Suriname</option>
+  <option value="+47">🇸🇯 +47 Svalbard et Jan Mayen</option>
+  <option value="+963">🇸🇾 +963 Syrie</option>
+  <option value="+992">🇹🇯 +992 Tadjikistan</option>
+  <option value="+886">🇹🇼 +886 Taïwan</option>
+  <option value="+255">🇹ℤ +255 Tanzanie</option>
+  <option value="+235">🇹🇩 +235 Tchad</option>
+  <option value="+420">🇨🇿 +420 République tchèque</option>
+  <option value="+262">🇹🇫 +262 Terres australes et antarctiques françaises</option>
+  <option value="+66">🇹🇭 +66 Thaïlande</option>
+  <option value="+670">🇹🇱 +670 Timor oriental</option>
+  <option value="+228">🇹🇬 +228 Togo</option>
+  <option value="+676">🇹🇴 +676 Tonga</option>
+  <option value="+1868">🇹🇹 +1 868 Trinité-et-Tobago</option>
+  <option value="+216">🇹🇳 +216 Tunisie</option>
+  <option value="+993">🇹🇲 +993 Turkménistan</option>
+  <option value="+1649">🇹🇨 +1 649 Îles Turques-et-Caïques</option>
+  <option value="+90">🇹🇷 +90 Turquie</option>
+  <option value="+688">🇹🇻 +688 Tuvalu</option>
+  <option value="+380">🇺🇦 +380 Ukraine</option>
+  <option value="+598">🇺🇾 +598 Uruguay</option>
+  <option value="+678">🇻🇺 +678 Vanuatu</option>
+  <option value="+39">🇻🇦 +39 Vatican</option>
+  <option value="+58">🇻🇪 +58 Venezuela</option>
+  <option value="+84">🇻🇳 +84 Viêt Nam</option>
+  <option value="+1284">🇻🇬 +1 284 Îles Vierges britanniques</option>
+  <option value="+1340">🇻🇮 +1 340 Îles Vierges des États-Unis</option>
+  <option value="+681">🇼🇫 +681 Wallis-et-Futuna</option>
+  <option value="+967">🇾🇪 +967 Yémen</option>
+  <option value="+260">🇿🇲 +260 Zambie</option>
+  <option value="+263">🇿🇼 +263 Zimbabwe</option>
+</select>
+<input id="phone" type="tel" autocomplete="tel" required maxlength="20" placeholder="Numéro">
+</div>
+</div>
+
+<div class="field">
+<label for="email">Adresse e-mail administrateur</label>
+<input id="email" type="email" autocomplete="email" required maxlength="150" placeholder="Votre adresse e-mail">
+</div>
+
+<div class="field">
+<label for="password">Mot de passe</label>
+<div class="password-box">
+<input id="password" type="password" autocomplete="new-password" required minlength="6" maxlength="128" placeholder="Minimum 6 caractères">
+<button type="button" class="toggle-password" data-target="password" aria-label="Afficher le mot de passe">👁️</button>
+</div>
+</div>
+
+<div class="field">
+<label for="passwordConfirm">Confirmer le mot de passe</label>
+<div class="password-box">
+<input id="passwordConfirm" type="password" autocomplete="new-password" required minlength="6" maxlength="128" placeholder="Confirmez votre mot de passe">
+<button type="button" class="toggle-password" data-target="passwordConfirm" aria-label="Afficher la confirmation">👁️</button>
+</div>
+</div>
+
+<div class="privacy-box">
+<input id="privacyAccepted" type="checkbox" required>
+<label for="privacyAccepted" class="privacy-label">
+J’ai lu et j’accepte les <a href="politique-confidentialite.html" target="_blank" rel="noopener">règles de confidentialité</a>.
+</label>
+</div>
+
+<button id="registerButton" class="submit" type="submit">Créer le compte Administrateur</button>
+</form>
+
+<div id="message" class="message"></div>
+
+<div class="links">
+<div>Vous avez déjà un compte ? <a id="loginLink" href="connexion.html">Se connecter</a></div>
+<div><a href="administration.html">← Aller au panneau d'administration</a></div>
+</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDR7INHKaazaqZt-xIcjk10JFiy58uXKO8",
+  authDomain: "dakproelite.firebaseapp.com",
+  databaseURL: "https://dakproelite-default-rtdb.firebaseio.com",
+  projectId: "dakproelite",
+  storageBucket: "dakproelite.firebasestorage.app",
+  messagingSenderId: "580591769206",
+  appId: "1:580591769206:web:4f67f8aadbf3d051087157"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+const form = document.getElementById("registerForm");
+const button = document.getElementById("registerButton");
+const message = document.getElementById("message");
+
+// Redirection forcée vers l'administration pour cette page d'inscription admin
+const redirectTarget = "administration.html";
+
+function showMessage(text, type = "error") {
+  message.textContent = text;
+  message.className = "message " + type;
+  message.style.display = "block";
+}
+
+document.querySelectorAll(".toggle-password").forEach(buttonToggle => {
+  buttonToggle.addEventListener("click", () => {
+    const input = document.getElementById(buttonToggle.dataset.target);
+    input.type = input.type === "password" ? "text" : "password";
+    buttonToggle.textContent = input.type === "password" ? "👁️" : "🙈";
+  });
+});
+
+let pageAlreadyLoaded = false;
+onAuthStateChanged(auth, user => {
+  if (pageAlreadyLoaded) return;
+  pageAlreadyLoaded = true;
+  if (user) {
+    window.location.replace(redirectTarget);
+  }
+});
+
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const countryCode = document.getElementById("countryCode").value;
+  const phone = document.getElementById("phone").value.trim();
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  const password = document.getElementById("password").value;
+  const passwordConfirm = document.getElementById("passwordConfirm").value;
+  const privacyAccepted = document.getElementById("privacyAccepted").checked;
+
+  if (!name || !phone || !email || !password || !passwordConfirm) {
+    showMessage("Veuillez remplir tous les champs.");
+    return;
+  }
+  if (!privacyAccepted) {
+    showMessage("Veuillez accepter les règles de confidentialité.");
+    return;
+  }
+  if (password !== passwordConfirm) {
+    showMessage("Les deux mots de passe ne correspondent pas.");
+    return;
+  }
+
+  const cleanPhone = phone.replace(/[^0-9]/g, "");
+  button.disabled = true;
+  button.textContent = "Création du compte admin...";
+  message.style.display = "none";
+
+  try {
+    const credential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = credential.user;
+
+    await updateProfile(user, { displayName: name });
+
+    const now = Date.now();
+
+    // Rôle configuré sur "admin" pour permettre le contrôle d'accès dans l'administration
+    const userData = {
+      uid: user.uid,
+      nom: name,
+      email: email,
+      telephone: countryCode + cleanPhone,
+      indicatif: countryCode,
+      role: "admin",
+      actif: true,
+      createdAt: now,
+      updatedAt: now
+    };
+
+    await set(ref(db, "users/" + user.uid), userData);
+
+    showMessage("Compte Administrateur créé avec succès !", "success");
+
+    setTimeout(() => {
+      window.location.replace(redirectTarget);
+    }, 700);
+
+  } catch (error) {
+    console.error("Erreur Firebase :", error);
+    let text = "Impossible de créer le compte administrateur.";
+    if (error.code === "auth/email-already-in-use") text = "Cette adresse e-mail est déjà utilisée.";
+    showMessage(text);
+    button.disabled = false;
+    button.textContent = "Créer le compte Administrateur";
+  }
+});
+</script>
+</body>
+</html>

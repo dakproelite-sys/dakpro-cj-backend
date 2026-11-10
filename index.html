@@ -2,1097 +2,4487 @@
 <html lang="fr" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
 <meta name="theme-color" content="#d4af37">
-<meta name="application-name" content="DAKPROÉLITE">
-<meta name="apple-mobile-web-app-title" content="DAKPROÉLITE">
+<meta name="application-name" content="DAKPRO ÉLITE">
+<meta name="apple-mobile-web-app-title" content="DAKPRO ÉLITE">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<title>DAKPROÉLITE | La Référence Marketplace Internationale</title>
+<title>DAKPRO ÉLITE | La Référence</title>
 
 <link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" href="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png">
-<link rel="apple-touch-icon" href="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-<!-- SDK FIREBASE COMPATIBILITÉ UNIVERSELLE (Faible RAM & Anciens/Nouveaux navigateurs) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<link
+rel="icon"
+type="image/png"
+href="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png">
+
+<link
+rel="apple-touch-icon"
+href="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png">
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
 
 <style>
+
 :root{
 --gold:#d4af37;
 --gold-light:#f3e5ab;
 --black:#050505;
 --dark:#0b0e13;
 --soft-dark:#12161f;
---card:#ffffff;
---card-text:#1a1a1a;
---blue:#0066cc;
---green:#15803d;
---red:#dc2626;
+--card:#1a2230;
+--blue:#007bff;
+--blue-dark:#0056b3;
+--green:#22c55e;
+--red:#ef4444;
 --white:#fff;
---gray:#555;
+--gray:#aaa;
+--border:rgba(212,175,55,.30);
 }
 
-*{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
-body{min-height:100vh;background:var(--black);color:var(--white);font-family:Poppins,sans-serif;display:flex;flex-direction:column;overflow-x:hidden;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
 
-button,input,select,textarea{font-family:inherit;}
-button,a{-webkit-tap-highlight-color:transparent;}
-a{color:inherit;}
+html{
+scroll-behavior:smooth;
+-webkit-text-size-adjust:100%;
+}
 
-/* HEADER HAUTE PERFORMANCE & LOGO INSTANTANÉ */
+body{
+min-height:100vh;
+background:var(--black);
+color:var(--white);
+font-family:Poppins,sans-serif;
+display:flex;
+flex-direction:column;
+overflow-x:hidden;
+top:0!important;
+}
+
+button,input,select,textarea{
+font-family:inherit;
+}
+
+button,a{
+-webkit-tap-highlight-color:transparent;
+}
+
+a{
+color:inherit;
+}
+
+#google_translate_element{
+display:none!important;
+}
+
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+.goog-te-gadget-icon,
+.goog-tooltip,
+.goog-tooltip:hover{
+display:none!important;
+}
+
+.goog-te-gadget{
+font-size:0!important;
+}
+
+.goog-text-highlight{
+background:none!important;
+box-shadow:none!important;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
 .header{
-position:sticky;top:0;z-index:5000;width:100%;min-height:70px;
-display:flex;align-items:center;gap:10px;padding:10px 12px;
+position:sticky;
+top:0;
+z-index:5000;
+width:100%;
+min-height:62px;
+display:flex;
+align-items:center;
+gap:10px;
+padding:
+9px
+max(10px,env(safe-area-inset-right))
+9px
+max(10px,env(safe-area-inset-left));
 background:linear-gradient(to bottom,#131921,#050505);
 border-bottom:2px solid var(--gold);
 }
 
 .logo-container{
-width:50px !important;height:50px !important;min-width:50px !important;min-height:50px !important;flex:0 0 50px !important;
-border-radius:50% !important;border:2px solid var(--gold) !important;overflow:hidden !important;
-display:flex !important;align-items:center !important;justify-content:center !important;background:#000 !important;
-transform:translateZ(0);will-change:transform;
+width:42px;
+height:42px;
+flex:0 0 42px;
+border-radius:50%;
+border:2px solid var(--gold);
+overflow:hidden;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#000;
+cursor:pointer;
+transition:.25s ease;
 }
-.logo{display:block !important;width:100% !important;height:100% !important;object-fit:contain !important;background:#000 !important;}
 
-.search-container{flex:1;min-width:0;display:flex;align-items:center;}
+.logo-container:hover{
+transform:scale(1.08);
+}
+
+.logo-container:active{
+transform:scale(.94);
+}
+
+.logo{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.fallback-logo{
+color:var(--gold);
+font-size:12px;
+font-weight:800;
+}
+
+.search-container{
+flex:1;
+min-width:0;
+}
+
 #searchBar{
-width:100%;height:40px;border:1px solid var(--gold);border-radius:20px;
-background:#000;color:#fff;padding:0 14px;outline:none;font-size:12px;
+width:100%;
+height:40px;
+border:2px solid var(--gold);
+border-radius:24px;
+background:#000;
+color:#fff;
+padding:0 15px;
+outline:none;
+font-size:13px;
+box-shadow:0 0 10px rgba(212,175,55,.12);
 }
-#searchBar::placeholder{color:#888;font-size:11px;}
 
-.nav-icons{display:flex;align-items:center;gap:12px;flex-shrink:0;}
-.nav-item{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-decoration:none;font-size:9px;cursor:pointer;}
-.nav-item>span:first-child{font-size:18px;line-height:20px;}
+#searchBar::placeholder{
+color:#888;
+}
+
+.nav-icons{
+display:flex;
+align-items:center;
+gap:10px;
+flex-shrink:0;
+}
+
+.nav-item{
+position:relative;
+min-width:38px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+color:#fff;
+text-decoration:none;
+font-size:9px;
+cursor:pointer;
+}
+
+.nav-item>span:first-child{
+font-size:17px;
+line-height:18px;
+}
+
+.nav-item:hover{
+color:var(--gold);
+}
+
 .cart-badge{
-position:absolute;top:-4px;right:0px;background:var(--red);color:#fff;
-font-size:9px;font-weight:700;border-radius:8px;padding:1px 4px;
-min-width:14px;text-align:center;display:none;border:1px solid var(--black);
+position:absolute;
+top:-3px;
+right:1px;
+min-width:15px;
+height:15px;
+display:none;
+align-items:center;
+justify-content:center;
+padding:0 3px;
+background:var(--red);
+border-radius:50%;
+color:#fff;
+font-size:8px;
+font-weight:700;
 }
 
-/* BANNIÈRE D'INSTALLATION DE L'APPLICATION (PRO & PUISSANTE) */
-.install-app-banner {
-display: none;
-width: 96%;
-max-width: 1400px;
-margin: 10px auto 0 auto;
-background: linear-gradient(135deg, #131921, #1a222d);
-border: 2px solid var(--gold);
-border-radius: 12px;
-padding: 12px 16px;
-align-items: center;
-justify-content: space-between;
-gap: 12px;
-box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
-animation: pulseGlow 2s infinite;
-}
-@keyframes pulseGlow {
-0% { border-color: rgba(212, 175, 55, 0.6); }
-50% { border-color: rgba(212, 175, 55, 1); }
-100% { border-color: rgba(212, 175, 55, 0.6); }
-}
-.install-app-info { display: flex; align-items: center; gap: 10px; }
-.install-app-icon { font-size: 26px; }
-.install-app-text h4 { color: var(--gold); font-size: 13px; font-weight: 700; margin-bottom: 2px; }
-.install-app-text p { color: #ccc; font-size: 10px; line-height: 1.2; }
-.btn-install-app {
-background: linear-gradient(135deg, var(--gold), #aa8c2c);
-color: #000;
-border: none;
-padding: 8px 16px;
-border-radius: 20px;
-font-weight: 800;
-font-size: 11px;
-cursor: pointer;
-white-space: nowrap;
-display: flex;
-align-items: center;
-gap: 6px;
-box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+/* =====================================================
+   INSTALLATION
+===================================================== */
+
+#btnInstall{
+display:none;
+width:calc(100% - 30px);
+max-width:600px;
+margin:12px auto;
+padding:11px;
+background:#333;
+border:1px solid var(--gold);
+border-radius:10px;
+text-align:center;
+color:#fff;
+cursor:pointer;
+font-size:13px;
+font-weight:600;
 }
 
-/* BANNIÈRES */
+/* =====================================================
+   ADMIN
+===================================================== */
+
+.admin-protected-section{
+display:none;
+width:94%;
+max-width:900px;
+margin:15px auto;
+padding:16px;
+background:var(--soft-dark);
+border:2px dashed var(--gold);
+border-radius:14px;
+box-shadow:0 5px 20px rgba(212,175,55,.12);
+}
+
+.admin-protected-section h3{
+color:var(--gold);
+text-align:center;
+font-size:15px;
+margin-bottom:15px;
+}
+
+.admin-grid{
+display:grid;
+grid-template-columns:1fr;
+gap:12px;
+}
+
+.admin-box{
+padding:12px;
+background:#080a0d;
+border:1px solid #333;
+border-radius:10px;
+}
+
+.admin-box h4{
+color:var(--gold);
+font-size:13px;
+margin-bottom:10px;
+}
+
+.admin-row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+}
+
+@media(max-width:600px){
+.admin-row{
+grid-template-columns:1fr;
+}
+}
+
+.admin-protected-section input,
+.admin-protected-section textarea,
+.admin-protected-section select{
+width:100%;
+padding:10px;
+margin-bottom:8px;
+background:#000;
+color:#fff;
+border:1px solid #444;
+border-radius:7px;
+outline:none;
+}
+
+.admin-protected-section textarea{
+min-height:90px;
+resize:vertical;
+}
+
+.admin-btn{
+width:100%;
+padding:10px;
+border:none;
+border-radius:8px;
+background:var(--gold);
+color:#000;
+font-weight:700;
+cursor:pointer;
+}
+
+.admin-btn-danger{
+background:var(--red);
+color:#fff;
+}
+
+.admin-btn:hover{
+filter:brightness(1.1);
+}
+
+/* =====================================================
+   PREVISUALISATION
+===================================================== */
+
+.preview-container{
+margin-top:15px;
+padding:12px;
+background:#000;
+border:1px solid var(--gold);
+border-radius:10px;
+}
+
+.preview-container h5{
+color:var(--gold);
+font-size:12px;
+margin-bottom:8px;
+text-transform:uppercase;
+}
+
+.preview-card-wrapper{
+max-width:240px;
+margin:0 auto;
+}
+
+/* =====================================================
+   BANNIÈRE
+===================================================== */
+
 .banner-container{
-display:none;position:relative;width:94%;max-width:1400px;margin:12px auto;
-overflow:hidden;border:1px solid var(--gold);border-radius:12px;background:var(--soft-dark);min-height:180px;
+display:none;
+position:relative;
+width:94%;
+max-width:1400px;
+margin:15px auto;
+overflow:hidden;
+border:1px solid var(--gold);
+border-radius:15px;
+background:var(--soft-dark);
+box-shadow:0 5px 20px rgba(212,175,55,.15);
 }
-.banner-track{display:flex;width:100%;transition:transform .4s ease;}
-.banner-slide{position:relative;min-width:100%;}
-.banner-slide img{width:100%;height:180px;display:block;object-fit:cover;}
-.banner-content{position:absolute;left:0;right:0;bottom:0;padding:12px;background:linear-gradient(to top, rgba(0,0,0,.9), transparent);}
-.banner-content h3{color:var(--gold);font-size:13px;margin-bottom:2px;}
-.banner-content p{color:#ddd;font-size:10px;}
-.banner-controls{position:absolute;top:8px;right:8px;z-index:20;display:flex;gap:4px;background:rgba(0,0,0,0.6);padding:3px 6px;border-radius:15px;border:1px solid var(--gold);}
-.banner-btn{background:transparent;border:none;color:var(--gold);font-size:12px;cursor:pointer;padding:2px 4px;}
-.banner-dots{position:absolute;bottom:6px;right:10px;display:flex;gap:4px;z-index:10;}
-.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;}
-.dot.active{background:var(--gold);}
 
-/* BARRE DE NAVIGATION (MÉTIERS + CATÉGORIES) */
-.navigation-bar-container{
-width:100%;padding:8px 12px;display:flex;gap:10px;align-items:center;
-background:rgba(11,14,19,0.9);border-bottom:1px solid rgba(212,175,55,0.2);overflow-x:auto;
--webkit-overflow-scrolling:touch;
+.banner-track{
+display:flex;
+width:100%;
+transition:transform .5s ease;
 }
-.navigation-bar-container::-webkit-scrollbar{display:none;}
-.btn-metiers-special{
-flex:0 0 auto;padding:8px 14px;border:1px solid var(--gold);border-radius:20px;
-background:linear-gradient(135deg, #d4af37, #aa8c2c);color:#000;cursor:pointer;
-white-space:nowrap;font-size:11px;font-weight:800;text-decoration:none;
-display:inline-flex;align-items:center;gap:4px;
+
+.banner-slide{
+position:relative;
+min-width:100%;
 }
-.cat-scroll{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;align-items:center;}
-.cat-scroll::-webkit-scrollbar{display:none;}
+
+.banner-slide a{
+display:block;
+text-decoration:none;
+}
+
+.banner-slide img{
+width:100%;
+height:180px;
+display:block;
+object-fit:cover;
+}
+
+.banner-content{
+position:absolute;
+left:0;
+right:0;
+bottom:0;
+padding:15px;
+background:linear-gradient(to top,rgba(0,0,0,.92),transparent);
+}
+
+.banner-content h3{
+color:var(--gold);
+font-size:15px;
+margin-bottom:3px;
+}
+
+.banner-content p{
+color:#ddd;
+font-size:11px;
+}
+
+.banner-dots{
+position:absolute;
+bottom:9px;
+right:12px;
+display:flex;
+gap:5px;
+}
+
+.dot{
+width:8px;
+height:8px;
+border-radius:50%;
+background:rgba(255,255,255,.4);
+cursor:pointer;
+}
+
+.dot.active{
+background:var(--gold);
+}
+
+/* =====================================================
+   CATEGORIES
+===================================================== */
+
+.cat-scroll{
+width:100%;
+display:flex;
+gap:9px;
+overflow-x:auto;
+padding:10px 15px 15px;
+scrollbar-width:none;
+}
+
+.cat-scroll::-webkit-scrollbar{
+display:none;
+}
+
 .cat-btn{
-flex:0 0 auto;padding:7px 12px;border:1px solid var(--gold);border-radius:16px;
-background:transparent;color:#fff;cursor:pointer;white-space:nowrap;font-size:11px;
-display:inline-flex;align-items:center;gap:4px;
+flex:0 0 auto;
+padding:9px 17px;
+border:1px solid var(--gold);
+border-radius:22px;
+background:transparent;
+color:#fff;
+cursor:pointer;
+white-space:nowrap;
+font-size:12px;
 }
-.cat-btn.active{background:var(--gold);color:#000;font-weight:800;}
 
-/* SECTIONS AMAZON */
-.amazon-section{
-width:96%;max-width:1800px;margin:12px auto;padding:12px;background:#ffffff;
-border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.1);
+.cat-btn.active{
+background:var(--gold);
+color:#000;
+font-weight:700;
 }
-.amazon-section-title{
-font-size:13px;font-weight:700;color:var(--black);margin-bottom:10px;
-display:flex;align-items:center;justify-content:space-between;gap:6px;border-bottom:2px solid var(--gold);padding-bottom:5px;
-}
-.amazon-carousel{
-display:flex;gap:10px;overflow-x:auto;-webkit-overflow-scrolling:touch;
-scroll-snap-type:x mandatory;padding-bottom:8px;min-height:240px;
-}
-.amazon-carousel::-webkit-scrollbar{height:6px;}
-.amazon-carousel::-webkit-scrollbar-thumb{background:var(--gold);border-radius:8px;}
 
-/* CATALOGUE GÉNÉRAL EN GRILLE OPTIMISÉ */
+/* =====================================================
+   PRODUITS
+===================================================== */
+
 .products{
-width:100%;margin:0 auto;padding:8px;background:#ffffff;
-display:grid;grid-template-columns:repeat(2, 1fr);gap:10px;align-items:stretch;
+width:100%;
+max-width:1800px;
+margin:0 auto;
+padding:5px 12px 20px;
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:12px;
+align-content:start;
+flex:1;
 }
-@media(min-width:600px){.products{grid-template-columns:repeat(3, 1fr);gap:12px;padding:12px;}}
-@media(min-width:900px){.products{grid-template-columns:repeat(4, 1fr);gap:16px;padding:16px;}}
-@media(min-width:1200px){.products{grid-template-columns:repeat(6, 1fr);gap:18px;}}
 
-/* CARTE PRODUIT LÉGÈRE */
 .card{
-position:relative;display:flex;flex-direction:column;justify-content:space-between;
-width:100%;background:#ffffff;border:1px solid #e2e8f0;border-radius:10px;
-padding:8px;box-shadow:0 2px 8px rgba(0,0,0,.04);overflow:hidden;height:100%;
-scroll-snap-align:start;
+position:relative;
+min-width:0;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+padding:10px;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:14px;
+box-shadow:0 4px 12px rgba(0,0,0,.4);
+cursor:pointer;
+transition:transform .2s ease,border-color .2s ease;
 }
-.amazon-carousel .card{flex:0 0 160px;min-width:160px;}
-@media(min-width:400px){.amazon-carousel .card{flex:0 0 180px;min-width:180px;}}
 
-.badge-discount{position:absolute;top:6px;right:6px;z-index:5;padding:2px 5px;background:var(--red);color:#fff;border-radius:3px;font-size:8px;font-weight:800;}
-.badge-boost{position:absolute;top:6px;left:6px;z-index:5;padding:2px 5px;background:#d97706;color:#fff;border-radius:3px;font-size:7px;font-weight:800;text-transform:uppercase;}
-
-.media-container{
-width:100%;height:140px;position:relative;border-radius:6px;overflow:hidden;
-background:#f8fafc;display:flex;align-items:center;justify-content:center;margin-bottom:8px;border:1px solid #f1f5f9;
+.card:hover{
+transform:translateY(-3px);
+border-color:var(--gold);
 }
-.card img{width:100%;height:100%;object-fit:contain;display:block;}
-.card video{width:100%;height:100%;object-fit:contain;display:block;}
+
+/* IMAGE PRODUIT COMPLETE */
+
+.card img,
+.card video,
+.doc-box{
+display:block;
+width:100%;
+height:160px;
+object-fit:contain;
+border-radius:10px;
+background:#080b10;
+}
+
+.card img{
+object-fit:contain;
+}
+
+/* IMAGE MANQUANTE */
+
+.product-no-image{
+width:100%;
+height:160px;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+border-radius:10px;
+background:#080b10;
+border:1px solid #252a33;
+color:#777;
+font-size:11px;
+text-align:center;
+}
+
+.product-no-image strong{
+font-size:30px;
+margin-bottom:5px;
+color:var(--gold);
+}
+
+.doc-box{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+background:#111;
+border:1px solid #333;
+color:var(--gold);
+text-decoration:none;
+padding:10px;
+text-align:center;
+}
+
+.doc-box span{
+font-size:32px;
+margin-bottom:5px;
+}
+
+.doc-box p{
+font-size:10px;
+color:#fff;
+word-break:break-all;
+}
 
 .card h3{
-margin:2px 0 4px;font-size:11.5px;font-weight:600;line-height:1.3;
-color:var(--card-text);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:30px;
+margin:9px 0 4px;
+font-size:13px;
+line-height:1.3;
+word-break:break-word;
 }
-.card .description-complete{
-font-size:9.5px;color:var(--gray);line-height:1.3;margin-bottom:6px;
-display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:24px;
-}
-.market-tags{display:flex;gap:3px;margin-bottom:4px;flex-wrap:wrap;}
-.tag-express{background:rgba(22,163,74,0.1);color:#15803d;border:1px solid rgba(22,163,74,0.2);font-size:7.5px;padding:1px 4px;border-radius:3px;font-weight:600;}
 
-/* PRIX (PROMO/ACTUEL EN ROUGE, ANCIEN EN BLEU) */
-.price-container{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin:2px 0 6px;}
-.price{color:var(--red);font-size:12.5px;font-weight:800;}
-.price-old{text-decoration:line-through;color:var(--blue);font-size:9.5px;font-weight:600;}
+.price{
+color:var(--gold);
+font-size:15px;
+font-weight:800;
+margin:5px 0;
+}
 
-.card-actions-row{display:flex;gap:4px;margin-top:auto;width:100%;}
-.btn-action{
-flex:1;min-width:0;padding:6px 2px;border-radius:5px;font-size:9px;font-weight:700;
-text-align:center;text-decoration:none;cursor:pointer;display:flex;align-items:center;justify-content:center;white-space:nowrap;border:none;color:#fff;
+.price-old{
+text-decoration:line-through;
+color:#888;
+font-size:11px;
+margin-left:5px;
+font-weight:400;
 }
-.btn-view{background:var(--blue);}
-.btn-cart{background:var(--green);}
 
-/* MODAL & FOOTER */
-.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);display:flex;justify-content:center;align-items:center;z-index:10000;padding:10px;}
-.modal-content{background:#0a0d14;border:1px solid var(--gold);border-radius:12px;padding:15px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;}
-.app-footer{margin-top:20px;background:#131921;border-top:2px solid var(--gold);color:#ddd;font-size:11px;}
-.footer-announcement{padding:12px 15px;text-align:center;background:var(--soft-dark);border-bottom:1px solid #333;}
-.footer-announcement h4{color:var(--gold);margin-bottom:4px;font-size:12px;}
-.footer-links-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:1000px;margin:auto;padding:15px;}
-.footer-column h5{color:var(--gold);font-size:11px;margin-bottom:8px;text-transform:uppercase;}
-.footer-column ul{list-style:none;}
-.footer-column li{margin-bottom:6px;}
-.footer-column a{color:#aaa;text-decoration:none;}
+.btn{
+width:100%;
+padding:9px;
+border:none;
+border-radius:8px;
+background:var(--gold);
+color:#000;
+font-size:12px;
+font-weight:700;
+cursor:pointer;
+}
 
-/* SÉLECTEUR DE LANGUE */
-.footer-language-container{
-display:flex;justify-content:center;align-items:center;padding:12px;
-background:rgba(0,0,0,0.5);border-top:1px solid #222;border-bottom:1px solid #222;position:relative;
+.btn:hover{
+background:var(--gold-light);
 }
-.lang-dropdown-wrapper{position:relative;display:inline-block;}
-.lang-main-btn{
-background:#1a222d;border:1px solid var(--gold);color:#fff;padding:6px 12px;
-border-radius:16px;font-size:11px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-weight:600;
-}
-.lang-menu{
-display:none;position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:6px;
-background:#12161f;border:1px solid var(--gold);border-radius:8px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.5);z-index:100;
-min-width:150px;max-height:240px;overflow-y:auto;
-}
-.lang-menu.show{display:block;}
-.lang-option{
-width:100%;padding:8px 12px;background:transparent;border:none;color:#fff;
-text-align:left;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:6px;
-}
-.lang-option:hover{background:var(--gold);color:#000;font-weight:700;}
 
-.footer-bottom-bar{padding:12px;background:#000;text-align:center;color:#777;font-size:9px;}
-.loading-message,.empty-message{grid-column:1 / -1;padding:30px 10px;text-align:center;color:#64748b;font-size:12px;}
+.affiliate-box{
+margin-top:7px;
+}
+
+.affiliate-input{
+display:none;
+width:100%;
+margin-bottom:4px;
+padding:6px;
+background:#000;
+color:#fff;
+border:1px solid #444;
+border-radius:6px;
+font-size:9px;
+}
+
+.btn-copy{
+width:100%;
+padding:8px;
+border:none;
+border-radius:7px;
+background:var(--blue);
+color:#fff;
+font-size:10px;
+font-weight:600;
+cursor:pointer;
+}
+
+.badge-boost{
+position:absolute;
+top:15px;
+left:15px;
+z-index:5;
+padding:3px 6px;
+background:#e00000;
+color:#fff;
+border-radius:4px;
+font-size:8px;
+font-weight:700;
+}
+
+/* =====================================================
+   DAKBOT FLOTTANT
+===================================================== */
+
+.btn-ia{
+position:fixed;
+right:20px;
+bottom:calc(25px + env(safe-area-inset-bottom));
+left:auto;
+top:auto;
+
+z-index:9000;
+
+padding:9px 14px;
+border-radius:22px;
+
+background:linear-gradient(
+135deg,
+var(--blue),
+var(--blue-dark)
+);
+
+color:#fff;
+font-size:12px;
+font-weight:700;
+
+cursor:grab;
+user-select:none;
+-webkit-user-select:none;
+
+touch-action:none;
+
+box-shadow:0 5px 18px rgba(0,123,255,.35);
+
+border:1px solid rgba(255,255,255,.2);
+
+white-space:nowrap;
+
+transition:box-shadow .2s ease;
+}
+
+.btn-ia.dragging{
+cursor:grabbing;
+box-shadow:0 8px 25px rgba(0,123,255,.55);
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.app-footer{
+margin-top:25px;
+background:#131921;
+border-top:2px solid var(--gold);
+color:#ddd;
+font-size:12px;
+}
+
+.footer-announcement{
+padding:16px 20px;
+text-align:center;
+background:var(--soft-dark);
+border-bottom:1px solid #333;
+}
+
+.footer-announcement h4{
+color:var(--gold);
+margin-bottom:5px;
+font-size:14px;
+}
+
+.footer-announcement p{
+color:#ccc;
+line-height:1.5;
+font-size:11px;
+}
+
+.footer-links-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:20px;
+width:100%;
+max-width:1000px;
+margin:auto;
+padding:25px 20px;
+}
+
+.footer-column h5{
+color:var(--gold);
+font-size:12px;
+margin-bottom:10px;
+text-transform:uppercase;
+}
+
+.footer-column ul{
+list-style:none;
+}
+
+.footer-column li{
+margin-bottom:8px;
+}
+
+.footer-column a{
+color:#aaa;
+text-decoration:none;
+}
+
+.footer-column a:hover{
+color:var(--gold);
+}
+
+.footer-lang-selector-section{
+padding:20px;
+background:#06090c;
+border-top:1px solid #222;
+text-align:center;
+}
+
+.footer-lang-selector-section label{
+display:block;
+margin-bottom:8px;
+color:var(--gold);
+font-size:13px;
+font-weight:600;
+}
+
+.footer-lang-selector-section select{
+width:100%;
+max-width:320px;
+padding:10px 15px;
+background:#000;
+color:#fff;
+border:2px solid var(--gold);
+border-radius:10px;
+outline:none;
+}
+
+.footer-bottom-bar{
+padding:15px;
+background:#000;
+border-top:1px solid #222;
+text-align:center;
+color:#777;
+font-size:10px;
+}
+
+/* =====================================================
+   MESSAGES
+===================================================== */
+
+.loading-message,
+.empty-message{
+grid-column:1/-1;
+padding:40px 20px;
+text-align:center;
+color:#999;
+font-size:13px;
+}
+
+.error-message{
+color:#ff8080;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(min-width:700px){
+
+.products{
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:15px;
+padding-left:20px;
+padding-right:20px;
+}
+
+.card img,
+.card video,
+.doc-box,
+.product-no-image{
+height:210px;
+}
+
+.footer-links-grid{
+grid-template-columns:repeat(4,1fr);
+}
+
+}
+
+@media(min-width:1000px){
+
+.products{
+grid-template-columns:repeat(4,minmax(0,1fr));
+}
+
+}
+
+@media(min-width:1350px){
+
+.products{
+grid-template-columns:repeat(5,minmax(0,1fr));
+}
+
+}
+
+@media(min-width:1650px){
+
+.products{
+grid-template-columns:repeat(6,minmax(0,1fr));
+}
+
+}
+
+@media(max-width:500px){
+
+.header{
+gap:7px;
+}
+
+.logo-container{
+width:38px;
+height:38px;
+flex-basis:38px;
+}
+
+.nav-icons{
+gap:6px;
+}
+
+.nav-item{
+min-width:32px;
+font-size:8px;
+}
+
+.nav-item>span:first-child{
+font-size:15px;
+}
+
+#searchBar{
+height:38px;
+padding:0 11px;
+font-size:11px;
+}
+
+.card{
+padding:8px;
+}
+
+.card img,
+.card video,
+.doc-box,
+.product-no-image{
+height:140px;
+}
+
+.card h3{
+font-size:11px;
+}
+
+.price{
+font-size:13px;
+}
+
+.btn{
+padding:8px 5px;
+font-size:10px;
+}
+
+.btn-copy{
+font-size:9px;
+}
+
+}
+
 </style>
 </head>
 
 <body>
 
 <header class="header">
-<div class="logo-container">
-<img class="logo" src="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png" alt="Logo DAKPROÉLITE" loading="eager" fetchpriority="high" decoding="async">
+
+<div class="logo-container notranslate" id="logoButton">
+
+<img
+class="logo"
+id="appLogo"
+src="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png"
+alt="Logo DAKPRO ÉLITE">
+
+<span
+class="fallback-logo"
+id="fallbackLogo"
+style="display:none">
+DP
+</span>
+
 </div>
+
 <div class="search-container">
-<input type="search" id="searchBar" autocomplete="off" placeholder="Rechercher des produits...">
+
+<input
+type="search"
+id="searchBar"
+autocomplete="off"
+placeholder="Rechercher un produit...">
+
 </div>
+
 <div class="nav-icons">
-<a href="panier.html" class="nav-item" id="navCartLink">
-<span>🛒</span><span class="cart-badge" id="cartBadge">0</span><span data-i18n="navCart">Panier</span>
+
+<a href="panier.html" class="nav-item">
+
+<span>🛒</span>
+
+<span id="cartCountBadge" class="cart-badge">0</span>
+
+<span>Panier</span>
+
 </a>
-<a href="profil-acheteur.html" class="nav-item"><span>👤</span><span data-i18n="navAccount">Compte</span></a>
+
+<a href="redirect.html" class="nav-item">
+
+<span>👤</span>
+
+<span>Compte</span>
+
+</a>
+
 </div>
+
 </header>
 
-<!-- BANNIÈRE / BOUTON D'INSTALLATION DE L'APPLICATION (PUISSANT & PROFESSIONNEL) -->
-<div class="install-app-banner" id="installAppBanner">
-<div class="install-app-info">
-<span class="install-app-icon">📥</span>
-<div class="install-app-text">
-<h4 data-i18n="installAppTitle">Installer DAKPROÉLITE</h4>
-<p data-i18n="installAppDesc">Accédez plus rapidement à la marketplace depuis votre écran d'accueil.</p>
+<div id="btnInstall">
+Installer l'application sur l'appareil
 </div>
+
+<div id="google_translate_element"></div>
+
+<!-- =====================================================
+     ADMINISTRATION
+===================================================== -->
+
+<section
+id="adminProtectedSection"
+class="admin-protected-section">
+
+<h3>🔒 Administration DAKPRO ÉLITE</h3>
+
+<div class="admin-grid">
+
+<div class="admin-box">
+
+<h4>📦 Publier un produit</h4>
+
+<input
+id="adminProductName"
+type="text"
+placeholder="Nom du produit (ex: Sardines)">
+
+<textarea
+id="adminProductDescription"
+placeholder="Description détaillée du produit"></textarea>
+
+<input
+id="adminProductCategory"
+type="text"
+placeholder="Catégorie">
+
+<div class="admin-row">
+
+<input
+id="adminProductPrice"
+type="number"
+placeholder="Prix normal"
+min="0"
+step="any">
+
+<input
+id="adminProductPromoPrice"
+type="number"
+placeholder="Prix promo"
+min="0"
+step="any">
+
 </div>
-<button type="button" class="btn-install-app" id="btnInstallApp">
-<span>⚡</span> <span data-i18n="installAppBtn">Installer</span>
+
+<select id="adminProductCurrency">
+
+<option value="FCFA">
+Franc CFA (FCFA)
+</option>
+
+<option value="EUR">
+Euro (€)
+</option>
+
+<option value="USD">
+Dollar ($)
+</option>
+
+<option value="DZD">
+Dinar Algérien (DZD)
+</option>
+
+<option value="TND">
+Dinar Tunisien (TND)
+</option>
+
+<option value="KWD">
+Dinar Koweïtien (KWD)
+</option>
+
+</select>
+
+<label
+style="
+font-size:11px;
+color:var(--gold);
+display:block;
+margin-bottom:4px;
+">
+Date & Heure de publication :
+</label>
+
+<input
+id="adminProductPublishTime"
+type="datetime-local">
+
+<input
+id="adminProductImage"
+type="url"
+placeholder="URL de l'image">
+
+<input
+id="adminProductVideo"
+type="url"
+placeholder="URL de la vidéo">
+
+<input
+id="adminProductDocument"
+type="url"
+placeholder="URL du document (PDF, Doc...)">
+
+<div class="preview-container">
+
+<h5>
+👁️ Aperçu avant publication
+</h5>
+
+<div
+class="preview-card-wrapper"
+id="adminPreviewBox">
+
+<div
+style="
+font-size:11px;
+color:#666;
+text-align:center;
+">
+Remplissez les champs pour voir l'aperçu.
+</div>
+
+</div>
+
+</div>
+
+<button
+class="admin-btn"
+id="adminAddProduct"
+style="margin-top:10px;">
+
+Publier le produit
+
 </button>
+
 </div>
 
-<!-- BANNIÈRE DÉFILANTE -->
-<section class="banner-container" id="bannerContainer">
-<div class="banner-controls">
-<button type="button" class="banner-btn" id="btnBannerPrev">◄</button>
-<button type="button" class="banner-btn" id="btnBannerPause">⏸</button>
-<button type="button" class="banner-btn" id="btnBannerNext">►</button>
+<div class="admin-box">
+
+<h4>
+📢 Faya Buzz / Annonce officielle
+</h4>
+
+<input
+id="adminAnnouncementTitle"
+type="text"
+placeholder="Titre de l'annonce">
+
+<textarea
+id="adminAnnouncementText"
+placeholder="Texte de l'annonce">
+</textarea>
+
+<button
+class="admin-btn"
+id="adminSaveAnnouncement">
+
+Publier / modifier l'annonce
+
+</button>
+
+<button
+class="admin-btn admin-btn-danger"
+id="adminDeleteAnnouncement"
+style="margin-top:6px">
+
+Supprimer l'annonce
+
+</button>
+
 </div>
-<div class="banner-track" id="bannerTrack"></div>
-<div class="banner-dots" id="bannerDots"></div>
-</section>
 
-<!-- BARRE DE NAVIGATION (MÉTIERS + CATÉGORIES) -->
-<div class="navigation-bar-container">
-<a href="metiers.html" class="btn-metiers-special"><span data-i18n="allTrades">🛠️ Métiers</span></a>
-<div class="cat-scroll" id="catMenu"></div>
+<div class="admin-box">
+
+<h4>
+🖼️ Publier une bannière
+</h4>
+
+<input
+id="adminBannerTitle"
+type="text"
+placeholder="Titre">
+
+<input
+id="adminBannerDescription"
+type="text"
+placeholder="Description">
+
+<input
+id="adminBannerImage"
+type="url"
+placeholder="URL de l'image">
+
+<input
+id="adminBannerLink"
+type="url"
+placeholder="Lien de destination">
+
+<button
+class="admin-btn"
+id="adminAddBanner">
+
+Publier la bannière
+
+</button>
+
 </div>
 
-<!-- 1. OFFRES FLASH & PROMOS -->
-<section class="amazon-section">
-  <div class="amazon-section-title">
-    <span data-i18n="flashOffers">🔥 Offres Flash &amp; Promos</span>
-    <small style="color:#666; font-weight:400; font-size:10px;" data-i18n="swipeHint">Glisser →</small>
-  </div>
-  <div class="amazon-carousel" id="carouselPromos"></div>
+<div class="admin-box">
+
+<h4>
+📜 Règlement intérieur
+</h4>
+
+<textarea
+id="adminRules"
+placeholder="Contenu du règlement intérieur">
+</textarea>
+
+<button
+class="admin-btn"
+id="adminSaveRules">
+
+Publier le règlement
+
+</button>
+
+</div>
+
+<div class="admin-box">
+
+<h4>
+🔐 Politique de confidentialité
+</h4>
+
+<textarea
+id="adminPrivacy"
+placeholder="Contenu de la politique de confidentialité">
+</textarea>
+
+<button
+class="admin-btn"
+id="adminSavePrivacy">
+
+Publier la politique
+
+</button>
+
+</div>
+
+</div>
+
 </section>
 
-<!-- 2. CATALOGUE COMPLET & CATÉGORIES -->
-<section class="amazon-section" style="background:transparent; box-shadow:none; padding:0;">
-  <div class="amazon-section-title" style="background:#fff; padding:10px; border-radius:6px;">
-    <span data-i18n="fullCatalog">📦 Catalogue &amp; Catégories</span>
-  </div>
-  <main class="products" id="products">
-    <div class="loading-message" data-i18n="loadingArticles">Chargement des articles...</div>
-  </main>
+<!-- =====================================================
+     BANNIÈRES
+===================================================== -->
+
+<section
+class="banner-container"
+id="bannerContainer">
+
+<div
+class="banner-track"
+id="bannerTrack">
+</div>
+
+<div
+class="banner-dots"
+id="bannerDots">
+</div>
+
 </section>
 
-<!-- 3. PRODUITS RECOMMANDÉS & SPONSORISÉS -->
-<section class="amazon-section">
-  <div class="amazon-section-title">
-    <span data-i18n="sponsoredTitle">⭐ Recommandés &amp; Sponsorisés</span>
-    <small style="color:#666; font-weight:400; font-size:10px;" data-i18n="swipeHint">Glisser →</small>
-  </div>
-  <div class="amazon-carousel" id="carouselRelated"></div>
-</section>
+<!-- =====================================================
+     CATÉGORIES
+===================================================== -->
 
-<div id="productModalContainer"></div>
+<nav
+class="cat-scroll"
+id="catMenu">
+</nav>
+
+<!-- =====================================================
+     PRODUITS
+===================================================== -->
+
+<main
+class="products"
+id="products">
+
+<div class="loading-message">
+Chargement des produits...
+</div>
+
+</main>
+
+<!-- =====================================================
+     DAKBOT
+===================================================== -->
+
+<div
+class="btn-ia"
+id="draggableBtn">
+
+🤖 DAKBOT
+
+</div>
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
 <footer class="app-footer">
+
 <section class="footer-announcement">
-<h4 id="fayaBuzzTitle" data-i18n="officialAnnouncement">⚡ Annonce Officielle</h4>
-<p id="fayaBuzzText" data-i18n="welcomeText">Bienvenue sur DAKPROÉLITE !</p>
+
+<h4 id="fayaBuzzTitle">
+⚡ Annonce Officielle
+</h4>
+
+<p id="fayaBuzzText">
+Bienvenue sur DAKPRO ÉLITE, votre plateforme de référence !
+</p>
+
 </section>
 
 <div class="footer-links-grid">
+
 <div class="footer-column">
-<h5 data-i18n="navAndHelp">Aide</h5>
+
+<h5>
+Navigation & Aide
+</h5>
+
 <ul>
-<li><a href="support-rapide.html" data-i18n="quickSupport">Support</a></li>
-<li><a href="aide.html" data-i18n="helpCenter">Aide</a></li>
-<li><a href="profil-acheteur.html" data-i18n="myAccount">Compte</a></li>
+
+<li>
+<a href="support-rapide.html">
+Support Rapide
+</a>
+</li>
+
+<li>
+<a href="aide.html">
+Centre d'aide général
+</a>
+</li>
+
+<li>
+<a href="redirect.html">
+Mon Compte
+</a>
+</li>
+
 </ul>
-</div>
-<div class="footer-column">
-<h5 data-i18n="rulesAndLegal">Légal</h5>
-<ul>
-<li><a href="reglement-interieur.html" data-i18n="internalRules">Règlement</a></li>
-<li><a href="politique-confidentialite.html" data-i18n="privacyPolicy">Confidentialité</a></li>
-</ul>
-</div>
-<div class="footer-column">
-<h5 data-i18n="earnMoney">Gagner</h5>
-<ul>
-<li><a href="programme-ambassadeur.html" data-i18n="ambassadorProgram">Ambassadeur</a></li>
-<li><a href="https://vendeur.dakproelite.com" target="_self" class="seller-link" data-i18n="becomeSeller">🛍️ Vendeur</a></li>
-</ul>
-</div>
+
 </div>
 
-<div class="footer-language-container">
-<div class="lang-dropdown-wrapper">
-<button type="button" class="lang-main-btn" id="langMainBtn">
-🌐 <span id="currentLangLabel">Français</span> ▾
-</button>
-<div class="lang-menu" id="langMenu">
-<button type="button" class="lang-option" data-lang="fr">🇫🇷 Français</button>
-<button type="button" class="lang-option" data-lang="en">🇬🇧 English</button>
-<button type="button" class="lang-option" data-lang="es">🇪🇸 Español</button>
-<button type="button" class="lang-option" data-lang="zh">🇨🇳 中文</button>
-<button type="button" class="lang-option" data-lang="bn">🇧🇩 বাংলা</button>
-<button type="button" class="lang-option" data-lang="yo">🇳🇬 Yorùbá</button>
-<button type="button" class="lang-option" data-lang="fon">🇧🇯 Fɔ̀ngbè</button>
-</div>
-</div>
+<div class="footer-column">
+
+<h5>
+Règles & Légal
+</h5>
+
+<ul>
+
+<li>
+<a href="reglement-interieur.html">
+Règlement Intérieur
+</a>
+</li>
+
+<li>
+<a href="politique-confidentialite.html">
+Politique de Confidentialité
+</a>
+</li>
+
+</ul>
+
 </div>
 
-<div class="footer-bottom-bar">© 2026 DAKPROÉLITE. Tous droits réservés.</div>
+<div class="footer-column">
+
+<h5>
+Gagner de l'argent
+</h5>
+
+<ul>
+
+<li>
+<a href="programme-ambassadeur.html">
+Programme Ambassadeur
+</a>
+</li>
+
+<li>
+<a href="redirect.html">
+Devenir Vendeur
+</a>
+</li>
+
+</ul>
+
+</div>
+
+<div class="footer-column">
+
+<h5>
+Sécurité & Service
+</h5>
+
+<ul>
+
+<li>
+<a href="paiement-securise.html">
+Paiement Sécurisé
+</a>
+</li>
+
+<li>
+<a href="support-rapide.html">
+Contacter l'assistance
+</a>
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+<div class="footer-lang-selector-section">
+
+<label for="worldLangSelector">
+🌐 Choisir votre langue
+</label>
+
+<select id="worldLangSelector">
+
+<option value="fr">🇫🇷 Français</option>
+<option value="en">🇬🇧 English</option>
+<option value="es">🇪🇸 Español</option>
+<option value="de">🇩🇪 Deutsch</option>
+<option value="it">🇮🇹 Italiano</option>
+<option value="pt">🇵🇹 Português</option>
+<option value="zh-CN">🇨🇳 中文</option>
+<option value="hi">🇮🇳 हिन्दी</option>
+<option value="ar">🇸🇦 العربية</option>
+<option value="ja">🇯🇵 日本語</option>
+<option value="ko">🇰🇷 한국어</option>
+<option value="ru">🇷🇺 Русский</option>
+<option value="nl">🇳🇱 Nederlands</option>
+<option value="tr">🇹🇷 Türkçe</option>
+<option value="vi">🇻🇳 Tiếng Việt</option>
+<option value="pl">🇵🇱 Polski</option>
+<option value="uk">🇺🇦 Українська</option>
+<option value="id">🇮🇩 Bahasa Indonesia</option>
+<option value="sw">🇹🇿 Kiswahili</option>
+<option value="yo">🇳🇬 Yorùbá</option>
+
+</select>
+
+</div>
+
+<div class="footer-bottom-bar">
+
+© 2026 DAKPRO ÉLITE / DAKPRO NEXUS.
+Tous droits réservés.
+
+</div>
+
 </footer>
 
-<script src="support-rapide.js"></script>
+<!-- =====================================================
+     GOOGLE TRANSLATE
+===================================================== -->
 
 <script>
-// CONFIGURATION FIREBASE COMPATIBILITÉ UNIVERSELLE
-const firebaseConfig = {
-apiKey: "AIzaSyDR7INHKaazaqZt-xIcjk10JFiy58uXKO8",
-authDomain: "dakproelite.firebaseapp.com",
-databaseURL: "https://dakproelite-default-rtdb.firebaseio.com",
-projectId: "dakproelite",
-storageBucket: "dakproelite.firebasestorage.app",
-messagingSenderId: "580591769206",
-appId: "1:580591769206:web:4f67f8aadbf3d051087157"
+
+function googleTranslateElementInit(){
+
+new google.translate.TranslateElement({
+
+pageLanguage:"fr",
+autoDisplay:false
+
+},"google_translate_element");
+
+}
+
+function triggerGoogleTranslate(langCode){
+
+var select=
+document.querySelector(".goog-te-combo");
+
+if(select){
+
+select.value=langCode;
+
+select.dispatchEvent(
+new Event("change")
+);
+
+}
+
+}
+
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+const selector=
+document.getElementById(
+"worldLangSelector"
+);
+
+if(selector){
+
+selector.addEventListener(
+"change",
+e=>{
+
+const selectedLang=
+e.target.value;
+
+localStorage.setItem(
+"dakpro_lang",
+selectedLang
+);
+
+triggerGoogleTranslate(
+selectedLang
+);
+
+}
+);
+
+const savedLang=
+localStorage.getItem(
+"dakpro_lang"
+);
+
+if(savedLang){
+
+selector.value=savedLang;
+
+setTimeout(
+()=>{
+triggerGoogleTranslate(
+savedLang
+);
+},
+1000
+);
+
+}
+
+}
+
+}
+);
+
+</script>
+
+<script
+type="text/javascript"
+src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+</script>
+
+<!-- =====================================================
+     FIREBASE
+===================================================== -->
+
+<script type="module">
+
+import {
+initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+import {
+getDatabase,
+ref,
+onValue,
+push,
+set,
+remove
+}
+from
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+import {
+getAuth,
+onAuthStateChanged
+}
+from
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+
+/* =====================================================
+   CONFIGURATION FIREBASE
+===================================================== */
+
+const firebaseConfig={
+
+apiKey:
+"AIzaSyDR7INHKaazaqZt-xIcjk10JFiy58uXKO8",
+
+authDomain:
+"dakproelite.firebaseapp.com",
+
+databaseURL:
+"https://dakproelite-default-rtdb.firebaseio.com",
+
+projectId:
+"dakproelite",
+
+storageBucket:
+"dakproelite.firebasestorage.app",
+
+messagingSenderId:
+"580591769206",
+
+appId:
+"1:580591769206:web:4f67f8aadbf3d051087157"
+
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
 
-const db = firebase.database();
-const auth = firebase.auth();
+/* =====================================================
+   INITIALISATION
+===================================================== */
 
-window.dakproFirebase = { db, auth };
+const app=
+initializeApp(firebaseConfig);
 
-// GESTION DE L'INSTALLATION PWA (BOUTON TÉLÉCHARGER / INSTALLER)
-let deferredPrompt = null;
-const installBanner = document.getElementById("installAppBanner");
-const btnInstallApp = document.getElementById("btnInstallApp");
+const db=
+getDatabase(app);
 
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  if(installBanner) installBanner.style.display = "flex";
-});
+const auth=
+getAuth(app);
 
-btnInstallApp?.addEventListener("click", async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-      if(installBanner) installBanner.style.display = "none";
-    }
-    deferredPrompt = null;
-  } else {
-    // Fallback pour les navigateurs où beforeinstallprompt ne se déclenche pas directement (iOS / navigateurs légers)
-    alert(currentLang === 'en' ? "To install, use your browser menu and select 'Add to Home Screen'." : "Pour installer l'application, ouvrez le menu de votre navigateur et sélectionnez 'Ajouter à l'écran d'accueil'.");
-  }
-});
-
-// Afficher par défaut si non installé et non en mode standalone
-if (!window.matchMedia('(display-mode: standalone)').matches && !navigator.standalone) {
-  setTimeout(() => {
-    if(installBanner && installBanner.style.display !== "flex") {
-      installBanner.style.display = "flex";
-    }
-  }, 1000);
-}
-
-// CHARGEMENT INSTANTANÉ EN CACHE LOCAL
-let cachedProducts = localStorage.getItem("dakpro_cached_products");
-window.allProductsData = cachedProducts ? JSON.parse(cachedProducts) : [];
-
-const siteContext = { currentUser: null };
-let currentCat = ""; 
-let currentIndex = 0;
-let totalSlides = 0;
-let autoPlay = null;
-let announcementDataCache = null;
-
-const categoryIconsMap = {
-"Voitures": "🚗", "Smartphones": "📱", "Vêtements": "👕", "Chaussures": "👟",
-"Montres": "⌚", "Bijoux": "💍", "Parfums": "🌸", "Meubles": "🛋️",
-"Cuisine": "🍳", "Jouets": "🧸", "Sport": "⚽", "Santé": "🩺",
-"Livres": "📚", "Outils": "🔨", "Agriculture": "🌱", "Alimentation": "🍚"
+window.dakproFirebase={
+app,
+db,
+auth
 };
 
-function getCategoryIcon(catName){
-if(!catName) return "📦";
-for(let key in categoryIconsMap){
-if(catName.toLowerCase().includes(key.toLowerCase())) return categoryIconsMap[key];
-}
-return "📦";
-}
 
-/* DICTIONNAIRE DE TRADUCTION COMPLET */
-const translations = {
-fr: {
-name: "Français", currency: "FCFA", rate: 1,
-searchPlaceholder: "Rechercher des produits...",
-navCart: "Panier", navAccount: "Compte", allTrades: "🛠️ Métiers",
-loadingArticles: "Chargement des articles...",
-emptyCategory: "Aucun article trouvé.",
-officialAnnouncement: "⚡ Annonce Officielle",
-welcomeText: "Bienvenue sur DAKPROÉLITE, votre plateforme internationale de référence !",
-sponsoredTitle: "⭐ Recommandés & Sponsorisés",
-flashOffers: "🔥 Offres Flash & Promos",
-fullCatalog: "📦 Catalogue & Catégories",
-swipeHint: "Glisser →",
-viewBtn: "👁️ Voir", cartBtn: "🛒 Panier",
-addedMsg: "✅ Ajouté !", imageUnavailable: "Indisponible",
-selectedArticle: "Article sélectionné sur DAKPROÉLITE.", modalBuy: "💳 Acheter", modalClose: "Fermer",
-navAndHelp: "Aide", quickSupport: "Support", helpCenter: "Centre d'aide", myAccount: "Mon Compte",
-rulesAndLegal: "Légal", internalRules: "Règlement", privacyPolicy: "Confidentialité",
-earnMoney: "Gagner", ambassadorProgram: "Ambassadeur", becomeSeller: "🛍️ Vendeur",
-installAppTitle: "Installer DAKPROÉLITE",
-installAppDesc: "Accédez plus rapidement à la marketplace depuis votre écran d'accueil.",
-installAppBtn: "Installer"
-},
-en: {
-name: "English", currency: "USD", rate: 1 / 600,
-searchPlaceholder: "Search products...",
-navCart: "Cart", navAccount: "Account", allTrades: "🛠️ Trades",
-loadingArticles: "Loading items...",
-emptyCategory: "No items found.",
-officialAnnouncement: "⚡ Official Announcement",
-welcomeText: "Welcome to DAKPROÉLITE, your international benchmark marketplace!",
-sponsoredTitle: "⭐ Recommended & Sponsored",
-flashOffers: "🔥 Flash Offers",
-fullCatalog: "📦 Catalog & Categories",
-swipeHint: "Swipe →",
-viewBtn: "👁️ View", cartBtn: "🛒 Cart",
-addedMsg: "✅ Added!", imageUnavailable: "Unavailable",
-selectedArticle: "Selected item on DAKPROÉLITE.", modalBuy: "💳 Buy Now", modalClose: "Close",
-navAndHelp: "Help & Nav", quickSupport: "Quick Support", helpCenter: "Help Center", myAccount: "My Account",
-rulesAndLegal: "Rules & Legal", internalRules: "Internal Rules", privacyPolicy: "Privacy Policy",
-earnMoney: "Earn Money", ambassadorProgram: "Ambassador Program", becomeSeller: "🛍️ Become Seller",
-installAppTitle: "Install DAKPROÉLITE",
-installAppDesc: "Get quick access to the marketplace directly from your home screen.",
-installAppBtn: "Install"
-},
-es: {
-name: "Español", currency: "EUR", rate: 1 / 655.957,
-searchPlaceholder: "Buscar productos...",
-navCart: "Carrito", navAccount: "Cuenta", allTrades: "🛠️ Oficios",
-loadingArticles: "Cargando artículos...",
-emptyCategory: "No se encontraron artículos.",
-officialAnnouncement: "⚡ Anuncio Oficial",
-welcomeText: "¡Bienvenido a DAKPROÉLITE, su plataforma internacional de referencia!",
-sponsoredTitle: "⭐ Recomendados y patrocinados",
-flashOffers: "🔥 Ofertas flash",
-fullCatalog: "📦 Catálogo y categorías",
-swipeHint: "Deslizar →",
-viewBtn: "👁️ Ver", cartBtn: "🛒 Carrito",
-addedMsg: "✅ ¡Añadido!", imageUnavailable: "No disponible",
-selectedArticle: "Artículo seleccionado en DAKPROÉLITE.", modalBuy: "💳 Comprar", modalClose: "Cerrar",
-navAndHelp: "Ayuda", quickSupport: "Soporte Rápido", helpCenter: "Centro de Ayuda", myAccount: "Mi Cuenta",
-rulesAndLegal: "Normas y Legal", internalRules: "Reglamento", privacyPolicy: "Política de Privacidad",
-earnMoney: "Ganar Dinero", ambassadorProgram: "Programa Embajador", becomeSeller: "🛍️ Ser Vendedor",
-installAppTitle: "Instalar DAKPROÉLITE",
-installAppDesc: "Accede más rápido a la tienda desde tu pantalla de inicio.",
-installAppBtn: "Instalar"
-},
-zh: {
-name: "中文", currency: "CNY", rate: 1 / 85,
-searchPlaceholder: "搜索产品...",
-navCart: "购物车", navAccount: "账户", allTrades: "🛠️ 行业",
-loadingArticles: "正在加载商品...",
-emptyCategory: "暂无商品。",
-officialAnnouncement: "⚡ 官方公告",
-welcomeText: "欢迎来到 DAKPROÉLITE，您的国际基准市场！",
-sponsoredTitle: "⭐ 推荐与赞助",
-flashOffers: "🔥 限时特惠",
-fullCatalog: "📦 目录与分类",
-swipeHint: "滑动 →",
-viewBtn: "👁️ 查看", cartBtn: "🛒 购物车",
-addedMsg: "✅ 已添加！", imageUnavailable: "不可用",
-selectedArticle: "在 DAKPROÉLITE 上选定的商品。", modalBuy: "💳 购买", modalClose: "关闭",
-navAndHelp: "导航与帮助", quickSupport: "快速支持", helpCenter: "帮助中心", myAccount: "我的账户",
-rulesAndLegal: "规则与法律", internalRules: "内部规则", privacyPolicy: "隐私政策",
-earnMoney: "赚钱", ambassadorProgram: "大使计划", becomeSeller: "🛍️ 成为卖家",
-installAppTitle: "安装 DAKPROÉLITE",
-installAppDesc: "从主屏幕快速访问市场。",
-installAppBtn: "安装"
-},
-bn: {
-name: "বাংলা", currency: "BDT", rate: 1 / 5,
-searchPlaceholder: "অনুসন্ধান...",
-navCart: "কার্ট", navAccount: "অ্যাকাউন্ট", allTrades: "🛠️ পেশা",
-loadingArticles: "লোড হচ্ছে...",
-emptyCategory: "কোনো আইটেম পাওয়া যায়নি।",
-officialAnnouncement: "⚡ অফিসিয়াল ঘোষণা",
-welcomeText: "DAKPROÉLITE-এ স্বাগতম, আপনার আন্তর্জাতিক বেঞ্চমার্ক মার্কেটপ্লেস!",
-sponsoredTitle: "⭐ প্রস্তাবিত",
-flashOffers: "🔥 ফ্ল্যাশ অফার",
-fullCatalog: "📦 ক্যাটালগ",
-swipeHint: "সোয়াইপ →",
-viewBtn: "👁️ দেখুন", cartBtn: "🛒 কার্ট",
-addedMsg: "✅ যোগ!", imageUnavailable: "নেই",
-selectedArticle: "DAKPROÉLITE এ নির্বাচিত আইটেম।", modalBuy: "💳 কিনুন", modalClose: "বন্ধ",
-navAndHelp: "সহায়তা", quickSupport: "দ্রুত সহায়তা", helpCenter: "সহায়তা কেন্দ্র", myAccount: "অ্যাকাউন্ট",
-rulesAndLegal: "নিয়মাবলী", internalRules: "অভ্যন্তরীণ নিয়ম", privacyPolicy: "গোপনীয়তা নীতি",
-earnMoney: "আয় করুন", ambassadorProgram: "অ্যাম্বাসেডর প্রোগ্রাম", becomeSeller: "🛍️ বিক্রেতা হন",
-installAppTitle: "DAKPROÉLITE ইনস্টল করুন",
-installAppDesc: "আপনার হোম স্ক্রিন থেকে দ্রুত মার্কেটপ্লেসে প্রবেশ করুন।",
-installAppBtn: "ইনস্টল"
-},
-yo: {
-name: "Yorùbá", currency: "NGN", rate: 1.2,
-searchPlaceholder: "Wa awọn ọja...",
-navCart: "Kẹkẹ", navAccount: "Àsántì", allTrades: "🛠️ Iṣẹ",
-loadingArticles: "N ṣe agbega...",
-emptyCategory: "Ko si ọja.",
-officialAnnouncement: "⚡ Ikede Oṣiṣẹ",
-welcomeText: "Kaabọ si DAKPROÉLITE, ọja agbaye ti o dara julọ!",
-sponsoredTitle: "⭐ A ṣeduro",
-flashOffers: "🔥 Awọn ipese",
-fullCatalog: "📦 Awọn Ọja",
-swipeHint: "Ra →",
-viewBtn: "👁️ Wo", cartBtn: "🛒 Kẹkẹ",
-addedMsg: "✅ A fi kun!", imageUnavailable: "Ko si",
-selectedArticle: "Ọja ti a yan lori DAKPROÉLITE.", modalBuy: "💳 Ra", modalClose: "Pade",
-navAndHelp: "Iranlọwọ", quickSupport: "Atilẹyin", helpCenter: "Ile-iṣẹ Iranlọwọ", myAccount: "Akọntẹ mi",
-rulesAndLegal: "Ofin", internalRules: "Awọn Ofin", privacyPolicy: "Asiri",
-earnMoney: "Gba Owo", ambassadorProgram: "Eto Aṣoju", becomeSeller: "🛍️ Di Olutaja",
-installAppTitle: "Fi DAKPROÉLITE sori ẹrọ",
-installAppDesc: "Wọle si ọja ni iyara lati iboju ile rẹ.",
-installAppBtn: "Fi sori ẹrọ"
-},
-fon: {
-name: "Fɔ̀ngbè", currency: "FCFA", rate: 1,
-searchPlaceholder: "Ba nǔ...",
-navCart: "Tɛnmɛ", navAccount: "Akɔntá", allTrades: "🛠️ Azɔ̌",
-loadingArticles: "E ɖò nǔ lɛ ɖè wɛ...",
-emptyCategory: "Nǔ ɖebǔ mɛ ǎ.",
-officialAnnouncement: "⚡ Gbeɖéɖé",
-welcomeText: "Wɛkɛ ɖò DAKPROÉLITE, akɔ̀ tɔn mɛ!",
-sponsoredTitle: "⭐ Nǔ e sɔ́",
-flashOffers: "🔥 Hwenu ɖagbe",
-fullCatalog: "📦 Nǔ bǐ",
-swipeHint: "Sɔ́ →",
-viewBtn: "👁️ Kpé", cartBtn: "🛒 Tɛnmɛ",
-addedMsg: "✅ E ɖó!", imageUnavailable: "Ǎ",
-selectedArticle: "Nǔ e ɖò DAKPROÉLITE.", modalBuy: "💳 Hò", modalClose: "Sɔ́",
-navAndHelp: "Alɔgɔ", quickSupport: "Alɔgɔ K館", helpCenter: "Alɔgɔ Tɛnmɛ", myAccount: "Akɔntá",
-rulesAndLegal: "Sɛ́n", internalRules: "Sɛ́n Xó", privacyPolicy: "Nǔ Gudo",
-earnMoney: "Ba Akuɛ", ambassadorProgram: "Ambassadeur", becomeSeller: "🛍️ Zɔ̌watɔ́",
-installAppTitle: "Tɛ́n DAKPROÉLITE ɖó",
-installAppDesc: "Kpɔ́n nǔ lɛ wě wě ɖò kɔ̀ tɔn mɛ.",
-installAppBtn: "Tɛ́n ɖó"
-}
-};
+/* =====================================================
+   VARIABLES
+===================================================== */
 
-let currentLang = localStorage.getItem("dakpro_lang") || "fr";
+window.allProductsData=[];
 
-function formatPrice(val) {
-const t = translations[currentLang];
-let converted = val * t.rate;
-if(["USD", "EUR", "BDT", "NGN"].includes(t.currency)) {
-converted = converted.toFixed(2);
-} else {
-converted = Math.round(converted);
-}
-return `${converted} ${t.currency}`;
-}
+let currentCat="Tous";
 
-function getLocalizedText(obj, fieldBase, lang) {
-if(!obj) return "";
-if(fieldBase === 'description') {
-if(lang !== 'fr' && obj['description_' + lang]) return obj['description_' + lang];
-return obj.description || obj.texte || obj.text || "";
-}
-return obj[fieldBase] || obj.nom || obj.title || obj.name || "";
-}
+let currentIndex=0;
 
-function setLanguage(lang) {
-if(!translations[lang]) return;
-currentLang = lang;
-localStorage.setItem("dakpro_lang", lang);
+let totalSlides=0;
 
-document.querySelectorAll("[data-i18n]").forEach(el => {
-const key = el.getAttribute("data-i18n");
-if(translations[lang][key]) el.textContent = translations[lang][key];
-});
+let autoPlay=null;
 
-const searchInput = document.getElementById("searchBar");
-if(searchInput) searchInput.placeholder = translations[lang].searchPlaceholder;
+let currentUser=null;
 
-const langLabel = document.getElementById("currentLangLabel");
-if(langLabel) langLabel.textContent = translations[lang].name;
+let currentUserIsAdmin=false;
 
-if(announcementDataCache) applyAnnouncement(announcementDataCache);
 
-filterProducts();
-renderCarousels(window.allProductsData);
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-const mainBtn = document.getElementById("langMainBtn");
-const menu = document.getElementById("langMenu");
-
-mainBtn?.addEventListener("click", (e) => {
-e.stopPropagation();
-menu.classList.toggle("show");
-});
-
-document.addEventListener("click", () => {
-menu?.classList.remove("show");
-});
-
-document.querySelectorAll(".lang-option").forEach(btn => {
-btn.addEventListener("click", () => {
-setLanguage(btn.dataset.lang);
-menu?.classList.remove("show");
-});
-});
-
-setLanguage(currentLang);
-
-if(window.allProductsData.length > 0){
-buildCategories();
-filterProducts();
-renderCarousels(window.allProductsData);
-}
-});
-
-auth.onAuthStateChanged(user => {
-siteContext.currentUser = user || null;
-if(user){ listenToCartBadge(user.uid); } else { updateCartBadgeDisplay(0); }
-});
-
-function updateCartBadgeDisplay(count){
-const badge = document.getElementById("cartBadge");
-if(!badge) return;
-if(count > 0){ badge.textContent = count; badge.style.display = "inline-block"; }
-else{ badge.style.display = "none"; }
-}
-
-function listenToCartBadge(uid){
-const cartRef = db.ref(`users/${uid}/panier`);
-cartRef.on("value", snapshot => {
-const data = snapshot.val();
-if(!data || typeof data !== "object"){ updateCartBadgeDisplay(0); return; }
-let totalItems = 0;
-Object.values(data).forEach(item => { totalItems += parseInt(item.quantite || 1, 10); });
-updateCartBadgeDisplay(totalItems);
-});
-}
+/* =====================================================
+   UTILITAIRES
+===================================================== */
 
 function escapeHTML(value){
-return String(value ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
-}
-function escapeAttribute(value){ return escapeHTML(value); }
 
-function loadProducts() {
-  const localData = localStorage.getItem("dakpro_cached_products");
-  if (localData) {
-    try {
-      window.allProductsData = JSON.parse(localData);
-      renderProducts(window.allProductsData);
-      renderCarousels(window.allProductsData);
-    } catch(e) {}
-  }
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
-  db.ref("publications").once("value").then(snapshot => {
-    const data = snapshot.val();
-    if (!data) return;
-
-    window.allProductsData = Object.entries(data)
-      .map(([id, product]) => ({ id, ...product }))
-      .filter(product => product && product.actif !== false);
-
-    localStorage.setItem("dakpro_cached_products", JSON.stringify(window.allProductsData));
-
-    buildCategories();
-    filterProducts();
-    renderCarousels(window.allProductsData);
-    checkUrlForSharedProduct();
-  }).catch(err => {
-    console.error("Erreur Firebase:", err);
-  });
 }
 
-function buildCategories(){
-const categories = [...new Set(window.allProductsData.map(p => p.categorie || p.category).filter(Boolean))];
-const menu = document.getElementById("catMenu");
-if(!menu) return;
+function escapeAttribute(value){
 
-if(!currentCat && categories.length > 0){
-currentCat = categories[0];
+return escapeHTML(value);
+
 }
 
-menu.innerHTML = categories.map(category => {
-const safe = escapeHTML(category);
-const icon = getCategoryIcon(category);
-return `<button type="button" class="cat-btn ${category === currentCat ? "active" : ""}" data-category="${safe}"><span class="cat-ico">${icon}</span> <span>${escapeHTML(category)}</span></button>`;
-}).join("");
 
-menu.querySelectorAll(".cat-btn").forEach(button => {
-button.addEventListener("click", () => {
-currentCat = button.dataset.category;
-menu.querySelectorAll(".cat-btn").forEach(item => item.classList.remove("active"));
-button.classList.add("active");
-filterProducts();
-});
-});
-}
+/* =====================================================
+   AUTHENTIFICATION
+===================================================== */
 
-document.getElementById("searchBar")?.addEventListener("input", filterProducts);
+onAuthStateChanged(
+auth,
+user=>{
 
-function getFilteredProducts(){
-const search = (document.getElementById("searchBar")?.value || "").toLowerCase().trim();
+currentUser=user||null;
 
-return window.allProductsData.filter(product => {
-const name = String(product.nom || product.title || product.name || "").toLowerCase();
-const description = String(product.description || "").toLowerCase();
-const category = String(product.categorie || product.category || "").toLowerCase();
-const productCategory = product.categorie || product.category || "";
+updateCartCounter();
 
-if(search.length > 0){
-return name.includes(search) || description.includes(search) || category.includes(search);
-}
+if(user){
 
-return productCategory === currentCat;
-});
-}
+checkAdmin(user);
 
-function filterProducts(){
-renderProducts(getFilteredProducts());
-}
-
-function generateCardHTML(product){
-const image = product.image || product.imageUrl || product.photo || product.img || "";
-const video = product.video || product.videoUrl || "";
-const documentUrl = product.document || product.documentUrl || "";
-
-const productName = product.nom || product.title || product.name || "Article";
-const safeName = escapeHTML(productName);
-
-const rawDesc = String(getLocalizedText(product, 'description', currentLang));
-const shortDesc = rawDesc.length > 70 ? rawDesc.substring(0, 70) + "..." : rawDesc;
-const safeShortDesc = escapeHTML(shortDesc);
-
-const priceVal = parseFloat(product.prix !== undefined ? product.prix : (product.price !== undefined ? product.price : 0));
-const promoVal = product.prixPromo !== undefined ? parseFloat(product.prixPromo) : (product.promoPrice !== undefined ? parseFloat(product.promoPrice) : null);
-
-const hasPromo = promoVal !== null && !isNaN(promoVal) && promoVal > 0 && promoVal < priceVal;
-let discountBadgeHTML = "";
-
-if(hasPromo && priceVal > 0){
-const discountPercent = Math.round(((priceVal - promoVal) / priceVal) * 100);
-discountBadgeHTML = `<span class="badge-discount">-${discountPercent}%</span>`;
-}
-
-// PRIX PROMO EN ROUGE, PRIX NORMAL/BARRÉ EN BLEU
-const displayPrice = formatPrice(hasPromo ? promoVal : priceVal);
-const oldPriceHTML = hasPromo ? `<span class="price-old">${formatPrice(priceVal)}</span>` : "";
-
-const isVideo = Boolean(video) || /\.(mp4|webm|ogg)(\?|$)/i.test(image);
-const mediaSrc = video || image;
-let mediaHTML = "";
-const t = translations[currentLang];
-
-if(isVideo && mediaSrc){
-mediaHTML = `<video src="${escapeAttribute(mediaSrc)}" controls preload="metadata"></video>`;
-}else if(documentUrl){
-mediaHTML = `<a href="${escapeAttribute(documentUrl)}" target="_blank" rel="noopener noreferrer" class="doc-box"><span>📄</span><p>Document</p></a>`;
-}else if(image){
-mediaHTML = `<img src="${escapeAttribute(image)}" alt="${safeName}" loading="lazy" decoding="async">`;
 }else{
-mediaHTML = `<div class="product-no-image"><strong>📦</strong><span>${t.imageUnavailable}</span></div>`;
+
+currentUserIsAdmin=false;
+
+document
+.getElementById(
+"adminProtectedSection"
+)
+.style.display="none";
+
 }
 
-return `
-<article class="card" data-product-id="${escapeAttribute(product.id || "")}">
-${product.isRecommande || product.boost ? `<span class="badge-boost">HOT</span>` : ""}
-${discountBadgeHTML}
-<div class="media-container">${mediaHTML}</div>
-<div>
-<div class="market-tags"><span class="tag-express">DAKPROÉLITE</span></div>
-<h3>${safeName}</h3>
-${safeShortDesc ? `<div class="description-complete">${safeShortDesc}</div>` : `<div class="description-complete">${t.selectedArticle}</div>`}
-</div>
-<div>
-<div class="price-container">
-<span class="price">${displayPrice}</span>
-${oldPriceHTML}
-</div>
-<div class="card-actions-row">
-<a href="produit.html?id=${escapeAttribute(product.id || "")}" class="btn-action btn-view">${t.viewBtn}</a>
-<button type="button" class="btn-action btn-cart" data-id="${escapeAttribute(product.id || "")}">${t.cartBtn}</button>
-</div>
-</div>
-</article>
-`;
 }
+);
 
-function renderCarousels(allProducts){
-const containerRelated = document.getElementById("carouselRelated");
-const containerPromos = document.getElementById("carouselPromos");
 
-if(!allProducts || allProducts.length === 0) return;
+/* =====================================================
+   ADMIN
+===================================================== */
 
-const promoProducts = allProducts.filter(p => p.isFlash || p.prixPromo || p.boost);
-const promoIds = new Set(promoProducts.map(p => p.id));
-const nonPromoProducts = allProducts.filter(p => !promoIds.has(p.id));
+async function checkAdmin(user){
 
-if(containerPromos){
-if(promoProducts.length > 0){
-containerPromos.innerHTML = promoProducts.map(product => generateCardHTML(product)).join("");
-attachCardEvents(containerPromos);
-} else {
-containerPromos.innerHTML = `<div class="empty-message" style="padding:10px;">${translations[currentLang].emptyCategory}</div>`;
-}
-}
-
-if(containerRelated){
-const listToDisplay = nonPromoProducts.length > 0 ? nonPromoProducts : allProducts;
-containerRelated.innerHTML = listToDisplay.slice(0, 50).map(product => generateCardHTML(product)).join("");
-attachCardEvents(containerRelated);
-}
-}
-
-function attachCardEvents(container){
-container.querySelectorAll(".btn-cart").forEach(button => {
-button.addEventListener("click", async event => {
-event.stopPropagation();
-ajouterAuPanierDirect(button.dataset.id, button);
-});
-});
-}
-
-function renderProducts(list){
-const container = document.getElementById("products");
-if(!container) return;
-const t = translations[currentLang];
-
-if(!Array.isArray(list) || list.length === 0){
-container.innerHTML = `<div class="empty-message">${t.emptyCategory}</div>`;
-return;
-}
-
-container.innerHTML = list.map(product => generateCardHTML(product)).join("");
-attachCardEvents(container);
-}
-
-async function ajouterAuPanierDirect(productId, buttonEl){
-const user = auth.currentUser;
-const t = translations[currentLang];
-if(!user){
-alert(currentLang === 'en' ? "Please log in." : "Veuillez vous connecter.");
-window.location.href = "profil-acheteur.html";
-return;
-}
-
-const product = window.allProductsData.find(p => String(p.id) === String(productId));
-if(product){
 try{
-const itemRef = db.ref(`users/${user.uid}/panier/${product.id}`);
-const snapshot = await itemRef.once("value");
 
-let currentQty = 1;
-if(snapshot.exists()){ currentQty = parseInt(snapshot.val().quantite || 0, 10) + 1; }
+let admin=false;
 
-const unitPrice = parseFloat(product.prixPromo || product.prix || product.price || 0);
-const nameVal = product.nom || product.title || product.name || "Produit";
-const imgVal = product.image || product.imageUrl || product.photo || "";
-const totalPrice = parseFloat((currentQty * unitPrice).toFixed(2));
+const adminSnap=
+await new Promise(resolve=>{
 
-const payload = {
-id: product.id, nom: nameVal, prixUnitaire: unitPrice, devise: product.devise || "FCFA",
-image: imgVal, quantite: currentQty, total: totalPrice, updatedAt: Date.now()
+onValue(
+ref(
+db,
+"admins/"+user.uid
+),
+snapshot=>resolve(snapshot),
+{
+onlyOnce:true
+}
+);
+
+});
+
+if(adminSnap.exists()===true){
+
+const value=
+adminSnap.val();
+
+if(
+value===true||
+value==="true"||
+value==="admin"
+){
+
+admin=true;
+
+}
+
+}
+
+const paths=[
+"utilisateurs/"+user.uid+"/role",
+"users/"+user.uid+"/role"
+];
+
+for(
+const path of paths
+){
+
+const snap=
+await new Promise(resolve=>{
+
+onValue(
+ref(db,path),
+snapshot=>resolve(snapshot),
+{
+onlyOnce:true
+}
+);
+
+});
+
+if(
+snap.val()==="admin"||
+snap.val()==="ADMIN"||
+snap.val()===true
+){
+
+admin=true;
+
+}
+
+}
+
+currentUserIsAdmin=admin;
+
+document
+.getElementById(
+"adminProtectedSection"
+)
+.style.display=
+admin?"block":"none";
+
+}catch(error){
+
+console.error(
+"Erreur vérification administrateur:",
+error
+);
+
+}
+
+}
+
+
+/* =====================================================
+   LOGO
+===================================================== */
+
+document
+.getElementById("logoButton")
+?.addEventListener(
+"click",
+()=>{
+
+window.location.href=
+"index.html";
+
+}
+);
+
+
+const appLogo=
+document.getElementById(
+"appLogo"
+);
+
+const fallbackLogo=
+document.getElementById(
+"fallbackLogo"
+);
+
+appLogo?.addEventListener(
+"error",
+()=>{
+
+appLogo.style.display="none";
+
+if(fallbackLogo){
+
+fallbackLogo.style.display="block";
+
+}
+
+}
+);
+
+
+/* =====================================================
+   PANIER
+===================================================== */
+
+function updateCartCounter(){
+
+const badge=
+document.getElementById(
+"cartCountBadge"
+);
+
+if(!badge)return;
+
+try{
+
+const cart=
+JSON.parse(
+localStorage.getItem(
+"dakpro_panier"
+)
+)||[];
+
+const total=
+cart.reduce(
+(sum,item)=>
+sum+
+(Number(item.quantite)||1),
+0
+);
+
+if(total>0){
+
+badge.textContent=
+total>99?"99+":total;
+
+badge.style.display="flex";
+
+}else{
+
+badge.style.display="none";
+
+}
+
+}catch{
+
+badge.style.display="none";
+
+}
+
+}
+
+updateCartCounter();
+
+window.addEventListener(
+"storage",
+updateCartCounter
+);
+
+
+/* =====================================================
+   PRODUITS FIREBASE
+   SOURCE UNIQUE : publications
+===================================================== */
+
+function loadProducts(){
+
+onValue(
+
+ref(
+db,
+"publications"
+),
+
+snapshot=>{
+
+const data=
+snapshot.val();
+
+
+/*
+   IMPORTANT :
+
+   On efface toujours les anciens produits
+   avant de traiter les nouvelles données.
+
+   Ainsi, si Firebase ne contient aucun produit,
+   aucun produit local ou ancien ne reste affiché.
+*/
+
+window.allProductsData=[];
+
+
+/* =====================================================
+   AUCUN PRODUIT
+===================================================== */
+
+if(
+!data ||
+typeof data!=="object"
+){
+
+buildCategories();
+
+renderProducts([]);
+
+return;
+
+}
+
+
+/* =====================================================
+   LECTURE DES PRODUITS
+===================================================== */
+
+window.allProductsData=
+Object
+.entries(data)
+.map(
+([id,product])=>{
+
+if(
+!product ||
+typeof product!=="object"
+){
+
+return null;
+
+}
+
+return{
+id,
+...product
 };
 
-const updates = {};
-updates[`users/${user.uid}/panier/${product.id}`] = payload;
-updates[`users/${user.uid}/gs/cart/${product.id}`] = payload;
-await db.ref().update(updates);
-
-if(buttonEl){
-const oldText = buttonEl.textContent;
-buttonEl.textContent = t.addedMsg;
-setTimeout(() => { buttonEl.textContent = oldText; }, 1500);
 }
-}catch(error){
-console.error("Erreur panier:", error);
+)
+.filter(product=>{
+
+if(!product)return false;
+
+
+/*
+   Un produit doit obligatoirement
+   avoir un nom.
+*/
+
+const name=
+String(
+product.nom||
+product.title||
+product.name||
+""
+).trim();
+
+if(!name)return false;
+
+
+/*
+   Si actif est explicitement false,
+   le produit ne s'affiche pas.
+*/
+
+if(product.actif===false){
+
+return false;
+
 }
-}
-}
 
-function checkUrlForSharedProduct(){
-const urlParams = new URLSearchParams(window.location.search);
-const productId = urlParams.get("produit") || urlParams.get("pid") || urlParams.get("id");
-if(!productId) return;
-const product = window.allProductsData.find(p => String(p.id) === String(productId));
-if(!product) return;
+return true;
 
-const modalContainer = document.getElementById("productModalContainer");
-if(!modalContainer) return;
+});
 
-const t = translations[currentLang];
-const priceVal = parseFloat(product.prix || product.price || 0);
-const promoVal = product.prixPromo !== undefined ? parseFloat(product.prixPromo) : null;
-const hasPromo = promoVal !== null && !isNaN(promoVal) && promoVal > 0 && promoVal < priceVal;
-const effectivePrice = hasPromo ? promoVal : priceVal;
-const productName = product.nom || product.title || "Article";
-const productDesc = getLocalizedText(product, 'description', currentLang);
 
-modalContainer.innerHTML = `
-<div class="modal-overlay">
-<div class="modal-content">
-<img src="${escapeAttribute(product.image || product.imageUrl || "")}" alt="Produit" style="width:100%;height:auto;max-height:180px;object-fit:contain;background:#080b10;border-radius:8px;margin-bottom:10px;">
-<h2 style="color:var(--gold);margin-bottom:6px;font-size:16px;">${escapeHTML(productName)}</h2>
-<div class="price-container" style="margin-bottom:10px;">
-<span class="price" style="font-size:16px;">${formatPrice(effectivePrice)}</span>
-${hasPromo ? `<span class="price-old">${formatPrice(priceVal)}</span>` : ""}
+/* =====================================================
+   CATÉGORIES + AFFICHAGE
+===================================================== */
+
+buildCategories();
+
+filterProducts();
+
+},
+
+error=>{
+
+console.error(
+"Erreur Firebase publications:",
+error
+);
+
+window.allProductsData=[];
+
+buildCategories();
+
+document
+.getElementById("products")
+.innerHTML=`
+
+<div class="empty-message error-message">
+
+Impossible de charger les produits depuis Firebase.
+
 </div>
-<p style="color:#ccc;font-size:12px;line-height:1.4;margin-bottom:12px;">${escapeHTML(productDesc)}</p>
-<div style="display:flex;gap:8px;">
-<button class="btn-action btn-cart" id="btnModalAddToCart" style="padding:8px;">${t.modalBuy}</button>
-<button class="btn-action" id="btnModalClose" style="background:#222;color:#fff;">${t.modalClose}</button>
-</div>
-</div>
-</div>
+
 `;
 
-document.getElementById("btnModalAddToCart")?.addEventListener("click", () => ajouterAuPanierDirect(productId, document.getElementById("btnModalAddToCart")));
-document.getElementById("btnModalClose")?.addEventListener("click", () => modalContainer.innerHTML = "");
 }
+
+);
+
+}
+
+
+/* =====================================================
+   CATÉGORIES
+===================================================== */
+
+function buildCategories(){
+
+const categories=[
+
+"Tous",
+
+...new Set(
+
+window.allProductsData
+
+.map(
+p=>
+p.categorie||
+p.category
+)
+
+.filter(Boolean)
+
+)
+
+];
+
+const menu=
+document.getElementById(
+"catMenu"
+);
+
+if(!menu)return;
+
+menu.innerHTML=
+categories
+.map(category=>{
+
+const safe=
+escapeHTML(category);
+
+return`
+
+<button
+type="button"
+class="cat-btn ${
+category===currentCat
+?"active"
+:""
+}"
+data-category="${safe}">
+
+${safe}
+
+</button>
+
+`;
+
+})
+.join("");
+
+
+menu
+.querySelectorAll(".cat-btn")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+()=>{
+
+currentCat=
+button.dataset.category;
+
+menu
+.querySelectorAll(
+".cat-btn"
+)
+.forEach(item=>
+item.classList.remove(
+"active"
+)
+);
+
+button.classList.add(
+"active"
+);
+
+filterProducts();
+
+}
+);
+
+});
+
+}
+
+
+/* =====================================================
+   RECHERCHE
+===================================================== */
+
+document
+.getElementById(
+"searchBar"
+)
+?.addEventListener(
+"input",
+filterProducts
+);
+
+
+function getFilteredProducts(){
+
+const search=
+(
+document
+.getElementById(
+"searchBar"
+)
+?.value||""
+)
+.toLowerCase()
+.trim();
+
+return window.allProductsData
+.filter(product=>{
+
+const name=
+String(
+product.nom||
+product.title||
+product.name||
+""
+)
+.toLowerCase();
+
+const description=
+String(
+product.description||""
+)
+.toLowerCase();
+
+const category=
+String(
+product.categorie||
+product.category||
+""
+)
+.toLowerCase();
+
+const productCategory=
+product.categorie||
+product.category||
+"";
+
+const categoryOK=
+currentCat==="Tous"||
+productCategory===currentCat;
+
+return(
+categoryOK&&
+(
+name.includes(search)||
+description.includes(search)||
+category.includes(search)
+)
+);
+
+});
+
+}
+
+
+function filterProducts(){
+
+renderProducts(
+getFilteredProducts()
+);
+
+}
+
+
+/* =====================================================
+   CARTE PRODUIT
+===================================================== */
+
+function generateCardHTML(
+product,
+uid
+){
+
+const id=
+encodeURIComponent(
+product.id||""
+);
+
+
+/*
+   Lien vers la fiche produit
+*/
+
+const productURL=
+`produit.html?pid=${id}`;
+
+
+/*
+   Lien affiliation absolu.
+*/
+
+const affiliateURL=
+new URL(
+`produit.html?pid=${id}`,
+window.location.href
+).href+
+`&ref=${encodeURIComponent(uid||"")}`;
+
+
+/* =====================================================
+   DONNÉES
+===================================================== */
+
+const image=
+product.image||
+product.imageUrl||
+product.photo||
+"";
+
+const video=
+product.video||
+product.videoUrl||
+"";
+
+const documentUrl=
+product.document||
+product.documentUrl||
+"";
+
+
+const safeName=
+escapeHTML(
+product.nom||
+product.title||
+product.name||
+"Produit"
+);
+
+
+/* =====================================================
+   PRIX NORMAL
+===================================================== */
+
+const priceVal=
+product.prix!==undefined
+?
+product.prix
+:
+(
+product.price!==undefined
+?
+product.price
+:
+0
+);
+
+
+/* =====================================================
+   PRIX PROMOTIONNEL
+===================================================== */
+
+const promoVal=
+product.prixPromo!==undefined
+?
+product.prixPromo
+:
+product.promoPrice;
+
+
+/*
+   La promotion existe seulement
+   si une valeur réelle est enregistrée.
+*/
+
+const hasPromo=
+promoVal!==undefined&&
+promoVal!==null&&
+String(promoVal).trim()!=="";
+
+
+const displayPrice=
+hasPromo
+?
+escapeHTML(promoVal)
+:
+escapeHTML(priceVal);
+
+
+const oldPriceHTML=
+hasPromo
+?
+`
+<span class="price-old">
+${escapeHTML(priceVal)}
+${escapeHTML(
+product.devise||
+product.currency||
+"FCFA"
+)}
+</span>
+`
+:
+"";
+
+
+const currencySymbol=
+escapeHTML(
+product.devise||
+product.currency||
+"FCFA"
+);
+
+
+/* =====================================================
+   MÉDIA
+===================================================== */
+
+const isVideo=
+Boolean(video)||
+/\.(mp4|webm|ogg)(\?|$)/i.test(
+image
+);
+
+const mediaSrc=
+video||image;
+
+let mediaHTML="";
+
+
+/* VIDÉO */
+
+if(isVideo && mediaSrc){
+
+mediaHTML=`
+
+<video
+src="${escapeAttribute(mediaSrc)}"
+controls
+preload="metadata"
+onclick="event.stopPropagation()">
+
+Votre navigateur ne prend pas en charge
+la vidéo.
+
+</video>
+
+`;
+
+}
+
+
+/* DOCUMENT */
+
+else if(documentUrl){
+
+mediaHTML=`
+
+<a
+href="${escapeAttribute(documentUrl)}"
+target="_blank"
+rel="noopener noreferrer"
+class="doc-box"
+onclick="event.stopPropagation()">
+
+<span>📄</span>
+
+<p>
+Consulter le document
+</p>
+
+</a>
+
+`;
+
+}
+
+
+/* IMAGE */
+
+else if(image){
+
+mediaHTML=`
+
+<img
+src="${escapeAttribute(image)}"
+alt="${safeName}"
+loading="lazy"
+onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+
+<div
+class="product-no-image"
+style="display:none">
+
+<strong>📦</strong>
+
+<span>
+Image indisponible
+</span>
+
+</div>
+
+`;
+
+}
+
+
+/* AUCUN MÉDIA */
+
+else{
+
+mediaHTML=`
+
+<div class="product-no-image">
+
+<strong>📦</strong>
+
+<span>
+Aucune image disponible
+</span>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+   CARTE
+===================================================== */
+
+return`
+
+<article
+class="card"
+data-product-id="${escapeAttribute(product.id||"")}">
+
+${
+product.boost
+?
+`
+<span class="badge-boost">
+BOOST
+</span>
+`
+:
+""
+}
+
+<div>
+
+${mediaHTML}
+
+<h3>
+${safeName}
+</h3>
+
+<p class="price">
+
+${displayPrice}
+
+${currencySymbol}
+
+${oldPriceHTML}
+
+</p>
+
+</div>
+
+<div>
+
+<button
+type="button"
+class="btn product-view-btn"
+data-url="${escapeAttribute(productURL)}">
+
+Voir
+
+</button>
+
+
+<div class="affiliate-box">
+
+<input
+type="text"
+class="affiliate-input"
+value="${escapeAttribute(affiliateURL)}"
+readonly>
+
+<button
+type="button"
+class="btn-copy"
+data-affiliate="${escapeAttribute(affiliateURL)}">
+
+🔗 Copier le lien d'affiliation
+
+</button>
+
+</div>
+
+</div>
+
+</article>
+
+`;
+
+}
+
+
+/* =====================================================
+   AFFICHAGE PRODUITS
+===================================================== */
+
+function renderProducts(list){
+
+const container=
+document.getElementById(
+"products"
+);
+
+if(!container)return;
+
+
+/*
+   IMPORTANT :
+
+   Si Firebase ne renvoie aucun produit,
+   on affiche seulement "Aucun produit trouvé".
+*/
+
+if(
+!Array.isArray(list)||
+list.length===0
+){
+
+container.innerHTML=`
+
+<div class="empty-message">
+
+Aucun produit disponible pour le moment.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+const uid=
+currentUser?.uid||"";
+
+
+container.innerHTML=
+list
+.map(
+product=>
+generateCardHTML(
+product,
+uid
+)
+)
+.join("");
+
+
+/* =====================================================
+   BOUTON VOIR
+===================================================== */
+
+container
+.querySelectorAll(
+".product-view-btn"
+)
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+event=>{
+
+event.stopPropagation();
+
+window.location.href=
+button.dataset.url;
+
+}
+);
+
+});
+
+
+/* =====================================================
+   CLIC SUR LA CARTE
+===================================================== */
+
+container
+.querySelectorAll(
+".card"
+)
+.forEach(card=>{
+
+card.addEventListener(
+"click",
+event=>{
+
+if(
+event.target.closest(
+".affiliate-box"
+)||
+event.target.closest(
+".product-view-btn"
+)||
+event.target.closest(
+"video"
+)||
+event.target.closest(
+".doc-box"
+)
+){
+
+return;
+
+}
+
+const id=
+encodeURIComponent(
+card.dataset.productId
+);
+
+window.location.href=
+`produit.html?pid=${id}`;
+
+}
+);
+
+});
+
+
+/* =====================================================
+   COPIE AFFILIATION
+===================================================== */
+
+container
+.querySelectorAll(
+".btn-copy"
+)
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+async event=>{
+
+event.stopPropagation();
+
+const link=
+button.dataset.affiliate;
+
+try{
+
+if(
+navigator.clipboard &&
+window.isSecureContext
+){
+
+await navigator.clipboard.writeText(
+link
+);
+
+}else{
+
+throw new Error(
+"Clipboard indisponible"
+);
+
+}
+
+const oldText=
+button.textContent;
+
+button.textContent=
+"✅ Lien copié !";
+
+setTimeout(
+()=>{
+button.textContent=
+oldText;
+},
+1800
+);
+
+}catch(error){
+
+const input=
+button
+.parentElement
+.querySelector(
+".affiliate-input"
+);
+
+if(input){
+
+input.style.display=
+"block";
+
+input.focus();
+
+input.select();
+
+document.execCommand(
+"copy"
+);
+
+input.style.display=
+"none";
+
+}
+
+const oldText=
+button.textContent;
+
+button.textContent=
+"✅ Lien copié !";
+
+setTimeout(
+()=>{
+button.textContent=
+oldText;
+},
+1800
+);
+
+}
+
+}
+);
+
+});
+
+}
+
+window.renderProducts=
+renderProducts;
+
+window.filtrer=
+filterProducts;
+
+
+/* =====================================================
+   BANNIÈRES
+===================================================== */
 
 function loadBanners(){
-db.ref("bannieres").on("value", snapshot => {
-const data = snapshot.val();
-const container = document.getElementById("bannerContainer");
-const track = document.getElementById("bannerTrack");
-const dots = document.getElementById("bannerDots");
-if(!container || !track || !dots) return;
 
-if(!data || typeof data !== "object"){ container.style.display = "none"; return; }
+onValue(
 
-const banners = Object.entries(data).map(([id,banner]) => ({ id, ...banner })).filter(banner => banner && banner.actif !== false);
-if(!banners.length){ container.style.display = "none"; return; }
+ref(
+db,
+"bannieres"
+),
 
-totalSlides = banners.length;
-track.innerHTML = banners.map(banner => `
-<div class="banner-slide">
-<img src="${escapeAttribute(banner.image || "")}" alt="Publicité" loading="lazy" decoding="async">
-<div class="banner-content">
-${banner.titre ? `<h3>${escapeHTML(getLocalizedText(banner, 'titre', currentLang))}</h3>` : ""}
-${banner.description ? `<p>${escapeHTML(getLocalizedText(banner, 'description', currentLang))}</p>` : ""}
-</div>
-</div>
-`).join("");
+snapshot=>{
 
-dots.innerHTML = banners.map((_, index) => `<span class="dot ${index === 0 ? "active" : ""}" data-slide="${index}"></span>`).join("");
-dots.querySelectorAll(".dot").forEach(dot => {
-dot.addEventListener("click", (e) => { e.stopPropagation(); currentIndex = Number(dot.dataset.slide); updateSlide(); });
-});
+const data=
+snapshot.val();
 
-currentIndex = 0; updateSlide();
-container.style.display = "block";
-if(autoPlay) clearInterval(autoPlay);
-autoPlay = setInterval(() => { currentIndex = (currentIndex + 1) % totalSlides; updateSlide(); }, 4000);
-});
+const container=
+document.getElementById(
+"bannerContainer"
+);
+
+const track=
+document.getElementById(
+"bannerTrack"
+);
+
+const dots=
+document.getElementById(
+"bannerDots"
+);
+
+if(
+!container||
+!track||
+!dots
+)return;
+
+
+if(
+!data||
+typeof data!=="object"
+){
+
+container.style.display=
+"none";
+
+track.innerHTML="";
+
+dots.innerHTML="";
+
+return;
+
 }
+
+
+const banners=
+Object
+.entries(data)
+.map(
+([id,banner])=>({
+
+id,
+...banner
+
+})
+)
+.filter(
+banner=>
+banner &&
+banner.actif!==false
+);
+
+
+if(
+!banners.length
+){
+
+container.style.display=
+"none";
+
+track.innerHTML="";
+
+dots.innerHTML="";
+
+return;
+
+}
+
+
+totalSlides=
+banners.length;
+
+
+track.innerHTML=
+banners
+.map(
+banner=>{
+
+const image=
+escapeAttribute(
+banner.image||""
+);
+
+const title=
+escapeHTML(
+banner.titre||""
+);
+
+const description=
+escapeHTML(
+banner.description||""
+);
+
+const link=
+escapeAttribute(
+banner.lien||"#"
+);
+
+return`
+
+<div class="banner-slide">
+
+<a
+href="${link}"
+${
+banner.lien
+?
+'target="_blank" rel="noopener noreferrer"'
+:
+""
+}>
+
+<img
+src="${image}"
+alt="${
+title||
+"Publicité"
+}"
+loading="lazy">
+
+<div class="banner-content">
+
+${
+title
+?
+`<h3>${title}</h3>`
+:
+""
+}
+
+${
+description
+?
+`<p>${description}</p>`
+:
+""
+}
+
+</div>
+
+</a>
+
+</div>
+
+`;
+
+}
+)
+.join("");
+
+
+dots.innerHTML=
+banners
+.map(
+(_,index)=>`
+
+<span
+class="dot ${
+index===0
+?
+"active"
+:
+""
+}"
+data-slide="${index}">
+</span>
+
+`
+)
+.join("");
+
+
+dots
+.querySelectorAll(".dot")
+.forEach(dot=>{
+
+dot.addEventListener(
+"click",
+event=>{
+
+event.stopPropagation();
+
+currentIndex=
+Number(
+dot.dataset.slide
+);
+
+updateSlide();
+
+}
+);
+
+});
+
+
+currentIndex=0;
+
+updateSlide();
+
+container.style.display=
+"block";
+
+
+if(autoPlay){
+
+clearInterval(
+autoPlay
+);
+
+}
+
+autoPlay=
+setInterval(
+moveSlide,
+4000
+);
+
+}
+
+);
+
+}
+
 
 function updateSlide(){
-const track = document.getElementById("bannerTrack");
-const dots = document.querySelectorAll(".dot");
-if(!track) return;
-track.style.transform = `translateX(-${currentIndex * 100}%)`;
-dots.forEach((dot, index) => dot.classList.toggle("active", index === currentIndex));
+
+const track=
+document.getElementById(
+"bannerTrack"
+);
+
+const dots=
+document.querySelectorAll(
+".dot"
+);
+
+if(!track)return;
+
+track.style.transform=
+`translateX(-${currentIndex*100}%)`;
+
+dots.forEach(
+(dot,index)=>{
+
+dot.classList.toggle(
+"active",
+index===currentIndex
+);
+
+}
+);
+
 }
 
-document.getElementById("btnBannerPrev")?.addEventListener("click", (e) => { e.stopPropagation(); if(totalSlides <= 0) return; currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; updateSlide(); });
-document.getElementById("btnBannerNext")?.addEventListener("click", (e) => { e.stopPropagation(); if(totalSlides <= 0) return; currentIndex = (currentIndex + 1) % totalSlides; updateSlide(); });
-document.getElementById("btnBannerPause")?.addEventListener("click", (e) => {
-e.stopPropagation();
-if(autoPlay){ clearInterval(autoPlay); autoPlay = null; e.target.textContent = "▶"; }
-else{ autoPlay = setInterval(() => { currentIndex = (currentIndex + 1) % totalSlides; updateSlide(); }, 4000); e.target.textContent = "⏸"; }
-});
 
-function applyAnnouncement(data) {
-const title = document.getElementById("fayaBuzzTitle");
-const text = document.getElementById("fayaBuzzText");
-if(!title || !text) return;
-if(!data || data.actif === false) return;
+function moveSlide(){
 
-const localizedTitle = getLocalizedText(data, 'titre', currentLang) || data.titre || translations[currentLang].officialAnnouncement;
-const localizedText = getLocalizedText(data, 'texte', currentLang) || data.texte || "";
+if(totalSlides<=0)return;
 
-title.textContent = localizedTitle;
-text.textContent = localizedText;
+currentIndex=
+(
+currentIndex+1
+)
+%
+totalSlides;
+
+updateSlide();
+
 }
+
+
+/* =====================================================
+   FAYA BUZZ
+===================================================== */
 
 function loadAnnouncement(){
-db.ref("annonces/faya_buzz").on("value", snapshot => {
-const data = snapshot.val();
-announcementDataCache = data;
-applyAnnouncement(data);
-});
+
+onValue(
+
+ref(
+db,
+"annonces/faya_buzz"
+),
+
+snapshot=>{
+
+const data=
+snapshot.val();
+
+const title=
+document.getElementById(
+"fayaBuzzTitle"
+);
+
+const text=
+document.getElementById(
+"fayaBuzzText"
+);
+
+if(!title||!text)return;
+
+
+if(!data){
+
+title.textContent=
+"⚡ Annonce Officielle";
+
+text.textContent=
+"Bienvenue sur DAKPRO ÉLITE, votre plateforme de référence !";
+
+return;
+
 }
 
-if(window.allProductsData.length > 0){
-  renderProducts(window.allProductsData);
-  renderCarousels(window.allProductsData);
+
+if(data.actif===false){
+
+title.textContent=
+"⚡ Annonce Officielle";
+
+text.textContent="";
+
+return;
+
 }
+
+
+title.textContent=
+data.titre||
+"⚡ Annonce Officielle";
+
+text.textContent=
+data.texte||
+data.text||
+"Bienvenue sur DAKPRO ÉLITE, votre plateforme de référence !";
+
+}
+
+);
+
+}
+
+
+/* =====================================================
+   ADMIN PREVIEW
+===================================================== */
+
+function updateAdminPreview(){
+
+const box=
+document.getElementById(
+"adminPreviewBox"
+);
+
+if(!box)return;
+
+const nom=
+document.getElementById(
+"adminProductName"
+)?.value.trim();
+
+const prix=
+document.getElementById(
+"adminProductPrice"
+)?.value;
+
+const prixPromo=
+document.getElementById(
+"adminProductPromoPrice"
+)?.value;
+
+const devise=
+document.getElementById(
+"adminProductCurrency"
+)?.value;
+
+const image=
+document.getElementById(
+"adminProductImage"
+)?.value.trim();
+
+const video=
+document.getElementById(
+"adminProductVideo"
+)?.value.trim();
+
+const doc=
+document.getElementById(
+"adminProductDocument"
+)?.value.trim();
+
+
+if(
+!nom&&
+!prix&&
+!image&&
+!video&&
+!doc
+){
+
+box.innerHTML=`
+
+<div
+style="
+font-size:11px;
+color:#666;
+text-align:center;
+">
+
+Remplissez les champs pour voir l'aperçu.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+const mockProduct={
+
+id:"preview",
+
+nom:
+nom||
+"Nom du produit",
+
+prix:
+prix||
+"0",
+
+prixPromo:
+prixPromo,
+
+devise:
+devise||
+"FCFA",
+
+image:
+image,
+
+video:
+video,
+
+document:
+doc,
+
+boost:false
+
+};
+
+
+box.innerHTML=
+generateCardHTML(
+mockProduct,
+currentUser?.uid||""
+);
+
+}
+
+
+[
+"adminProductName",
+"adminProductPrice",
+"adminProductPromoPrice",
+"adminProductCurrency",
+"adminProductImage",
+"adminProductVideo",
+"adminProductDocument"
+]
+.forEach(id=>{
+
+document
+.getElementById(id)
+?.addEventListener(
+"input",
+updateAdminPreview
+);
+
+document
+.getElementById(id)
+?.addEventListener(
+"change",
+updateAdminPreview
+);
+
+});
+
+
+/* =====================================================
+   ADMIN — AJOUT PRODUIT
+===================================================== */
+
+document
+.getElementById(
+"adminAddProduct"
+)
+?.addEventListener(
+"click",
+async()=>{
+
+if(!currentUserIsAdmin){
+
+alert(
+"Accès administrateur requis."
+);
+
+return;
+
+}
+
+
+const nom=
+document
+.getElementById(
+"adminProductName"
+)
+.value.trim();
+
+const description=
+document
+.getElementById(
+"adminProductDescription"
+)
+.value.trim();
+
+const categorie=
+document
+.getElementById(
+"adminProductCategory"
+)
+.value.trim();
+
+const prix=
+document
+.getElementById(
+"adminProductPrice"
+)
+.value;
+
+const prixPromo=
+document
+.getElementById(
+"adminProductPromoPrice"
+)
+.value;
+
+const devise=
+document
+.getElementById(
+"adminProductCurrency"
+)
+.value;
+
+const publishTime=
+document
+.getElementById(
+"adminProductPublishTime"
+)
+.value;
+
+const image=
+document
+.getElementById(
+"adminProductImage"
+)
+.value.trim();
+
+const video=
+document
+.getElementById(
+"adminProductVideo"
+)
+.value.trim();
+
+const documentUrl=
+document
+.getElementById(
+"adminProductDocument"
+)
+.value.trim();
+
+
+if(!nom||!prix){
+
+alert(
+"Veuillez renseigner au moins le nom et le prix."
+);
+
+return;
+
+}
+
+
+try{
+
+const newRef=
+push(
+ref(
+db,
+"publications"
+)
+);
+
+const publishTimestamp=
+publishTime
+?
+new Date(
+publishTime
+).getTime()
+:
+Date.now();
+
+
+await set(
+newRef,
+{
+
+nom,
+
+description,
+
+categorie,
+
+prix:
+Number(prix),
+
+prixPromo:
+prixPromo
+?
+Number(prixPromo)
+:
+null,
+
+devise,
+
+image,
+
+video,
+
+document:
+documentUrl,
+
+actif:
+true,
+
+boost:
+false,
+
+createdAt:
+publishTimestamp,
+
+createdBy:
+currentUser.uid
+
+}
+);
+
+
+alert(
+"Produit publié avec succès dans la base."
+);
+
+
+document
+.getElementById(
+"adminProductName"
+)
+.value="";
+
+document
+.getElementById(
+"adminProductDescription"
+)
+.value="";
+
+document
+.getElementById(
+"adminProductCategory"
+)
+.value="";
+
+document
+.getElementById(
+"adminProductPrice"
+)
+.value="";
+
+document
+.getElementById(
+"adminProductPromoPrice"
+)
+.value="";
+
+document
+.getElementById(
+"adminProductPublishTime"
+)
+.value="";
+
+document
+.getElementById(
+"adminProductImage"
+)
+.value="";
+
+document
+.getElementById(
+"adminProductVideo"
+)
+.value="";
+
+document
+.getElementById(
+"adminProductDocument"
+)
+.value="";
+
+updateAdminPreview();
+
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Impossible de publier le produit."
+);
+
+}
+
+}
+);
+
+
+/* =====================================================
+   ADMIN — FAYA BUZZ
+===================================================== */
+
+document
+.getElementById(
+"adminSaveAnnouncement"
+)
+?.addEventListener(
+"click",
+async()=>{
+
+if(!currentUserIsAdmin){
+
+alert(
+"Accès administrateur requis."
+);
+
+return;
+
+}
+
+
+const titre=
+document
+.getElementById(
+"adminAnnouncementTitle"
+)
+.value.trim();
+
+const texte=
+document
+.getElementById(
+"adminAnnouncementText"
+)
+.value.trim();
+
+
+try{
+
+await set(
+ref(
+db,
+"annonces/faya_buzz"
+),
+{
+
+titre,
+
+texte,
+
+actif:
+true,
+
+updatedAt:
+Date.now(),
+
+updatedBy:
+currentUser.uid
+
+}
+);
+
+
+alert(
+"Faya Buzz a été mis à jour."
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Impossible de publier Faya Buzz."
+);
+
+}
+
+}
+);
+
+
+/* =====================================================
+   ADMIN — SUPPRESSION FAYA BUZZ
+===================================================== */
+
+document
+.getElementById(
+"adminDeleteAnnouncement"
+)
+?.addEventListener(
+"click",
+async()=>{
+
+if(!currentUserIsAdmin){
+
+alert(
+"Accès administrateur requis."
+);
+
+return;
+
+}
+
+
+if(
+!confirm(
+"Voulez-vous supprimer Faya Buzz ?"
+)
+){
+
+return;
+
+}
+
+
+try{
+
+await remove(
+ref(
+db,
+"annonces/faya_buzz"
+)
+);
+
+alert(
+"Annonce supprimée."
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Impossible de supprimer l'annonce."
+);
+
+}
+
+}
+);
+
+
+/* =====================================================
+   ADMIN — BANNIÈRE
+===================================================== */
+
+document
+.getElementById(
+"adminAddBanner"
+)
+?.addEventListener(
+"click",
+async()=>{
+
+if(!currentUserIsAdmin){
+
+alert(
+"Accès administrateur requis."
+);
+
+return;
+
+}
+
+
+const titre=
+document
+.getElementById(
+"adminBannerTitle"
+)
+.value.trim();
+
+const description=
+document
+.getElementById(
+"adminBannerDescription"
+)
+.value.trim();
+
+const image=
+document
+.getElementById(
+"adminBannerImage"
+)
+.value.trim();
+
+const lien=
+document
+.getElementById(
+"adminBannerLink"
+)
+.value.trim();
+
+
+if(!image){
+
+alert(
+"Veuillez renseigner l'URL de l'image."
+);
+
+return;
+
+}
+
+
+try{
+
+const newRef=
+push(
+ref(
+db,
+"bannieres"
+)
+);
+
+
+await set(
+newRef,
+{
+
+titre,
+
+description,
+
+image,
+
+lien,
+
+actif:
+true,
+
+createdAt:
+Date.now(),
+
+createdBy:
+currentUser.uid
+
+}
+);
+
+
+alert(
+"Bannière publiée avec succès."
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Impossible de publier la bannière."
+);
+
+}
+
+}
+);
+
+
+/* =====================================================
+   ADMIN — RÈGLEMENT
+===================================================== */
+
+document
+.getElementById(
+"adminSaveRules"
+)
+?.addEventListener(
+"click",
+async()=>{
+
+if(!currentUserIsAdmin){
+
+alert(
+"Accès administrateur requis."
+);
+
+return;
+
+}
+
+
+const contenu=
+document
+.getElementById(
+"adminRules"
+)
+.value;
+
+
+try{
+
+await set(
+ref(
+db,
+"contenu/reglement"
+),
+{
+
+texte:
+contenu,
+
+updatedAt:
+Date.now(),
+
+updatedBy:
+currentUser.uid
+
+}
+);
+
+
+alert(
+"Règlement publié."
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Erreur lors de la publication."
+);
+
+}
+
+}
+);
+
+
+/* =====================================================
+   ADMIN — CONFIDENTIALITÉ
+===================================================== */
+
+document
+.getElementById(
+"adminSavePrivacy"
+)
+?.addEventListener(
+"click",
+async()=>{
+
+if(!currentUserIsAdmin){
+
+alert(
+"Accès administrateur requis."
+);
+
+return;
+
+}
+
+
+const contenu=
+document
+.getElementById(
+"adminPrivacy"
+)
+.value;
+
+
+try{
+
+await set(
+ref(
+db,
+"contenu/confidentialite"
+),
+{
+
+texte:
+contenu,
+
+updatedAt:
+Date.now(),
+
+updatedBy:
+currentUser.uid
+
+}
+);
+
+
+alert(
+"Politique publiée."
+);
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Erreur lors de la publication."
+);
+
+}
+
+}
+);
+
+
+/* =====================================================
+   INSTALLATION PWA
+===================================================== */
+
+let deferredPrompt=null;
+
+
+window.addEventListener(
+"beforeinstallprompt",
+event=>{
+
+event.preventDefault();
+
+deferredPrompt=
+event;
+
+const button=
+document.getElementById(
+"btnInstall"
+);
+
+if(button){
+
+button.style.display=
+"block";
+
+}
+
+}
+);
+
+
+document
+.getElementById(
+"btnInstall"
+)
+?.addEventListener(
+"click",
+async()=>{
+
+if(!deferredPrompt)return;
+
+deferredPrompt.prompt();
+
+await deferredPrompt.userChoice;
+
+deferredPrompt=null;
+
+document
+.getElementById(
+"btnInstall"
+)
+.style.display="none";
+
+}
+);
+
+
+/* =====================================================
+   DAKBOT — OUVERTURE
+===================================================== */
+
+const dakbotButton=
+document.getElementById(
+"draggableBtn"
+);
+
+
+/* =====================================================
+   DAKBOT — POSITION SAUVEGARDÉE
+===================================================== */
+
+function restoreDakbotPosition(){
+
+if(!dakbotButton)return;
+
+try{
+
+const saved=
+JSON.parse(
+localStorage.getItem(
+"dakpro_dakbot_position"
+)
+);
+
+if(
+!saved||
+typeof saved.left!=="number"||
+typeof saved.top!=="number"
+){
+
+return;
+
+}
+
+
+/*
+   On remet le bouton en position absolue
+   dans la fenêtre.
+*/
+
+const maxLeft=
+window.innerWidth-
+dakbotButton.offsetWidth;
+
+const maxTop=
+window.innerHeight-
+dakbotButton.offsetHeight;
+
+const left=
+Math.max(
+0,
+Math.min(
+saved.left,
+maxLeft
+)
+);
+
+const top=
+Math.max(
+0,
+Math.min(
+saved.top,
+maxTop
+)
+);
+
+dakbotButton.style.left=
+left+"px";
+
+dakbotButton.style.top=
+top+"px";
+
+dakbotButton.style.right=
+"auto";
+
+dakbotButton.style.bottom=
+"auto";
+
+}catch(error){
+
+console.error(
+"Position DAKBOT:",
+error
+);
+
+}
+
+}
+
+
+/* =====================================================
+   DAKBOT — DRAG SUR MOBILE + PC
+===================================================== */
+
+let dakbotDragging=false;
+
+let dakbotMoved=false;
+
+let dakbotPointerId=null;
+
+let dakbotStartX=0;
+
+let dakbotStartY=0;
+
+let dakbotStartLeft=0;
+
+let dakbotStartTop=0;
+
+
+dakbotButton?.addEventListener(
+"pointerdown",
+event=>{
+
+dakbotPointerId=
+event.pointerId;
+
+dakbotDragging=true;
+
+dakbotMoved=false;
+
+dakbotButton.classList.add(
+"dragging"
+);
+
+const rect=
+dakbotButton.getBoundingClientRect();
+
+dakbotStartLeft=
+rect.left;
+
+dakbotStartTop=
+rect.top;
+
+dakbotStartX=
+event.clientX;
+
+dakbotStartY=
+event.clientY;
+
+try{
+
+dakbotButton.setPointerCapture(
+event.pointerId
+);
+
+}catch{}
+
+event.preventDefault();
+
+},
+{
+passive:false
+}
+);
+
+
+dakbotButton?.addEventListener(
+"pointermove",
+event=>{
+
+if(
+!dakbotDragging||
+event.pointerId!==dakbotPointerId
+){
+
+return;
+
+}
+
+
+const deltaX=
+event.clientX-
+dakbotStartX;
+
+const deltaY=
+event.clientY-
+dakbotStartY;
+
+
+if(
+Math.abs(deltaX)>5||
+Math.abs(deltaY)>5
+){
+
+dakbotMoved=true;
+
+}
+
+
+if(!dakbotMoved){
+
+return;
+
+}
+
+
+const maxLeft=
+window.innerWidth-
+dakbotButton.offsetWidth;
+
+const maxTop=
+window.innerHeight-
+dakbotButton.offsetHeight;
+
+
+const newLeft=
+Math.max(
+0,
+Math.min(
+dakbotStartLeft+deltaX,
+maxLeft
+)
+);
+
+const newTop=
+Math.max(
+0,
+Math.min(
+dakbotStartTop+deltaY,
+maxTop
+)
+);
+
+
+dakbotButton.style.left=
+newLeft+"px";
+
+dakbotButton.style.top=
+newTop+"px";
+
+dakbotButton.style.right=
+"auto";
+
+dakbotButton.style.bottom=
+"auto";
+
+
+event.preventDefault();
+
+},
+{
+passive:false
+}
+);
+
+
+function finishDakbotDrag(event){
+
+if(
+event.pointerId!==dakbotPointerId
+){
+
+return;
+
+}
+
+
+dakbotDragging=false;
+
+dakbotButton.classList.remove(
+"dragging"
+);
+
+
+if(dakbotMoved){
+
+const rect=
+dakbotButton.getBoundingClientRect();
+
+localStorage.setItem(
+"dakpro_dakbot_position",
+JSON.stringify({
+
+left:rect.left,
+
+top:rect.top
+
+})
+);
+
+}
+
+
+try{
+
+dakbotButton.releasePointerCapture(
+event.pointerId
+);
+
+}catch{}
+
+}
+
+
+dakbotButton?.addEventListener(
+"pointerup",
+finishDakbotDrag
+);
+
+
+dakbotButton?.addEventListener(
+"pointercancel",
+finishDakbotDrag
+);
+
+
+/* =====================================================
+   DAKBOT — CLIC
+===================================================== */
+
+dakbotButton?.addEventListener(
+"click",
+event=>{
+
+/*
+   Si le doigt a déplacé le bouton,
+   on ne doit PAS ouvrir dakbot.html.
+*/
+
+if(dakbotMoved){
+
+event.preventDefault();
+
+event.stopPropagation();
+
+dakbotMoved=false;
+
+return;
+
+}
+
+
+window.location.href=
+"dakbot.html";
+
+}
+);
+
+
+/* =====================================================
+   RECALCUL POSITION DAKBOT
+===================================================== */
+
+window.addEventListener(
+"resize",
+()=>{
+
+if(!dakbotButton)return;
+
+
+/*
+   Si une position personnalisée existe,
+   on la maintient dans l'écran.
+*/
+
+if(
+dakbotButton.style.left
+){
+
+const rect=
+dakbotButton.getBoundingClientRect();
+
+const maxLeft=
+window.innerWidth-
+dakbotButton.offsetWidth;
+
+const maxTop=
+window.innerHeight-
+dakbotButton.offsetHeight;
+
+const left=
+Math.max(
+0,
+Math.min(
+rect.left,
+maxLeft
+)
+);
+
+const top=
+Math.max(
+0,
+Math.min(
+rect.top,
+maxTop
+)
+);
+
+dakbotButton.style.left=
+left+"px";
+
+dakbotButton.style.top=
+top+"px";
+
+localStorage.setItem(
+"dakpro_dakbot_position",
+JSON.stringify({
+left,
+top
+})
+);
+
+}
+
+}
+);
+
+
+/* =====================================================
+   DÉMARRAGE
+===================================================== */
+
+/*
+   Les trois données viennent directement
+   de Firebase Realtime Database.
+*/
 
 loadProducts();
+
 loadBanners();
+
 loadAnnouncement();
+
+
+/*
+   Restaurer la position du DAKBOT
+   après chargement de la page.
+*/
+
+setTimeout(
+restoreDakbotPosition,
+150
+);
+
 </script>
 
 </body>

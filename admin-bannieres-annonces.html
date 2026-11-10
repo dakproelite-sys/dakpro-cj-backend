@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Admin - Bannières & Annonces | DAKPROÉLITE</title>
+
+<link rel="icon" type="image/png" href="https://i.postimg.cc/WpSc29mX/file-00000000ca8872438c17222eb828bc0c.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+:root{
+  --gold:#d4af37;
+  --gold-light:#f3e5ab;
+  --black:#050505;
+  --soft-dark:#12161f;
+  --white:#ffffff;
+  --gray:#888888;
+  --red:#dc2626;
+  --green:#15803d;
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ min-height:100vh; background:var(--black); color:var(--white); font-family:'Poppins',sans-serif; padding:15px; }
+
+.admin-card{
+  max-width:680px;
+  margin:20px auto;
+  background:var(--soft-dark);
+  border:1px solid var(--gold);
+  border-radius:14px;
+  padding:22px;
+  box-shadow:0 8px 24px rgba(212,175,55,0.15);
+  margin-bottom: 25px;
+}
+
+.admin-header{
+  text-align:center;
+  margin-bottom:20px;
+  border-bottom:1px solid rgba(212,175,55,0.3);
+  padding-bottom:12px;
+}
+
+.admin-header h2{
+  color:var(--gold);
+  font-size:18px;
+  font-weight:800;
+}
+
+.form-group{
+  margin-bottom:12px;
+}
+
+label{
+  display:block;
+  font-size:11px;
+  color:var(--gold-light);
+  margin-bottom:4px;
+  font-weight:600;
+}
+
+input, textarea{
+  width:100%;
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid rgba(212,175,55,0.3);
+  background:#000;
+  color:#fff;
+  font-size:12px;
+  outline:none;
+}
+
+input:focus, textarea:focus{
+  border-color:var(--gold);
+}
+
+.preview-box {
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #0d0d11;
+  border: 1px dashed rgba(212,175,55,0.4);
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 6px;
+}
+
+.preview-canvas {
+  width: 100%;
+  max-width: 320px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 7px;
+  background: #080b10;
+  border: 1px solid var(--gold);
+  display: none;
+}
+
+.preview-video {
+  width: 100%;
+  max-width: 320px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 7px;
+  background: #000;
+  border: 1px solid var(--gold);
+  display: none;
+}
+
+.btn-submit{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:24px;
+  background:linear-gradient(135deg, var(--gold), #aa8c2c);
+  color:#000;
+  font-weight:800;
+  font-size:14px;
+  cursor:pointer;
+  margin-top:15px;
+  transition: transform 0.2s;
+}
+
+.btn-submit:active{ transform:scale(0.98); }
+.btn-submit:disabled{ opacity: 0.6; cursor: not-allowed; }
+
+.status-msg{ margin-top:10px; text-align:center; font-size:12px; font-weight:600; }
+</style>
+</head>
+
+<body>
+
+<!-- FORMULAIRE BANNIÈRE -->
+<div class="admin-card">
+  <div class="admin-header">
+    <h2>🖼️ Gestion des Bannières Publicitaires (Image ou Vidéo)</h2>
+    <p style="font-size:11px; color:#aaa;">Ajouter une bannière rotative sur l'accueil (`index.html`)</p>
+  </div>
+
+  <form id="bannerForm">
+    <div class="form-group">
+      <label>Titre de la Bannière (Optionnel)</label>
+      <input type="text" id="bannerTitle" placeholder="Ex: Grande Promotion d'Octobre">
+    </div>
+
+    <div class="form-group">
+      <label>Description / Sous-titre (Optionnel)</label>
+      <textarea id="bannerDesc" rows="2" placeholder="Ex: Jusqu'à -50% sur l'électronique..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label><i class="fa-solid fa-folder-open"></i> Fichier de la Bannière (Image ou Vidéo depuis la Galerie) *</label>
+      <input type="file" id="bannerImageFile" accept="image/*,video/*" required>
+      <small id="fileInfoLabel" style="color: var(--gold-light); font-size: 10px; margin-top: 4px; display:block;"></small>
+      
+      <div class="preview-box">
+        <canvas id="imageCanvas" class="preview-canvas"></canvas>
+        <video id="videoPreview" class="preview-video" controls playsinline></video>
+        <span id="bannerPreviewText" style="color:var(--gray); font-size:11px;">Aperçu du média sélectionné...</span>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-submit" id="btnSubmitBanner">🚀 Publier la Bannière</button>
+    <div class="status-msg" id="statusBannerMsg"></div>
+  </form>
+</div>
+
+
+<!-- FORMULAIRE ANNONCE OFFICIELLE -->
+<div class="admin-card">
+  <div class="admin-header">
+    <h2>⚡ Gestion de l'Annonce Officielle (Flash Info)</h2>
+    <p style="font-size:11px; color:#aaa;">Modifie le bandeau texte en bas du site (Nœud : annonces/faya_buzz)</p>
+  </div>
+
+  <form id="announcementForm">
+    <div class="form-group">
+      <label>Titre de l'Annonce *</label>
+      <input type="text" id="annTitle" required placeholder="Ex: ⚡ Annonce Officielle">
+    </div>
+
+    <div class="form-group">
+      <label>Texte de l'Annonce *</label>
+      <textarea id="annText" rows="3" required placeholder="Écrivez votre message d'information ici..."></textarea>
+    </div>
+
+    <button type="submit" class="btn-submit" id="btnSubmitAnn">💾 Enregistrer l'Annonce</button>
+    <div class="status-msg" id="statusAnnMsg"></div>
+  </form>
+</div>
+
+<!-- SCRIPTS FIREBASE & CLOUDINARY -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getDatabase, ref, push, set, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDR7INHKaazaqZt-xIcjk10JFiy58uXKO8",
+  authDomain: "dakproelite.firebaseapp.com",
+  databaseURL: "https://dakproelite-default-rtdb.firebaseio.com",
+  projectId: "dakproelite",
+  storageBucket: "dakproelite.firebasestorage.app",
+  messagingSenderId: "580591769206",
+  appId: "1:580591769206:web:4f67f8aadbf3d051087157"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const CLOUDINARY_CLOUD_NAME = "iufene3y";
+const CLOUDINARY_UPLOAD_PRESET = "dakproelite_preset";
+
+// Fonction d'upload optimisée avec suivi de progression (0% à 100%)
+function uploadToCloudinaryWithProgress(file, onProgress) {
+  return new Promise((resolve, reject) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+    formData.append("folder", "dakproelite_banners");
+
+    const xhr = new XMLHttpRequest();
+    // Endpoint universel 'auto' pour accepter images et vidéos
+    xhr.open("POST", `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`, true);
+
+    xhr.upload.onprogress = function(event) {
+      if (event.lengthComputable) {
+        const percentComplete = Math.round((event.loaded / event.total) * 100);
+        if (onProgress) onProgress(percentComplete);
+      }
+    };
+
+    xhr.onload = function() {
+      try {
+        const data = JSON.parse(xhr.responseText);
+        if (xhr.status >= 200 && xhr.status < 300 && data.secure_url) {
+          resolve(data.secure_url);
+        } else {
+          reject(new Error(data.error?.message || "Erreur lors de l'upload sur Cloudinary"));
+        }
+      } catch (e) {
+        reject(new Error("Erreur de traitement de la réponse Cloudinary."));
+      }
+    };
+
+    xhr.onerror = function() {
+      reject(new Error("Erreur réseau lors du téléchargement vers Cloudinary. Vérifiez votre connexion."));
+    };
+
+    xhr.send(formData);
+  });
+}
+
+// Éléments du DOM pour l'aperçu
+let bannerFileObj = null;
+const bannerInput = document.getElementById("bannerImageFile");
+const fileInfoLabel = document.getElementById("fileInfoLabel");
+const canvas = document.getElementById("imageCanvas");
+const videoPreview = document.getElementById("videoPreview");
+const bannerPreviewText = document.getElementById("bannerPreviewText");
+
+// Gestion de la sélection et de l'aperçu en temps réel
+bannerInput.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  bannerFileObj = file;
+  const fileType = file.type;
+
+  canvas.style.display = "none";
+  videoPreview.style.display = "none";
+  bannerPreviewText.style.display = "block";
+
+  const tempLocalUrl = URL.createObjectURL(file);
+
+  if (fileType.startsWith("image/")) {
+    fileInfoLabel.textContent = `🖼️ Image sélectionnée : ${file.name}`;
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      const img = new Image();
+      img.onload = function() {
+        const ctx = canvas.getContext("2d");
+        canvas.width = 600;
+        canvas.height = 340;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#080b10";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        let hRatio = canvas.width / img.width;
+        let vRatio = canvas.height / img.height;
+        let ratio = Math.max(hRatio, vRatio);
+        let centerShiftX = (canvas.width - img.width * ratio) / 2;
+        let centerShiftY = (canvas.height - img.height * ratio) / 2;
+        
+        ctx.drawImage(img, 0, 0, img.width, img.height, centerShiftX, centerShiftY, img.width * ratio, img.height * ratio);
+        canvas.style.display = "block";
+        bannerPreviewText.style.display = "none";
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+
+  } else if (fileType.startsWith("video/")) {
+    fileInfoLabel.textContent = `🎥 Vidéo sélectionnée : ${file.name}`;
+    videoPreview.src = tempLocalUrl;
+    videoPreview.style.display = "block";
+    bannerPreviewText.style.display = "none";
+  }
+});
+
+// Soumission du Formulaire Bannière
+document.getElementById("bannerForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById("btnSubmitBanner");
+  const status = document.getElementById("statusBannerMsg");
+
+  if (!bannerFileObj) {
+    alert("Veuillez choisir un fichier (image ou vidéo) pour la bannière.");
+    return;
+  }
+
+  btn.disabled = true;
+  status.style.color = "var(--gold)";
+  status.textContent = "⏳ Initialisation du transfert sur Cloudinary (0%)...";
+
+  try {
+    const finalMediaUrl = await uploadToCloudinaryWithProgress(bannerFileObj, (percent) => {
+      status.textContent = `⏳ Téléchargement vers Cloudinary en cours : ${percent}%`;
+      btn.textContent = `⏳ Envoi ${percent}%`;
+    });
+
+    status.textContent = "⏳ Enregistrement dans Realtime Database...";
+    btn.textContent = "⏳ Enregistrement...";
+
+    const newRef = push(ref(db, "bannieres"));
+    
+    await set(newRef, {
+      id: newRef.key,
+      titre: document.getElementById("bannerTitle").value.trim(),
+      description: document.getElementById("bannerDesc").value.trim(),
+      image: finalMediaUrl,
+      video: bannerFileObj.type.startsWith("video/") ? finalMediaUrl : "",
+      type: bannerFileObj.type.startsWith("video/") ? "video" : "image",
+      actif: true,
+      createdAt: Date.now()
+    });
+
+    status.style.color = "var(--green)";
+    status.textContent = "✅ Bannière publiée avec succès sur l'accueil !";
+    alert("🎉 Bannière ajoutée avec succès !");
+
+    document.getElementById("bannerForm").reset();
+    fileInfoLabel.textContent = "";
+    canvas.style.display = "none";
+    videoPreview.style.display = "none";
+    bannerPreviewText.style.display = "block";
+    bannerPreviewText.textContent = "Aperçu du média sélectionné...";
+    bannerFileObj = null;
+
+  } catch (err) {
+    console.error("Erreur de publication :", err);
+    status.style.color = "var(--red)";
+    status.textContent = "❌ Erreur : " + err.message;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "🚀 Publier la Bannière";
+  }
+});
+
+
+// Charger l'annonce existante au démarrage
+async function loadExistingAnnouncement() {
+  const snap = await get(ref(db, "annonces/faya_buzz"));
+  if (snap.exists()) {
+    const data = snap.val();
+    document.getElementById("annTitle").value = data.titre || "";
+    document.getElementById("annText").value = data.texte || data.text || "";
+  }
+}
+loadExistingAnnouncement();
+
+// Soumission Annonce Officielle
+document.getElementById("announcementForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById("btnSubmitAnn");
+  const status = document.getElementById("statusAnnMsg");
+
+  btn.disabled = true;
+  status.style.color = "var(--gold)";
+  status.textContent = "⏳ Enregistrement en cours...";
+
+  try {
+    await set(ref(db, "annonces/faya_buzz"), {
+      titre: document.getElementById("annTitle").value.trim(),
+      texte: document.getElementById("annText").value.trim(),
+      actif: true,
+      updatedAt: Date.now()
+    });
+
+    status.style.color = "var(--green)";
+    status.textContent = "✅ Annonce officielle mise à jour avec succès !";
+    alert("⚡ Annonce mise à jour et visible instantanément sur le site.");
+  } catch (err) {
+    console.error("Erreur d'enregistrement :", err);
+    status.style.color = "var(--red)";
+    status.textContent = "❌ Erreur : " + err.message;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "💾 Enregistrer l'Annonce";
+  }
+});
+</script>
+
+</body>
+</html>
