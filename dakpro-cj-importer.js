@@ -1,6 +1,5 @@
 // ============================================================
-// DAKPRO ÉLITE — GLOBAL CJ IMPORTER PRO
-// FICHIER 5/5 — VERSION CONNECTÉE API V2
+// DAKPRO ÉLITE — GLOBAL CJ IMPORTER PRO (ULTRA-ROBUSTE V3)
 // CJ DROPSHIPPING + CLOUDINARY + FIREBASE
 // ============================================================
 
@@ -21,7 +20,6 @@ import {
 // ============================================================
 
 const CONFIG = {
-    // 🌐 URL absolue pointant vers ton backend CJ déployé sur Vercel
     API: "https://cj.dakproelite.com/api/cj",
 
     CLOUDINARY: {
@@ -55,7 +53,6 @@ class DakproCJImporter {
             return;
         }
 
-        // Firebase déjà initialisé par l'application.
         this.db = getDatabase();
         this.auth = getAuth();
 
@@ -339,9 +336,10 @@ class DakproCJImporter {
             grid-column:1/-1;
             text-align:center;
             padding:30px;
-            color:#aaa;
-            border:1px dashed #D4AF37;
+            color:#ffb3b3;
+            border:1px dashed #ff4d4d;
             border-radius:10px;
+            background:#200;
         }
 
         .dakcj-video {
@@ -392,7 +390,7 @@ class DakproCJImporter {
 
                 <input id="dakcj-keyword"
                     type="search"
-                    placeholder="Rechercher un produit CJ...">
+                    placeholder="Rechercher un produit CJ (ex: SmartWatch)...">
 
                 <input id="dakcj-category"
                     list="dakcj-categories"
@@ -407,14 +405,14 @@ class DakproCJImporter {
             </div>
 
             <div class="dakcj-info" id="dakcj-info">
-                Recherche dans le catalogue CJ Dropshipping.
+                Prêt pour la recherche de produits.
             </div>
 
             <div class="dakcj-grid" id="dakcj-grid">
-                <div class="dakcj-message">
+                <div class="dakcj-message" style="color:#aaa;border-color:#D4AF37;background:#111;">
                     DAKPRO ÉLITE — GLOBAL IMPORTER
                     <br><br>
-                    Saisissez un produit à rechercher.
+                    Saisissez un mot-clé pour interroger le catalogue CJ Dropshipping.
                 </div>
             </div>
 
@@ -436,14 +434,11 @@ class DakproCJImporter {
     }
 
     // ========================================================
-    // COMMUNICATION AVEC LE FICHIER 4
+    // COMMUNICATION AVEC L'API VERCEL (ULTRA-SÉCURISÉE)
     // ========================================================
 
     async api(action, params = {}, method = "GET") {
-
-        // Utilisation directe de l'URL absolue configurée dans CONFIG.API
         const url = new URL(CONFIG.API);
-
         url.searchParams.set("action", action);
 
         if (method === "GET") {
@@ -454,33 +449,35 @@ class DakproCJImporter {
             });
         }
 
-        const response = await fetch(url.toString(), {
-            method,
-            headers: {
-                "Accept": "application/json",
-                ...(method !== "GET"
-                    ? {"Content-Type": "application/json"}
-                    : {})
-            },
-            body: method !== "GET"
-                ? JSON.stringify(params)
-                : undefined
-        });
+        let response;
+        try {
+            response = await fetch(url.toString(), {
+                method,
+                headers: {
+                    "Accept": "application/json",
+                    ...(method !== "GET" ? {"Content-Type": "application/json"} : {})
+                },
+                body: method !== "GET" ? JSON.stringify(params) : undefined
+            });
+        } catch (networkError) {
+            throw new Error(`Erreur réseau : Impossible de contacter le serveur Vercel (${networkError.message}). Vérifiez votre connexion internet.`);
+        }
 
         let result;
+        const textResponse = await response.text();
 
         try {
-            result = await response.json();
+            result = JSON.parse(textResponse);
         } catch {
-            throw new Error("Réponse API CJ invalide.");
+            throw new Error(`Réponse serveur invalide (Format non-JSON) : ${textResponse.substring(0, 100)}...`);
         }
 
         if (!response.ok || result.success === false) {
-            throw new Error(
-                result.message ||
-                result.error ||
-                `Erreur serveur ${response.status}`
-            );
+            let errorDetail = result.message || result.error || `Erreur HTTP ${response.status}`;
+            if (typeof errorDetail === 'object') {
+                errorDetail = JSON.stringify(errorDetail);
+            }
+            throw new Error(errorDetail);
         }
 
         return result;
@@ -495,9 +492,7 @@ class DakproCJImporter {
     }
 
     getList(response) {
-
         const data = this.getData(response);
-
         const candidates = [
             data?.list,
             data?.variants,
@@ -506,22 +501,17 @@ class DakproCJImporter {
             data?.tree,
             data
         ];
-
         return candidates.find(Array.isArray) || [];
     }
 
     getObject(response) {
-
         let data = this.getData(response);
-
         if (Array.isArray(data)) {
             data = data[0] || {};
         }
-
         if (data?.list && Array.isArray(data.list)) {
             data = data.list[0] || {};
         }
-
         return data && typeof data === "object" ? data : {};
     }
 
@@ -530,7 +520,6 @@ class DakproCJImporter {
     // ========================================================
 
     events() {
-
         const $ = selector => this.container.querySelector(selector);
 
         $("#dakcj-search").addEventListener("click", () => {
@@ -570,53 +559,29 @@ class DakproCJImporter {
     // ========================================================
 
     async loadCategories() {
-
         try {
-
             const response = await this.api("categories");
             const categories = this.getList(response);
             const flattened = [];
 
             const visit = list => {
-
                 list.forEach(item => {
-
                     if (!item || typeof item !== "object") return;
-
-                    const id =
-                        item.categoryId ||
-                        item.categoryFirstId ||
-                        item.categorySecondId ||
-                        item.id;
-
-                    const name =
-                        item.categoryName ||
-                        item.categoryFirstName ||
-                        item.categorySecondName ||
-                        item.name;
+                    const id = item.categoryId || item.categoryFirstId || item.categorySecondId || item.id;
+                    const name = item.categoryName || item.categoryFirstName || item.categorySecondName || item.name;
 
                     if (id && name) {
-                        flattened.push({
-                            id: String(id),
-                            name: String(name)
-                        });
+                        flattened.push({ id: String(id), name: String(name) });
                     }
 
-                    const children =
-                        item.categoryFirstList ||
-                        item.categorySecondList ||
-                        item.children ||
-                        item.list;
-
+                    const children = item.categoryFirstList || item.categorySecondList || item.children || item.list;
                     if (Array.isArray(children)) visit(children);
                 });
             };
 
             visit(categories);
 
-            const unique = [
-                ...new Map(flattened.map(item => [item.id, item])).values()
-            ];
+            const unique = [...new Map(flattened.map(item => [item.id, item])).values()];
 
             this.container.querySelector("#dakcj-categories").innerHTML =
                 unique.map(item => `
@@ -629,7 +594,7 @@ class DakproCJImporter {
 
         } catch (error) {
             console.warn("Catégories CJ :", error.message);
-            this.status("● CONNECTEUR EN ATTENTE");
+            this.status("● ERREUR CATÉGORIES");
         }
     }
 
@@ -638,24 +603,20 @@ class DakproCJImporter {
     // ========================================================
 
     async search() {
-
         if (this.loading) return;
-
         this.loading = true;
 
         const grid = this.container.querySelector("#dakcj-grid");
         const info = this.container.querySelector("#dakcj-info");
 
         grid.innerHTML = `
-            <div class="dakcj-message">
-                Connexion au catalogue CJ Dropshipping...
+            <div class="dakcj-message" style="color:#FFD700;border-color:#D4AF37;background:#111;">
+                🔍 Recherche en cours sur CJ Dropshipping...
             </div>
         `;
-
         this.status("● RECHERCHE EN COURS");
 
         try {
-
             const response = await this.api("search", {
                 keyWord: this.keyword,
                 categoryId: this.categoryId,
@@ -666,91 +627,62 @@ class DakproCJImporter {
             const data = this.getData(response);
             const list = Array.isArray(data?.list) ? data.list : [];
 
-            this.totalPages = Math.max(
-                1,
-                Number(data?.totalPages) || 1
-            );
-
+            this.totalPages = Math.max(1, Number(data?.totalPages) || 1);
             this.totalRecords = Number(data?.totalRecords) || 0;
+
+            if (list.length === 0) {
+                grid.innerHTML = `
+                    <div class="dakcj-message" style="color:#FFD700;border-color:#D4AF37;background:#111;">
+                        ⚠️ Aucun produit trouvé pour <strong>"${this.escape(this.keyword)}"</strong>.<br>
+                        Veuillez essayer un autre terme ou vérifier l'orthographe.
+                    </div>
+                `;
+                info.textContent = "Aucun résultat trouvé.";
+                this.status("● AUCUN RÉSULTAT");
+                return;
+            }
 
             this.products.clear();
 
             const products = list.map(item => {
-
-                const pid = String(
-                    item.pid || item.id || item.productId || ""
-                );
-
-                const images = this.images(
-                    item.images || item.productImageSet,
-                    item.productImage || item.bigImage
-                );
+                const pid = String(item.pid || item.id || item.productId || "");
+                const images = this.images(item.images || item.productImageSet, item.productImage || item.bigImage);
 
                 const product = {
                     pid,
-                    name:
-                        item.productName ||
-                        item.productNameEn ||
-                        item.nameEn ||
-                        "Produit CJ",
-
-                    image:
-                        item.productImage ||
-                        item.bigImage ||
-                        images[0] ||
-                        "",
-
+                    name: item.productName || item.productNameEn || item.nameEn || "Produit CJ",
+                    image: item.productImage || item.bigImage || images[0] || "",
                     images,
-
-                    sku:
-                        item.productSku ||
-                        item.sku ||
-                        "",
-
-                    price: this.number(
-                        item.sellPrice ??
-                        item.productPrice ??
-                        item.supplierPrice
-                    ),
-
+                    sku: item.productSku || item.sku || "",
+                    price: this.number(item.sellPrice ?? item.productPrice ?? item.supplierPrice),
                     stock: this.stock(item),
-
                     categoryId: item.categoryId || "",
                     categoryName: item.categoryName || "",
                     description: item.description || "",
-
                     raw: item
                 };
 
                 if (pid) this.products.set(pid, product);
-
                 return product;
-
             }).filter(item => item.pid);
 
             this.renderProducts(products);
 
-            info.textContent =
-                `${this.totalRecords.toLocaleString("fr-FR")} résultats — page ${this.page}.`;
-
+            info.textContent = `${this.totalRecords.toLocaleString("fr-FR")} résultats trouvés — page ${this.page} sur ${this.totalPages}.`;
             this.status("● CATALOGUE CJ CONNECTÉ");
 
         } catch (error) {
-
             grid.innerHTML = `
                 <div class="dakcj-message">
-                    ⚠️ ${this.escape(error.message)}
+                    ❌ <strong>Problème rencontré avec l'API CJ :</strong><br><br>
+                    ${this.escape(error.message)}
                 </div>
             `;
-
             this.status("● ERREUR API");
-            info.textContent = "La recherche n'a pas abouti.";
-
+            info.textContent = "La recherche a échoué.";
         } finally {
-
             this.loading = false;
             this.pagination();
-
         }
     }
 
@@ -759,54 +691,34 @@ class DakproCJImporter {
     // ========================================================
 
     renderProducts(products) {
-
         const grid = this.container.querySelector("#dakcj-grid");
 
         if (!products.length) {
             grid.innerHTML = `
                 <div class="dakcj-message">
-                    Aucun produit trouvé pour cette recherche.
+                    Aucun produit valide à afficher.
                 </div>
             `;
             return;
         }
 
         grid.innerHTML = products.map(product => `
-
             <article class="dakcj-card">
-
                 ${
                     product.image
-                        ? `<img src="${this.escape(product.image)}"
-                               alt="${this.escape(product.name)}"
-                               loading="lazy">`
-                        : `<div style="height:160px;text-align:center;padding:60px 5px;color:#888">
-                               Image indisponible
-                           </div>`
+                        ? `<img src="${this.escape(product.image)}" alt="${this.escape(product.name)}" loading="lazy">`
+                        : `<div style="height:160px;text-align:center;padding:60px 5px;color:#888">Image indisponible</div>`
                 }
-
                 <div class="dakcj-card-body">
-
-                    <div class="dakcj-name">
-                        ${this.escape(product.name)}
-                    </div>
-
+                    <div class="dakcj-name">${this.escape(product.name)}</div>
                     <div class="dakcj-price">
-                        ${
-                            product.price
-                                ? "$" + product.price.toFixed(2)
-                                : "Prix indisponible"
-                        }
+                        ${product.price ? "$" + product.price.toFixed(2) : "Prix indisponible"}
                     </div>
-
                     <button class="dakcj-view" data-pid="${this.escape(product.pid)}">
                         VOIR LE PRODUIT
                     </button>
-
                 </div>
-
             </article>
-
         `).join("");
 
         grid.querySelectorAll("[data-pid]").forEach(button => {
@@ -821,9 +733,7 @@ class DakproCJImporter {
     // ========================================================
 
     async openProduct(pid) {
-
         const product = this.products.get(String(pid));
-
         if (!product) return;
 
         this.product = product;
@@ -832,100 +742,52 @@ class DakproCJImporter {
         const content = this.container.querySelector("#dakcj-detail-content");
 
         modal.style.display = "flex";
-
         content.innerHTML = `
-            <div class="dakcj-message">
-                Chargement des informations du produit...
+            <div class="dakcj-message" style="color:#FFD700;border-color:#D4AF37;background:#111;">
+                Chargement des détails et des variantes depuis CJ Dropshipping...
             </div>
         `;
 
         try {
-
             const [detailResponse, variantResponse] = await Promise.allSettled([
                 this.api("details", {pid: product.pid}),
                 this.api("variants", {pid: product.pid})
             ]);
 
             if (detailResponse.status === "fulfilled") {
-
                 const details = this.getObject(detailResponse.value);
-
-                product.name =
-                    details.productName ||
-                    details.productNameEn ||
-                    product.name;
-
-                product.description =
-                    details.description ||
-                    details.productDescription ||
-                    product.description;
-
-                product.sku =
-                    details.productSku ||
-                    details.sku ||
-                    product.sku;
-
-                product.image =
-                    details.productImage ||
-                    details.bigImage ||
-                    product.image;
-
-                product.images = this.images(
-                    details.images || details.productImageSet,
-                    product.image
-                );
-
-                product.price = this.number(
-                    details.sellPrice ??
-                    details.supplierPrice ??
-                    details.productPrice ??
-                    product.price
-                );
+                product.name = details.productName || details.productNameEn || product.name;
+                product.description = details.description || details.productDescription || product.description;
+                product.sku = details.productSku || details.sku || product.sku;
+                product.image = details.productImage || details.bigImage || product.image;
+                product.images = this.images(details.images || details.productImageSet, product.image);
+                product.price = this.number(details.sellPrice ?? details.supplierPrice ?? details.productPrice ?? product.price);
             }
 
-            this.variants = variantResponse.status === "fulfilled"
-                ? this.getList(variantResponse.value)
-                : [];
+            this.variants = variantResponse.status === "fulfilled" ? this.getList(variantResponse.value) : [];
 
-            // Le service d'inventaire n'est pas bloquant.
             this.inventory = null;
-
             try {
-                const stockResponse = await this.api("inventory", {
-                    pid: product.pid
-                });
-
-                const stockData = this.getObject(stockResponse);
-                this.inventory = stockData;
-
+                const stockResponse = await this.api("inventory", {pid: product.pid});
+                this.inventory = this.getObject(stockResponse);
             } catch (error) {
                 console.warn("Stock non récupéré :", error.message);
             }
 
-            // Récupération facultative des vidéos.
             this.videos = [];
-
             try {
-
-                const videoResponse = await this.api(
-                    "videos",
-                    {productId: product.pid},
-                    "POST"
-                );
-
+                const videoResponse = await this.api("videos", {productId: product.pid}, "POST");
                 this.videos = this.getList(videoResponse);
-
             } catch (error) {
-                console.warn("Vidéos CJ indisponibles :", error.message);
+                console.warn("Vidéos indisponibles :", error.message);
             }
 
             this.renderDetail();
 
         } catch (error) {
-
             content.innerHTML = `
                 <div class="dakcj-message">
-                    ${this.escape(error.message)}
+                    ❌ Erreur lors du chargement des détails : ${this.escape(error.message)}
                 </div>
             `;
         }
@@ -936,157 +798,69 @@ class DakproCJImporter {
     // ========================================================
 
     renderDetail() {
-
         const content = this.container.querySelector("#dakcj-detail-content");
 
         const variants = this.variants.map((item, index) => `
             <option value="${index}">
-                ${this.escape(
-                    item.variantName ||
-                    item.name ||
-                    item.variantSku ||
-                    "Variante " + (index + 1)
-                )}
+                ${this.escape(item.variantName || item.name || item.variantSku || "Variante " + (index + 1))}
             </option>
         `).join("");
 
         const videos = this.videos
-            .filter(video => {
-                const allowed =
-                    video.isFree === true ||
-                    video.isBuy === true ||
-                    video.copyrightBuyType === 1 ||
-                    video.copyrightBuyType === 2;
-
-                return allowed && (video.videoUrl || video.url);
-            })
+            .filter(video => (video.isFree || video.isBuy || video.copyrightBuyType === 1 || video.copyrightBuyType === 2) && (video.videoUrl || video.url))
             .map(video => `
-                <video class="dakcj-video" controls preload="metadata"
-                    src="${this.escape(video.videoUrl || video.url)}">
-                </video>
+                <video class="dakcj-video" controls preload="metadata" src="${this.escape(video.videoUrl || video.url)}"></video>
             `).join("");
 
         content.innerHTML = `
-
-            <h2 style="color:#FFD700;font-size:18px">
-                ${this.escape(this.product.name)}
-            </h2>
-
+            <h2 style="color:#FFD700;font-size:18px">${this.escape(this.product.name)}</h2>
             <div class="dakcj-detail">
-
                 <div>
-
-                    ${
-                        this.product.image
-                            ? `<img src="${this.escape(this.product.image)}">`
-                            : ""
-                    }
-
-                    <p style="color:#aaa;font-size:11px">
-                        FOURNISSEUR : CJ DROPSHIPPING
-                    </p>
-
-                    <p style="color:#FFD700;font-size:13px">
-                        Prix fournisseur :
-                        ${this.product.price ? "$" + this.product.price : "Indisponible"}
-                    </p>
-
-                    <p style="font-size:11px;color:#aaa">
-                        Référence : ${this.escape(this.product.sku)}
-                    </p>
-
+                    ${this.product.image ? `<img src="${this.escape(this.product.image)}">` : ""}
+                    <p style="color:#aaa;font-size:11px">FOURNISSEUR : CJ DROPSHIPPING</p>
+                    <p style="color:#FFD700;font-size:13px">Prix fournisseur : ${this.product.price ? "$" + this.product.price : "Indisponible"}</p>
+                    <p style="font-size:11px;color:#aaa">Référence : ${this.escape(this.product.sku)}</p>
                     <label class="dakcj-label">VARIANTES</label>
-
                     <select id="dakcj-variant">
                         <option value="">Produit standard</option>
                         ${variants}
                     </select>
-
                     ${videos}
-
                 </div>
-
                 <div>
-
                     <div class="dakcj-section">
-
                         <h3>PARAMÈTRES COMMERCIAUX</h3>
-
                         <label class="dakcj-label">TAUX USD / FCFA</label>
                         <input id="dakcj-rate" type="number" value="${CONFIG.exchangeRate}">
-
                         <label class="dakcj-label">MARGE COMMERCIALE (%)</label>
-                        <input id="dakcj-margin" type="number"
-                            min="0" max="1000" value="${CONFIG.marginPercent}">
-
+                        <input id="dakcj-margin" type="number" min="0" max="1000" value="${CONFIG.marginPercent}">
                     </div>
-
                     <div class="dakcj-section">
-
                         <h3>PRIX PUBLIC</h3>
-                        <div class="dakcj-result" id="dakcj-price">
-                            Calcul...
-                        </div>
-
-                        <div id="dakcj-cost" style="font-size:11px;color:#aaa;margin-top:10px">
-                        </div>
-
+                        <div class="dakcj-result" id="dakcj-price">Calcul...</div>
+                        <div id="dakcj-cost" style="font-size:11px;color:#aaa;margin-top:10px"></div>
                     </div>
-
-                    <button id="dakcj-draft" class="dakcj-action dakcj-draft">
-                        ENREGISTRER EN BROUILLON
-                    </button>
-
-                    <button id="dakcj-publish" class="dakcj-action dakcj-publish">
-                        PUBLIER SUR DAKPRO ÉLITE
-                    </button>
-
+                    <button id="dakcj-draft" class="dakcj-action dakcj-draft">ENREGISTRER EN BROUILLON</button>
+                    <button id="dakcj-publish" class="dakcj-action dakcj-publish">PUBLIER SUR DAKPRO ÉLITE</button>
                 </div>
-
             </div>
-
         `;
 
-        content.querySelector("#dakcj-rate")
-            .addEventListener("input", () => this.previewPrice());
-
-        content.querySelector("#dakcj-margin")
-            .addEventListener("input", () => this.previewPrice());
-
-        content.querySelector("#dakcj-draft")
-            .addEventListener("click", () => this.publish(false));
-
-        content.querySelector("#dakcj-publish")
-            .addEventListener("click", () => this.publish(true));
+        content.querySelector("#dakcj-rate").addEventListener("input", () => this.previewPrice());
+        content.querySelector("#dakcj-margin").addEventListener("input", () => this.previewPrice());
+        content.querySelector("#dakcj-draft").addEventListener("click", () => this.publish(false));
+        content.querySelector("#dakcj-publish").addEventListener("click", () => this.publish(true));
 
         this.previewPrice();
     }
 
-    // ========================================================
-    // CALCUL COMMERCIAL VIA FICHIER 4
-    // ========================================================
-
     async calculatePrice() {
+        const rate = Number(this.container.querySelector("#dakcj-rate").value);
+        const margin = Number(this.container.querySelector("#dakcj-margin").value);
 
-        const rate = Number(
-            this.container.querySelector("#dakcj-rate").value
-        );
-
-        const margin = Number(
-            this.container.querySelector("#dakcj-margin").value
-        );
-
-        if (!Number.isFinite(rate) || rate <= 0) {
-            throw new Error("Taux de conversion invalide.");
-        }
-
-        if (!Number.isFinite(margin) || margin < 0 || margin > 1000) {
-            throw new Error("Marge commerciale invalide.");
-        }
-
-        if (!this.product.price || this.product.price <= 0) {
-            throw new Error("Prix fournisseur CJ indisponible.");
-        }
+        if (!Number.isFinite(rate) || rate <= 0) throw new Error("Taux de conversion invalide.");
+        if (!Number.isFinite(margin) || margin < 0 || margin > 1000) throw new Error("Marge commerciale invalide.");
+        if (!this.product.price || this.product.price <= 0) throw new Error("Prix fournisseur CJ indisponible.");
 
         const response = await this.api("pricing", {
             supplierPriceUSD: this.product.price,
@@ -1095,26 +869,12 @@ class DakproCJImporter {
         }, "POST");
 
         const result = this.getObject(response);
-
-        const supplierCost = Number(result.supplierPriceFCFA);
-        const finalPrice = Number(result.publicPriceFCFA);
-        const marginFCFA = Number(result.marginFCFA);
-
-        if (
-            !Number.isFinite(supplierCost) ||
-            !Number.isFinite(finalPrice) ||
-            !Number.isFinite(marginFCFA)
-        ) {
-            throw new Error("Réponse de calcul commercial incomplète.");
-        }
-
         return {
-            supplierCost,
-            finalPrice,
-            marginFCFA,
+            supplierCost: Number(result.supplierPriceFCFA),
+            finalPrice: Number(result.publicPriceFCFA),
+            marginFCFA: Number(result.marginFCFA),
             rate,
             margin,
-
             commissions: {
                 seller: Number(result.commissions?.sellerFCFA || 0),
                 affiliate: Number(result.commissions?.affiliateFCFA || 0),
@@ -1124,14 +884,9 @@ class DakproCJImporter {
     }
 
     async previewPrice() {
-
         try {
-
             const result = await this.calculatePrice();
-
-            this.container.querySelector("#dakcj-price").textContent =
-                this.fcfa(result.finalPrice);
-
+            this.container.querySelector("#dakcj-price").textContent = this.fcfa(result.finalPrice);
             this.container.querySelector("#dakcj-cost").innerHTML = `
                 Coût fournisseur : <strong>${this.fcfa(result.supplierCost)}</strong><br>
                 Marge commerciale : <strong>${this.fcfa(result.marginFCFA)}</strong><br>
@@ -1139,118 +894,47 @@ class DakproCJImporter {
                 Affiliation 5 % : <strong>${this.fcfa(result.commissions.affiliate)}</strong><br>
                 DAKPRO 15 % : <strong>${this.fcfa(result.commissions.platform)}</strong>
             `;
-
         } catch (error) {
-
-            this.container.querySelector("#dakcj-price").textContent =
-                "Calcul indisponible";
-
-            this.container.querySelector("#dakcj-cost").textContent =
-                error.message;
+            this.container.querySelector("#dakcj-price").textContent = "Calcul indisponible";
+            this.container.querySelector("#dakcj-cost").textContent = error.message;
         }
     }
 
-    // ========================================================
-    // CLOUDINARY — TRANSFERT DES URLS CJ
-    // ========================================================
-
     async uploadRemoteToCloudinary(remoteUrl, resourceType = "auto") {
-
         if (!remoteUrl) return "";
-
-        const endpoint =
-            `https://api.cloudinary.com/v1_1/${CONFIG.CLOUDINARY.cloudName}/${resourceType}/upload`;
-
+        const endpoint = `https://api.cloudinary.com/v1_1/${CONFIG.CLOUDINARY.cloudName}/${resourceType}/upload`;
         const form = new FormData();
-
-        // Cloudinary récupère le média depuis son URL distante.
         form.append("file", remoteUrl);
         form.append("upload_preset", CONFIG.CLOUDINARY.uploadPreset);
         form.append("folder", CONFIG.CLOUDINARY.folder);
 
-        const response = await fetch(endpoint, {
-            method: "POST",
-            body: form
-        });
-
-        let data;
-
-        try {
-            data = await response.json();
-        } catch {
-            throw new Error("Réponse Cloudinary invalide.");
-        }
-
+        const response = await fetch(endpoint, { method: "POST", body: form });
+        const data = await response.json();
         if (!response.ok || !data.secure_url) {
-            throw new Error(
-                data.error?.message || "Transfert Cloudinary impossible."
-            );
+            throw new Error(data.error?.message || "Transfert Cloudinary impossible.");
         }
-
         return data.secure_url;
     }
 
-    // ========================================================
-    // MÉDIAS PRODUIT
-    // ========================================================
-
     async transferProductMedia() {
-
-        const sourceImages = [
-            ...new Set([
-                this.product.image,
-                ...(this.product.images || [])
-            ].filter(Boolean))
-        ];
-
+        const sourceImages = [...new Set([this.product.image, ...(this.product.images || [])].filter(Boolean))];
         const cloudImages = [];
 
         for (const imageUrl of sourceImages) {
-
             try {
-
-                const cloudUrl = await this.uploadRemoteToCloudinary(
-                    imageUrl,
-                    "image"
-                );
-
+                const cloudUrl = await this.uploadRemoteToCloudinary(imageUrl, "image");
                 cloudImages.push(cloudUrl);
-
-            } catch (error) {
-
-                console.warn("Image non transférée :", error.message);
-
-                // On conserve l'URL CJ comme solution de secours.
+            } catch {
                 cloudImages.push(imageUrl);
             }
         }
 
         let cloudVideo = "";
-
-        const allowedVideo = this.videos.find(video => {
-
-            const permitted =
-                video.isFree === true ||
-                video.isBuy === true ||
-                video.copyrightBuyType === 1 ||
-                video.copyrightBuyType === 2;
-
-            return permitted && (video.videoUrl || video.url);
-        });
-
+        const allowedVideo = this.videos.find(v => (v.isFree || v.isBuy || v.copyrightBuyType === 1 || v.copyrightBuyType === 2) && (v.videoUrl || v.url));
         if (allowedVideo) {
-
             try {
-
-                cloudVideo = await this.uploadRemoteToCloudinary(
-                    allowedVideo.videoUrl || allowedVideo.url,
-                    "video"
-                );
-
-            } catch (error) {
-
-                console.warn("Vidéo non transférée :", error.message);
-            }
+                cloudVideo = await this.uploadRemoteToCloudinary(allowedVideo.videoUrl || allowedVideo.url, "video");
+            } catch {}
         }
 
         return {
@@ -1260,16 +944,9 @@ class DakproCJImporter {
         };
     }
 
-    // ========================================================
-    // PUBLICATION FIREBASE
-    // ========================================================
-
     async publish(publishNow) {
-
         if (this.importing) return;
-
-        const currentUser =
-            window.currentUser || this.auth.currentUser;
+        const currentUser = window.currentUser || this.auth.currentUser;
 
         if (!currentUser) {
             alert("Connectez-vous avant de publier un produit.");
@@ -1277,342 +954,157 @@ class DakproCJImporter {
         }
 
         this.importing = true;
-
         const buttons = [
             this.container.querySelector("#dakcj-draft"),
             this.container.querySelector("#dakcj-publish")
         ];
 
-        buttons.forEach(button => {
-            button.disabled = true;
-            button.textContent = "IMPORTATION EN COURS...";
-        });
+        buttons.forEach(b => { b.disabled = true; b.textContent = "IMPORTATION EN COURS..."; });
 
         try {
-
             const calculation = await this.calculatePrice();
-
             const media = await this.transferProductMedia();
-
-            const selectedVariantIndex =
-                this.container.querySelector("#dakcj-variant").value;
-
-            const selectedVariant =
-                selectedVariantIndex !== ""
-                    ? this.variants[Number(selectedVariantIndex)]
-                    : null;
+            const selectedVariantIndex = this.container.querySelector("#dakcj-variant").value;
+            const selectedVariant = selectedVariantIndex !== "" ? this.variants[Number(selectedVariantIndex)] : null;
 
             const publicationRef = push(ref(this.db, "publications"));
             const productId = publicationRef.key;
 
-            const affiliateLink = new URL(
-                window.DAKPRO_CONFIG?.productPageUrl || "index.html",
-                window.location.origin
-            );
-
+            const affiliateLink = new URL(window.DAKPRO_CONFIG?.productPageUrl || "index.html", window.location.origin);
             affiliateLink.searchParams.set("produit", productId);
             affiliateLink.searchParams.set("ref", currentUser.uid);
 
-            const commissions = calculation.commissions;
-
             const payload = {
-
                 id: productId,
-
                 nom: this.product.name,
                 titre: this.product.name,
-
                 fournisseur: "CJdropshipping",
                 cjPid: String(this.product.pid),
-                sku: selectedVariant?.variantSku ||
-                     selectedVariant?.sku ||
-                     this.product.sku || "",
-
+                sku: selectedVariant?.variantSku || selectedVariant?.sku || this.product.sku || "",
                 prixFournisseurUSD: this.product.price,
                 prixFournisseurFCFA: calculation.supplierCost,
                 tauxConversion: calculation.rate,
-
                 prix: calculation.finalPrice,
                 prixPublic: calculation.finalPrice,
                 devise: "FCFA",
-
                 margeBeneficiaire: calculation.margin,
                 montantMarge: calculation.marginFCFA,
-
                 commissions: {
-
                     baseCalcul: "MARGE_COMMERCIALE",
-
-                    vendeur: {
-                        taux: 80,
-                        montant: commissions.seller,
-                        statut: "en_attente"
-                    },
-
-                    affiliation: {
-                        taux: 5,
-                        montant: commissions.affiliate,
-                        statut: "non_attribue",
-                        affilieId: null
-                    },
-
-                    plateforme: {
-                        taux: 15,
-                        montant: commissions.platform
-                    }
+                    vendeur: { taux: 80, montant: calculation.commissions.seller, statut: "en_attente" },
+                    affiliation: { taux: 5, montant: calculation.commissions.affiliate, statut: "non_attribue", affilieId: null },
+                    plateforme: { taux: 15, montant: calculation.commissions.platform }
                 },
-
                 image: media.image,
                 images: media.images,
                 video: media.video,
-
                 imageSourceCJ: this.product.image,
-                mediaStockage: "Cloudinary avec URL CJ de secours",
-
-                variantes: this.variants.map(variant => ({
-                    vid: variant.vid || variant.variantId || "",
-                    sku: variant.variantSku || variant.sku || "",
-                    nom: variant.variantName || variant.name || "",
-                    image: variant.variantImage || variant.image || ""
+                variantes: this.variants.map(v => ({
+                    vid: v.vid || v.variantId || "",
+                    sku: v.variantSku || v.sku || "",
+                    nom: v.variantName || v.name || "",
+                    image: v.variantImage || v.image || ""
                 })),
-
-                varianteSelectionnee: selectedVariant
-                    ? {
-                        vid: selectedVariant.vid || "",
-                        sku: selectedVariant.variantSku ||
-                             selectedVariant.sku || "",
-                        nom: selectedVariant.variantName ||
-                             selectedVariant.name || ""
-                    }
-                    : null,
-
                 vendeurId: currentUser.uid,
-
-                vendeurNom:
-                    currentUser.displayName ||
-                    currentUser.nom ||
-                    "DAKPRO ÉLITE",
-
+                vendeurNom: currentUser.displayName || currentUser.nom || "DAKPRO ÉLITE",
                 createdBy: currentUser.uid,
-
                 affiliateLink: affiliateLink.toString(),
-                affiliateRef: null,
-
                 stock: this.product.stock ?? null,
-                stockVerifie: Boolean(this.inventory),
-
                 categorie: this.product.categoryName || "",
-                cjCategoryId: this.product.categoryId || "",
-
                 description: this.product.description || "",
-
-                livraison: {
-                    fournisseur: "CJdropshipping",
-                    fraisExpeditionCalcules: false,
-                    statut: "a_calculer"
-                },
-
                 actif: Boolean(publishNow),
                 statut: publishNow ? "actif" : "brouillon",
-
-                deviseComptable: "FCFA",
-                commissionsCreditees: false,
-
                 createdAt: serverTimestamp(),
                 updatedAt: serverTimestamp()
-
             };
 
             await set(publicationRef, payload);
-
             this.showSuccess(productId, affiliateLink.toString(), publishNow);
 
         } catch (error) {
-
-            console.error("DAKPRO publication :", error);
-
-            alert("Erreur : " + error.message);
-
-            buttons.forEach((button, index) => {
-                button.disabled = false;
-                button.textContent = index === 0
-                    ? "ENREGISTRER EN BROUILLON"
-                    : "PUBLIER SUR DAKPRO ÉLITE";
+            alert("Erreur d'importation : " + error.message);
+            buttons.forEach((b, i) => {
+                b.disabled = false;
+                b.textContent = i === 0 ? "ENREGISTRER EN BROUILLON" : "PUBLIER SUR DAKPRO ÉLITE";
             });
-
         } finally {
             this.importing = false;
         }
     }
 
-    // ========================================================
-    // CONFIRMATION
-    // ========================================================
-
     showSuccess(productId, link, published) {
-
         const content = this.container.querySelector("#dakcj-detail-content");
-
         content.innerHTML = `
-
             <div style="text-align:center;padding:25px 5px">
-
-                <div style="font-size:45px">
-                    ${published ? "🚀" : "📥"}
-                </div>
-
-                <h2 style="color:#FFD700">
-                    ${published ? "PRODUIT PUBLIÉ" : "BROUILLON ENREGISTRÉ"}
-                </h2>
-
-                <p style="color:#aaa;font-size:12px">
-                    Enregistrement Firebase effectué.
-                </p>
-
+                <div style="font-size:45px">${published ? "🚀" : "📥"}</div>
+                <h2 style="color:#FFD700">${published ? "PRODUIT PUBLIÉ" : "BROUILLON ENREGISTRÉ"}</h2>
                 <div class="dakcj-section" style="text-align:left">
                     <p style="color:#D4AF37;font-size:11px">IDENTIFIANT</p>
                     <strong style="word-break:break-all">${this.escape(productId)}</strong>
-
-                    <p style="color:#D4AF37;font-size:11px;margin-top:18px">
-                        LIEN DU PRODUIT
-                    </p>
-
-                    <p style="font-size:11px;word-break:break-all">
-                        ${this.escape(link)}
-                    </p>
-
-                    <button id="dakcj-copy" class="dakcj-action dakcj-publish">
-                        COPIER LE LIEN
-                    </button>
+                    <p style="color:#D4AF37;font-size:11px;margin-top:18px">LIEN DU PRODUIT</p>
+                    <p style="font-size:11px;word-break:break-all">${this.escape(link)}</p>
+                    <button id="dakcj-copy" class="dakcj-action dakcj-publish">COPIER LE LIEN</button>
                 </div>
-
-                <button id="dakcj-finish" class="dakcj-action dakcj-draft">
-                    TERMINER
-                </button>
-
+                <button id="dakcj-finish" class="dakcj-action dakcj-draft">TERMINER</button>
             </div>
         `;
-
         content.querySelector("#dakcj-copy").addEventListener("click", async () => {
-
-            try {
-                await navigator.clipboard.writeText(link);
-                alert("Lien copié.");
-            } catch {
-                alert("Copie indisponible sur cet appareil.");
-            }
+            try { await navigator.clipboard.writeText(link); alert("Lien copié."); } catch { alert("Copie impossible."); }
         });
-
-        content.querySelector("#dakcj-finish").addEventListener("click", () => {
-            this.close();
-        });
+        content.querySelector("#dakcj-finish").addEventListener("click", () => this.close());
     }
 
-    // ========================================================
-    // OUTILS
-    // ========================================================
-
     images(value, mainImage) {
-
         let list = [];
-
         if (typeof value === "string") {
-            try {
-                value = JSON.parse(value);
-            } catch {
-                value = [value];
-            }
+            try { value = JSON.parse(value); } catch { value = [value]; }
         }
-
         if (Array.isArray(value)) {
-
-            list = value.map(item => {
-
-                if (typeof item === "string") return item;
-
-                return item?.url ||
-                    item?.image ||
-                    item?.imageUrl ||
-                    item?.bigImage ||
-                    "";
-
-            }).filter(Boolean);
+            list = value.map(i => (typeof i === "string" ? i : i?.url || i?.image || i?.imageUrl || i?.bigImage || "")).filter(Boolean);
         }
-
         if (mainImage) list.unshift(mainImage);
-
         return [...new Set(list)];
     }
 
     number(value) {
-
-        if (value === null || value === undefined || value === "") {
-            return null;
-        }
-
-        const result = Number(
-            String(value).replace(",", ".").replace(/[^\d.]/g, "")
-        );
-
-        return Number.isFinite(result) && result > 0
-            ? result
-            : null;
+        if (value === null || value === undefined || value === "") return null;
+        const res = Number(String(value).replace(",", ".").replace(/[^\d.]/g, ""));
+        return Number.isFinite(res) && res > 0 ? res : null;
     }
 
     stock(product) {
-
-        for (const value of [
-            product?.stock,
-            product?.inventory,
-            product?.quantity,
-            product?.totalInventory
-        ]) {
-            if (value !== null && value !== undefined &&
-                value !== "" && Number.isFinite(Number(value))) {
-                return Number(value);
-            }
+        for (const v of [product?.stock, product?.inventory, product?.quantity, product?.totalInventory]) {
+            if (v !== null && v !== undefined && v !== "" && Number.isFinite(Number(v))) return Number(v);
         }
-
         return null;
     }
 
     fcfa(value) {
-        return Math.round(Number(value) || 0)
-            .toLocaleString("fr-FR") + " FCFA";
+        return Math.round(Number(value) || 0).toLocaleString("fr-FR") + " FCFA";
     }
 
     escape(value) {
-
-        return String(value ?? "").replace(/[&<>"']/g, character => ({
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#39;"
-        })[character]);
+        return String(value ?? "").replace(/[&<>"']/g, c => ({
+            "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+        })[c]);
     }
 
     status(message) {
-        const element = this.container.querySelector("#dakcj-status");
-        if (element) element.textContent = message;
+        const el = this.container.querySelector("#dakcj-status");
+        if (el) el.textContent = message;
     }
 
     pagination() {
-
         const prev = this.container.querySelector("#dakcj-prev");
         const next = this.container.querySelector("#dakcj-next");
         const page = this.container.querySelector("#dakcj-page");
-
         page.textContent = `Page ${this.page} / ${this.totalPages}`;
-
         prev.disabled = this.loading || this.page <= 1;
         next.disabled = this.loading || this.page >= this.totalPages;
     }
 
     close() {
-
         this.container.querySelector("#dakcj-modal").style.display = "none";
-
         this.product = null;
         this.variants = [];
         this.inventory = null;
@@ -1620,21 +1112,12 @@ class DakproCJImporter {
     }
 }
 
-// ============================================================
-// INITIALISATION PUBLIQUE
-// ============================================================
-
 export function init() {
-
     const container = document.getElementById("module-container");
-
     if (!container) {
         console.error("DAKPRO : module-container introuvable.");
         return null;
     }
-
-    window.dakproImporterInstance =
-        new DakproCJImporter("module-container");
-
+    window.dakproImporterInstance = new DakproCJImporter("module-container");
     return window.dakproImporterInstance;
 }
