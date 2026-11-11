@@ -1,0 +1,17 @@
+{
+  "code": 200,
+  "result": true,
+  "message": "Success",
+  "data": [
+    {
+      "categoryFirstId": "100001",
+      "categoryFirstName": "Women's Clothing",
+      "categoryFirstList": [
+        {
+          "categorySecondId": "100001001",
+          "categorySecondName": "Dresses"
+        }
+      ]
+    }
+  ]
+}
