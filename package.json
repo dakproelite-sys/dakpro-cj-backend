@@ -1,0 +1,14 @@
+{
+  "name": "dakpro-cj-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Backend sécurisé Vercel pour l'API CJ Dropshipping de DAKPRO ÉLITE",
+  "main": "api/cj.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18.x"
+  },
+  "scripts": {
+    "start": "node -e \"console.log('Projet prévu pour Vercel')\""
+  }
+}
